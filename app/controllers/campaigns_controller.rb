@@ -46,5 +46,9 @@ class CampaignsController < ApplicationController
 
   def destroy
     @campaign.destroy
+    respond_to do |format|
+      format.html { redirect_to root_url }
+      format.js { render :destroy, layout: false }
+    end
   end
 end

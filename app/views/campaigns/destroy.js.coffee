@@ -1,0 +1,1 @@
+$("#campaign-<%= @campaign.id %>").remove()
