@@ -12,8 +12,7 @@ class Mission < ActiveRecord::Base
   attr_accessible :name, :description, :mission_category_id, :repeatable, :reward
   attr_accessible :minimal_time, :maximal_time, :mission_pack_id, :minimum_balance
 
-  validates_presence_of :name, :description, :mission_category_id, :reward
-  validates_presence_of :minimal_time, :maximal_time
+  validates_presence_of :name, :description
 
   def self.category_selection
     MissionCategory.all.map do |c|
