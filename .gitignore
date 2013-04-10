@@ -14,3 +14,23 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# Ruby on Rails Ignore stuff (credits to: https://github.com/github/gitignore)
+*.rbc
+*.sassc
+.sass-cache
+capybara-*.html
+.rspec
+.rvmrc
+/.bundle
+/vendor/bundle
+/log/*
+/tmp/*
+/db/*.sqlite3
+/public/system/*
+/coverage/
+/spec/tmp/*
+**.orig
+rerun.txt
+pickle-email-*.html
+.project
