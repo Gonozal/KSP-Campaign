@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class InstitutionsTest < ActiveSupport::TestCase
+class ReputationTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

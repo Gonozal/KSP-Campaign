@@ -1,5 +1,5 @@
+class UsersController < ApplicationController
 KspCampaign::Application.routes.draw do
-  devise_for :users
   root to: 'user#show'
   resources :campaigns, :contracts, :flights, :reputations, :users
   # The priority is based upon order of creation: first created -> highest priority.
@@ -49,4 +49,10 @@ KspCampaign::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+end
+  private
+  # Permissible Parameters
+  def user_params
+
+  end
 end

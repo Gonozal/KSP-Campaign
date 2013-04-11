@@ -1,3 +1,14 @@
+GIT
+  remote: git://github.com/plataformatec/devise.git
+  revision: ce37c301ff91f0d59ff91715f0c36e0ee285fb11
+  branch: rails4
+  specs:
+    devise (2.2.3)
+      bcrypt-ruby (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (~> 4.0.0.beta)
+      warden (~> 1.2.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -63,7 +74,10 @@ GEM
     mime-types (1.22)
     minitest (4.7.1)
     multi_json (1.7.2)
+    orm_adapter (0.4.0)
     polyglot (0.3.3)
+    protected_attributes (1.0.1)
+      activemodel (>= 4.0.0.beta, < 5.0)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -117,6 +131,8 @@ GEM
     uglifier (2.0.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
+    warden (1.2.1)
+      rack (>= 1.0)
 
 PLATFORMS
   ruby
@@ -125,10 +141,12 @@ DEPENDENCIES
   bcrypt-ruby (~> 3.0.0)
   bootstrap-sass (~> 2.3.1.0)
   coffee-rails (~> 4.0.0.beta1)
+  devise!
   formtastic (~> 2.2)
   formtastic-plus-bootstrap
   jbuilder (~> 1.0.1)
   jquery-rails
+  protected_attributes
   rails (= 4.0.0beta1)
   sass-rails (~> 4.0.0.beta1)
   slim

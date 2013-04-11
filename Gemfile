@@ -13,8 +13,7 @@ gem 'slim'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-# Bootstrap and for full support: less
-# gem 'less-rails'
+
 gem 'bootstrap-sass', '~> 2.3.1.0'
 
 gem 'uglifier', '>= 1.0.3'
@@ -27,6 +26,9 @@ gem 'formtastic-plus-bootstrap'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
+
+gem 'devise', github: "plataformatec/devise", branch: "rails4"
+gem 'protected_attributes'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.0.1'
