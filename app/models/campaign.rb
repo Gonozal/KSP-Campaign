@@ -6,8 +6,12 @@ class Campaign < ActiveRecord::Base
 
   has_many :reputations
 
+  default_scope {includes(:flights, :contracts, :reputations)}
+
   def balance
-    @balance ||= starting_balance + flights.inject(0, :+)
+    @balance ||= starting_balance + flights.inject(0) do |result, element|
+      result + element.profit
+    end
   end
 
 
@@ -21,12 +25,12 @@ class Campaign < ActiveRecord::Base
   def available_contract_missions
     Institution.all.map do |i|
       i.available_missions
-    end.flatten!
+    end.flatten
   end
 
   def available_missions
     MissionCategory.where("minimum_balance <= ?", [balance]).all.map do |c|
       c.missions.all
-    end.flatten!
+    end.flatten
   end
 end

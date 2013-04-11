@@ -1,0 +1,24 @@
+h3 Welcome
+h5 Please create a new campaign or continue an existing one
+- if @user.campaigns.any?
+  table.table.table-condensed.table-hover
+    thead
+      th Campaign Name
+      th Last played
+      th Completed Missions
+      th Balance
+      th Action
+    - @user.campaigns.each do |c|
+      tr
+        td = "#{c.name}"
+        td = "#{c.updated_at}"
+        td = "#{c.contracts.count}"
+        td = "#{c.balance}"
+        td
+          = link_to c do
+            i.icon-eye-open
+          = link_to(c, method: :delete, 
+            confirm: "Are you sure you wish to delete this campaign?") do
+            i.icon-remove-circle
+
+

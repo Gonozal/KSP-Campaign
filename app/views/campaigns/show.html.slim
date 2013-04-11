@@ -1,0 +1,52 @@
+h3 = @campaign.name
+h6 = link_to "Back to Campaign Selection", @campaign.user
+
+h4 Available 3rd party contracts
+- if @campaign.contracts.open.any?
+  table.table.table-condensed.table-hover
+    thead
+      th Mission
+      th Category
+      th Days to complete
+      th Days to accept
+      th Reward
+      th Advance
+      th Penalty on failure
+    tbody
+      - @campaign.contracts.all.each do |c|
+        tr
+          td = c.mission.name
+          td = c.mission.mission_category.name
+          td = c.time_limit
+          td = c.accept_limit
+          td = kerbs c.payout
+          td = kerbs c.advance
+          td = kerbs c.penalty
+- else
+  p.text-warning There are currently no contracts available
+
+
+
+- if @campaign.flights.any?
+  table.table.table-condensed.table-hover
+    thead
+      th Mission
+      th Category
+      th Ship cost
+      th Days to complete
+      th Reward
+      th Advance
+      th Penalty on failure
+      th State
+    tbody
+      - @campaign.flights.all.each do |f|
+        tr
+          td = f.contract.mission.name
+          td = f.contract.mission.mission_category.name
+          td = kerbs f.ship_cost
+          td = f.complete_time_left
+          td = kerbs f.payout
+          td = kerbs f.advance
+          td = kerbs f.penalty
+- else
+  p.text-warning There are currently no contracts available

@@ -13,6 +13,7 @@ class CreateContracts < ActiveRecord::Migration
       t.integer :time_limit
 
       t.string :status
+      t.datetime :started_at
       t.datetime :completed_at
       t.datetime :accepted_at
 
