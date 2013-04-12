@@ -15,6 +15,7 @@ c = u.campaigns.new
 c.name = "KSP Campaign"
 c.starting_balance = 10000
 c.player_name = "Mission Command"
+c.date = DateTime.new(0, 1, 20)
 c.save
 
 i = Institution.new
@@ -54,20 +55,92 @@ m2.minimal_time = 5
 m2.maximal_time = 20
 m2.save
 
-m2 = Mission.create
-m2.mission_category_id = around_mun.id
-m2.name = "Mun Encounter"
-m2.description = "Let's try and get one of your crafts to fly by the dark side of the moon. No need to land or get into a fancy orbit. Oh, and take some pictures while you're at it."
-m2.reward = 30000
-m2.minimal_time = 20
-m2.maximal_time = 25
-m2.save
+m3 = Mission.create
+m3.mission_category_id = around_mun.id
+m3.name = "Mun Encounter"
+m3.description = "Let's try and get one of your crafts to fly by the dark side of the moon. No need to land or get into a fancy orbit. Oh, and take some pictures while you're at it."
+m3.reward = 30000
+m3.minimal_time = 20
+m3.maximal_time = 25
+m3.save
 
-m2 = Mission.create
-m2.mission_category_id = around_mun.id
-m2.name = "Mun Orbit"
-m2.description = "The pictures you sent us were really nice, go try and get a sattelite in an orbit aroudn the Mun to serve as a relay station"
-m2.reward = 100000
-m2.minimal_time = 25
-m2.maximal_time = 50
-m2.save
+m4 = Mission.create
+m4.mission_category_id = around_mun.id
+m4.name = "Mun Orbit"
+m4.description = "The pictures you sent us were really nice, go try and get a sattelite in an orbit aroudn the Mun to serve as a relay station"
+m4.reward = 100000
+m4.minimal_time = 25
+m4.maximal_time = 50
+m4.save
+
+contr = c.contracts.new
+contr.mission_id = m2.id
+contr.campaign_id = c.id
+contr.reward = m2.reward
+contr.advance_percent = 20
+contr.penalty = m2.reward / 10
+contr.time_limit = m2.maximal_time
+contr.status = 1
+contr.issued_at = DateTime.new(0, 1, 2)
+contr.accepted_at = DateTime.new(0, 1, 3)
+contr.completed_at = DateTime.new(0, 1, 5)
+contr.save
+
+contr1 = c.contracts.new
+contr1.mission_id = m3.id
+contr1.campaign_id = c.id
+contr1.reward = m3.reward
+contr1.advance_percent = 20
+contr1.penalty = m3.reward / 10
+contr1.time_limit = m3.maximal_time
+contr1.status = 2
+contr1.issued_at = DateTime.new(0, 1, 4)
+contr1.accepted_at = DateTime.new(0, 1, 4)
+contr1.completed_at = DateTime.new(0, 1, 10)
+contr1.save
+
+contr2 = c.contracts.new
+contr2.mission_id = m4.id
+contr2.campaign_id = c.id
+contr2.reward = m4.reward
+contr2.advance_percent = 20
+contr2.penalty = m4.reward / 10
+contr2.time_limit = m4.maximal_time
+contr2.status = 0
+contr2.issued_at = DateTime.new(0, 1, 8)
+contr2.save
+
+f = contr.flights.new
+f.campaign_id = c.id
+f.name = "SSV Winterstorm"
+f.status = 0
+f.ship_cost = 80000000
+f.save
+
+f = contr1.flights.new
+f.campaign_id = c.id
+f.name = "SSV Starbound"
+f.status = 1
+f.ship_cost = 50000000
+f.save
+
+f = contr2.flights.new
+f.campaign_id = c.id
+f.name = "SSV Munlander"
+f.status = 2
+f.ship_cost = 220000000
+f.save
+
+f = contr2.flights.new
+f.campaign_id = c.id
+f.name = "SSV Munlander"
+f.status = 2
+f.ship_cost = 142000000
+f.save
+
+f = contr2.flights.new
+f.campaign_id = c.id
+f.name = "SSV Munlander"
+f.status = 2
+f.ship_cost = 100000000
+f.save

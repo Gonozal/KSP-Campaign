@@ -12,41 +12,72 @@ h4 Available 3rd party contracts
       th Reward
       th Advance
       th Penalty on failure
+      th Status
     tbody
-      - @campaign.contracts.all.each do |c|
-        tr
+      - @campaign.contracts.open.all.each do |c|
+        tr class="#{contract_row_class(c)}"
           td = c.mission.name
           td = c.mission.mission_category.name
           td = c.time_limit
           td = c.accept_limit
           td = kerbs c.payout
-          td = kerbs c.advance
+          td = c.advance_payed_id.present?? "Payed" : kerbs(c.advance)
           td = kerbs c.penalty
+          td = c.status_s
 - else
   p.text-warning There are currently no contracts available
 
 
 
+h4 Flight log
 - if @campaign.flights.any?
   table.table.table-condensed.table-hover
     thead
       th Mission
-      th Category
+      th Days left
       th Ship cost
-      th Days to complete
       th Reward
       th Advance
-      th Penalty on failure
+      th Failure Penalty
+      th Profit
       th State
     tbody
       - @campaign.flights.all.each do |f|
-        tr
+        tr class="#{flight_row_class(f)}"
           td = f.contract.mission.name
-          td = f.contract.mission.mission_category.name
+          td = time_left_s f.contract.time_left
           td = kerbs f.ship_cost
-          td = f.complete_time_left
           td = kerbs f.payout
-          td = kerbs f.advance
-          td = kerbs f.penalty
+          td = kerbs f.contract.advance
+          td = kerbs f.contract.penalty
+          td = (f.profit.present? and f.profit != 0)? kerbs(f.profit) : "-"
+          td = f.status_s
+- else
+  p.text-warning There are currently no Flights recorded
+
+
+h4 Mission & Contracts Log
+- if @campaign.contracts.not_open.any?
+  table.table.table-condensed.table-hover
+    thead
+      th Mission
+      th Category
+      th Days to complete
+      th Days to accept
+      th Reward
+      th Advance
+      th Penalty on failure
+      th Status
+    tbody
+      - @campaign.contracts.not_open.all.each do |c|
+        tr class="#{contract_row_class(c)}"
+          td = c.mission.name
+          td = c.mission.mission_category.name
+          td = c.time_limit
+          td = c.accept_limit
+          td = kerbs c.payout
+          td = c.advance_payed_id.present?? "Payed" : kerbs(c.advance)
+          td = kerbs c.penalty
+          td = c.status_s
 - else
   p.text-warning There are currently no contracts available

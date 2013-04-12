@@ -6,6 +6,8 @@ class CreateCampaigns < ActiveRecord::Migration
       t.integer :starting_balance
       t.string :player_name
 
+      t.datetime :date, default: DateTime.new(0, 1, 1)
+
       t.timestamps
     end
   end

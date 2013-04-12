@@ -5,8 +5,9 @@ class CreateFlights < ActiveRecord::Migration
       t.integer :contract_id
 
       t.string :name
-      t.integer :status
+      t.integer :status, default: 0 # 1: succesful, 2: failed
       t.integer :ship_cost
+      t.integer :payout
 
       t.integer :profit
 

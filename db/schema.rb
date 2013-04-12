@@ -18,20 +18,22 @@ ActiveRecord::Schema.define(version: 20130410180830) do
     t.string   "name"
     t.integer  "starting_balance"
     t.string   "player_name"
+    t.datetime "date",             default: '0000-01-01 00:00:00'
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "contracts", force: true do |t|
-    t.integer  "flight_id"
     t.integer  "institution_id"
     t.integer  "mission_id"
     t.integer  "campaign_id"
     t.integer  "reward"
-    t.integer  "advance_percent", default: 0
+    t.integer  "advance_percent",  default: 0
     t.integer  "penalty"
     t.integer  "time_limit"
-    t.string   "status"
+    t.integer  "advance_payed_id"
+    t.integer  "status"
+    t.datetime "issued_at"
     t.datetime "completed_at"
     t.datetime "accepted_at"
     t.datetime "created_at"
@@ -41,8 +43,11 @@ ActiveRecord::Schema.define(version: 20130410180830) do
   create_table "flights", force: true do |t|
     t.integer  "campaign_id"
     t.integer  "contract_id"
-    t.integer  "status"
+    t.string   "name"
+    t.integer  "status",      default: 0
     t.integer  "ship_cost"
+    t.integer  "payout"
+    t.integer  "profit"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,11 +1,8 @@
 class Campaign < ActiveRecord::Base
   belongs_to :user
-
-  has_many :flights
-  has_many :contracts
-
-  has_many :reputations
-
+  has_many :flights, dependent: :destroy
+  has_many :contracts, dependent: :destroy
+  has_many :reputations, dependent: :destroy
   default_scope {includes(:flights, :contracts, :reputations)}
 
   def balance
@@ -14,11 +11,9 @@ class Campaign < ActiveRecord::Base
     end
   end
 
-
   private
   def create_random_contract
     available_contract_missions.each do |m|
-      
     end
   end
 
