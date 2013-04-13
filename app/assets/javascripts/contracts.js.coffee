@@ -8,3 +8,8 @@ $ ->
     placement: 'left'
     trigger: 'hover'
     html: true
+
+  $('.contract-header').on 'click', ->
+    $(this).closest('.contract').toggleClass('expanded').
+      prev().toggleClass('before-expand').
+      end().find('.flights').slideToggle( 100 )

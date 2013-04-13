@@ -9,30 +9,59 @@ $contractHeight: 65px;
 }
 
 .contract {
-  height: $contractHeight;
+  min-height: $contractHeight;
   border: 1px solid #ccc;
   border-top-width: 0;
   background-color: #f3f5f6;
+  @include transition( margin 0.10s );
 
   &:hover {
     background-color: #FAFCFD;
   }
 
-  &:first-child {
+  &:first-child, &.expanded + .contract {
     border-top-width: 1px;
     @include border-top-radius( 0.25em );
   }
-  &:last-child {
+  &:last-child, &.before-expand {
     @include border-bottom-radius( 0.25em );
   }
 
+  &.expanded {
+    border-width: 1px;
+    border-radius: 0.25em;
+    margin: 0.5em 0;
+  }
+
+}
+
+.contract {
   h4 {
     margin-top: 0.25em;
   }
+
+  .flights {
+    display: none;
+    border-top: 1px solid #e0e0e0;
+    table {
+      margin-bottom: 0;
+
+      tr:last-child {
+        @include border-bottom-radius( 0.25em );
+
+        td:first-child {
+          border-bottom-left-radius: 0.25em;
+        }
+        td:last-child {
+          border-bottom-right-radius: 0.25em;
+        }
+      }
+    }
+  }
 }
 
-.contract .flights {
-  display: none;
+.contract-header {
+  cursor: pointer;
 }
 
 .payout {
