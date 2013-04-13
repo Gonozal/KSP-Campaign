@@ -5,7 +5,7 @@ class CreateTransactions < ActiveRecord::Migration
       t.integer :flight_id
       t.integer :contract_id
       t.integer :amount
-      t.integer :reference
+      t.string :reference
 
       t.timestamps
     end

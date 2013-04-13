@@ -96,7 +96,7 @@ ActiveRecord::Schema.define(version: 20130412194550) do
     t.integer  "flight_id"
     t.integer  "contract_id"
     t.integer  "amount"
-    t.integer  "reference"
+    t.string   "reference"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

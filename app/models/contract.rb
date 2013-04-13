@@ -62,10 +62,10 @@ class Contract < ActiveRecord::Base
         submit_transaction(reference: :reimbursement, amount: reimbursement)
         # If for some reason contract was created succesufl, also grant advance money
         if transactions.advances.empty?
-          submit_transaction(reference: advance, amount: advance)
+          submit_transaction(reference: :advance, amount: advance)
         end
       elsif status == 2 and transactions.penalties.empty?
-        submit_transaction(reference: :penalty, amount: penalty)
+        submit_transaction(reference: :penalty, amount: - penalty)
       end
     end
   end
@@ -75,7 +75,7 @@ class Contract < ActiveRecord::Base
   # Copy of same method in flight.rb -> Refactor?
   def submit_transaction(args = {})
     t = transactions.new
-    t.reference = args[:reference]
+    t.reference = args[:reference].to_s
     t.amount = args[:amount]
     t.campaign_id = campaign.id
     t.save

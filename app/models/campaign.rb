@@ -6,7 +6,7 @@ class Campaign < ActiveRecord::Base
   has_many :contracts, dependent: :destroy
   has_many :transactions, through: :contracts
   has_many :reputations, dependent: :destroy
-  default_scope {includes(:flights, :contracts, :reputations)}
+  default_scope {includes(contracts: [:flights, :transactions]).includes(:reputations).includes(:flights)}
 
   # Balance of this Campaign. Funds availble to the player
   def balance

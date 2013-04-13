@@ -1,6 +1,7 @@
 class Flight < ActiveRecord::Base
   belongs_to :campaign
   belongs_to :contract
+  has_many :transactions
 
   scope :in_progress, -> { where(status: 0) }
   scope :successful, -> { where(status: 1) }
@@ -11,7 +12,7 @@ class Flight < ActiveRecord::Base
 
   # Balance of this flight. Should only really be Rocket lauch costs
   def balance
-    transactions.all.inject(0) do |sum, transaction|
+    transactions.inject(0) do |sum, transaction|
       sum + transaction.amount
     end
   end
@@ -19,8 +20,8 @@ class Flight < ActiveRecord::Base
   private
   # Create transaction entr
   def handle_financials
-    if status_changed? and status == 0 and transactions.investments.empty?
-      submit_transaction(reference: :ship, amount: ship_cost)
+    if status_changed? and transactions.investments.empty?
+      submit_transaction(reference: :ship, amount: - ship_cost)
     end
   end
 
@@ -29,8 +30,9 @@ class Flight < ActiveRecord::Base
   # Copy of same method in contract.rb -> Refactor?
   def submit_transaction(args = {})
     t = transactions.new
-    t.reference = args[:reference]
+    t.reference = args[:reference].to_s
     t.amount = args[:amount]
+    t.contract_id = contract.id
     t.campaign_id = campaign.id
     t.save
   end
