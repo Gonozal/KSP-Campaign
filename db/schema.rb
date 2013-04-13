@@ -29,10 +29,10 @@ ActiveRecord::Schema.define(version: 20130412194550) do
     t.integer  "campaign_id"
     t.integer  "reward"
     t.integer  "advance_percent", default: 0
-    t.integer  "cost_plus_limit", default: 0
+    t.integer  "cost_plus_limit", default: -1
     t.integer  "penalty"
     t.integer  "time_limit"
-    t.integer  "status"
+    t.string   "status",          default: "unknown"
     t.datetime "issued_at"
     t.datetime "completed_at"
     t.datetime "accepted_at"
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20130412194550) do
     t.integer  "contract_id"
     t.integer  "ship_cost"
     t.string   "name"
-    t.integer  "status",      default: 0
+    t.string   "status",      default: "unknown"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

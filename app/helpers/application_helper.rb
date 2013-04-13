@@ -39,11 +39,12 @@ module ApplicationHelper
 
   def status_s(obj)
     return "" unless obj.kind_of? Flight or obj.kind_of? Contract
-    case obj.status
-    when nil then "Open"
-    when 0 then "In Progress"
-    when 1 then "Successful"
-    when 2 then "Failed"
+    case obj.status.to_sym
+    when :open then "Open"
+    when :started then "Started"
+    when :accepted then "In Progress"
+    when :successful then "Successful"
+    when :failed then "Failed"
     else "unknown"
     end
   end

@@ -25,8 +25,7 @@ gem 'uglifier', '>= 1.0.3'
 gem 'jquery-rails'
 
 # Form helper and bootstrap compatibility
-gem 'formtastic', '~> 2.2'
-gem 'formtastic-plus-bootstrap', '~> 1.1.7'
+gem 'simple_form', '~> 3.0.0.beta1'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks', '~> 1.1.1'

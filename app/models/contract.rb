@@ -6,9 +6,9 @@ class Contract < ActiveRecord::Base
   belongs_to :campaign
 
   scope :independent, -> {where(institution_id: nil)}
-  scope :open, -> {where(status: nil)}
-  scope :assigned, -> {where("status NOT NULL")}
-  scope :successful, -> {where(status: 1)}
+  scope :open, -> {where(status: :open)}
+  scope :assigned, -> {where("status NOT NULL AND status NOT 'open'")}
+  scope :successful, -> {where(status: :successful)}
 
   after_save :handle_financials
 
@@ -46,28 +46,33 @@ class Contract < ActiveRecord::Base
   # This includes multiple failed launch attemps
   def reimbursement
     expenses = transactions.investments.all.inject(0) do |sum, transaction|
-      sum + transaction.amount * 0.75
+      sum + transaction.amount * - 0.75
     end
+    return expenses if cost_plus_limit == - 1
     [expenses, cost_plus_limit].sort[0] # return minimum of limit and expenses
   end
 
   private
   # Create transaction entries when contract changes status
   def handle_financials
-    if status_changed?
-      if status == 0 and transactions.advances.empty? 
+    s = status.to_sym
+    if s == :accepted and transactions.advances.empty? 
+      submit_transaction(reference: :advance, amount: advance)
+    elsif s == :successful and transactions.rewards.empty?
+      # when contract completed, grant mission reward and cost-plus reimburesement
+      submit_transaction(reference: :reward, amount: payout)
+      submit_transaction(reference: :reimbursement, amount: reimbursement)
+      # If for some reason contract was created succesufl, also grant advance money
+      if transactions.advances.empty?
         submit_transaction(reference: :advance, amount: advance)
-      elsif status == 1 and transactions.rewards.empty?
-        # when contract completed, grant mission reward and cost-plus reimburesement
-        submit_transaction(reference: :reward, amount: payout)
-        submit_transaction(reference: :reimbursement, amount: reimbursement)
-        # If for some reason contract was created succesufl, also grant advance money
-        if transactions.advances.empty?
-          submit_transaction(reference: :advance, amount: advance)
-        end
-      elsif status == 2 and transactions.penalties.empty?
-        submit_transaction(reference: :penalty, amount: - penalty)
       end
+    elsif s == :failed and transactions.penalties.empty?
+      submit_transaction(reference: :penalty, amount: - penalty)
+    elsif s == :open
+      # if contract status changed to "open", remove any previous rewards and penalties
+      transactions.penalties.destroy_all
+      transactions.rewards.destroy_all
+      transactions.reimbursements.destroy_all
     end
   end
 

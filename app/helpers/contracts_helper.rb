@@ -1,17 +1,19 @@
 module ContractsHelper 
   def contract_row_class(contract)
-    case contract.status
-    when nil then "label-info"
-    when 0 then "label-warning"
-    when 1 then "label-success"
-    when 2 then "label-important"
+    case contract.status.to_sym
+    when :open then "label-info"
+    when :accepted then "label-warning"
+    when :successful then "label-success"
+    when :failed then "label-important"
     end
   end
 
   def tooltip(contract)
     html = ""
     contract.transactions.each do |t|
-      html += "<p class='#{transaction_emphasis(t)}'>#{kerbs t.amount}</p>"
+      html += "<p class='text-right #{transaction_emphasis(t)}'>"
+      html += "#{t.reference.to_s.capitalize} : #{kerbs t.amount}"
+      html += "</p>"
     end
     html
   end
@@ -19,9 +21,9 @@ module ContractsHelper
   def transaction_emphasis(transaction)
     case transaction.reference.to_sym
     when :ship then "text-warning"
-    when :reward then "text-success"
+    when :reward then "text-info"
     when :advance then "text-success"
-    when :reimburesement then "text-success"
+    when :reimbursement then "text-info"
     when :penalty then "text-error"
     else "text-info"
     end

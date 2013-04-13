@@ -9,4 +9,6 @@ class Transaction < ActiveRecord::Base
   scope :rewards, -> { where(reference: :reward) }
   scope :reimbursements, ->{ where(reference: :reimbursement) } 
 
+  default_scope {order("created_at DESC")}
+
 end

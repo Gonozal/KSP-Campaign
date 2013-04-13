@@ -6,7 +6,7 @@ class CreateFlights < ActiveRecord::Migration
 
       t.integer :ship_cost
       t.string :name
-      t.integer :status, default: 0 # 1: succesful, 2: failed
+      t.string :status, default: :unknown
 
       t.timestamps
     end

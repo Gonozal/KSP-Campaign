@@ -1,0 +1,27 @@
+.modal.hide.fade tabindex="-1" id="flight_modal#{flight.id}"
+  .modal-header
+    button.close type="button" data-dismiss="modal" = "x"
+    h3 So, how did that flight go?
+  .modal-body
+    = simple_form_for(flight, html: { class: 'form-vertical' }) do |form|
+      = form.input :result,
+        collection: [["It went better than expected", :success], ["Don't ask..", :failure]],
+        as: :radio_buttons,
+        label: "Out with it, how did it go?"
+      .input-prepend
+        = form.input :casualties, label: "So, how many Kerbals died this time?",
+          wrapper: :prepend do
+          <span class="add-on"><i class="icon-user"></i></span> 
+          = form.input_field :casualties
+      .input-prepend
+        = form.input :debries, label: "How much debries did you drop on Kerbal?",
+          wrapper: :prepend do
+          <span class="add-on"><i class="icon-globe"></i></span> 
+          = form.input_field :debries
+        = form.input :extra_credits, label: "Do you think you deserve any extra payment?",
+          wrapper: :prepend do
+          <span class="add-on"><i class="icon-gift"></i></span> 
+          = form.input_field :extra_credits
+    p wow, it did that well uh?
+  .modal-footer
+    button.btn data-dismiss="modal" Close

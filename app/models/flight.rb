@@ -7,8 +7,12 @@ class Flight < ActiveRecord::Base
   scope :successful, -> { where(status: 1) }
   scope :failed, -> { where(status: 2) }
 
-  after_save :update_contract
+  default_scope {order("created_at DESC")}
+
   after_save :handle_financials
+  after_save :update_contract
+
+  attr_accessor :result, :casualties, :debries, :extra_credits
 
   # Balance of this flight. Should only really be Rocket lauch costs
   def balance
@@ -20,9 +24,10 @@ class Flight < ActiveRecord::Base
   private
   # Create transaction entr
   def handle_financials
-    if status_changed? and transactions.investments.empty?
+    if transactions.investments.empty?
       submit_transaction(reference: :ship, amount: - ship_cost)
     end
+    true
   end
 
   # Creates a new transaction for this contract
@@ -44,27 +49,37 @@ class Flight < ActiveRecord::Base
   # Once a flight completes succesfully, assume contract was fulfilled
   def update_contract
     if status_changed?
-      case status
-      when 0 then lock_contract
-      when 1 then complete_contract
-      when 2 then release_contract
+      case status.to_sym
+      when :started then lock_contract
+      when :successful then complete_contract
+      when :failed then release_contract
       else lock_contract
       end
+    end
+    true
+  end
+
+  def revert_contract_changes
+    if status.to_sym == :successful or status.to_sym == :started
+      release_contract
     end
   end
 
   def lock_contract
-    contract.status = 0 # Set status to accepted
+    contract.status = :accepted # Set status to accepted
     contract.save
+    true
   end
 
   def release_contract
-    contract.status = nil
+    contract.status = :open
     contract.save
+    true
   end
 
   def complete_contract
-    contract.status = 1 # Set status to complete
+    contract.status = :successful # Set status to complete
     contract.save
+    true
   end
 end

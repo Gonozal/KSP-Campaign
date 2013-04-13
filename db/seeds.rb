@@ -80,7 +80,6 @@ contr.reward = m2.reward
 contr.advance_percent = 20
 contr.penalty = m2.reward / 10
 contr.time_limit = m2.maximal_time
-contr.status = 1
 contr.issued_at = DateTime.new(0, 1, 2)
 contr.accepted_at = DateTime.new(0, 1, 3)
 contr.completed_at = DateTime.new(0, 1, 5)
@@ -93,7 +92,6 @@ contr1.reward = m3.reward
 contr1.advance_percent = 20
 contr1.penalty = m3.reward / 10
 contr1.time_limit = m3.maximal_time
-contr1.status = 2
 contr1.issued_at = DateTime.new(0, 1, 4)
 contr1.accepted_at = DateTime.new(0, 1, 4)
 contr1.completed_at = DateTime.new(0, 1, 10)
@@ -106,41 +104,72 @@ contr2.reward = m4.reward
 contr2.advance_percent = 20
 contr2.penalty = m4.reward / 10
 contr2.time_limit = m4.maximal_time
-contr2.status = 0
 contr2.issued_at = DateTime.new(0, 1, 8)
 contr2.save
+
+contr3 = c.contracts.new
+contr3.mission_id = m1.id
+contr3.campaign_id = c.id
+contr3.reward = m1.reward * 2
+contr3.advance_percent = 40
+contr3.penalty = m1.reward / 2
+contr3.time_limit = m1.maximal_time
+contr3.issued_at = DateTime.new(0, 1, 9)
+contr3.save
+
+f = contr3.flights.new
+f.campaign_id = c.id
+f.name = "SSV Ironcow"
+f.ship_cost = 1220000
+f.status = :started
+f.save
+f.status = :failed
+f.save
 
 f = contr.flights.new
 f.campaign_id = c.id
 f.name = "SSV Winterstorm"
-f.status = 0
 f.ship_cost = 80000
+f.save
+f.status = :started
 f.save
 
 f = contr1.flights.new
 f.campaign_id = c.id
 f.name = "SSV Starbound"
-f.status = 1
 f.ship_cost = 50000
 f.save
-
-f = contr2.flights.new
-f.campaign_id = c.id
-f.name = "SSV Munlander"
-f.status = 2
-f.ship_cost = 220000
+f.status = :successful
 f.save
 
 f = contr2.flights.new
 f.campaign_id = c.id
 f.name = "SSV Munlander"
-f.status = 2
-f.ship_cost = 142000
+f.ship_cost = 20000
+f.save
+f.status = :failed
 f.save
 
 f = contr2.flights.new
 f.campaign_id = c.id
 f.name = "SSV Munlander"
-f.status = 2
-f.ship_cost = 10000
+f.ship_cost = 25000
+f.save
+f.status = :failed
+f.save
+
+f = contr2.flights.new
+f.campaign_id = c.id
+f.name = "SSV Munlander"
+f.ship_cost = 45000
+f.save
+f.status = :failed
+f.save
+
+f = contr2.flights.new
+f.campaign_id = c.id
+f.name = "SSV Munlander"
+f.ship_cost = 60000
+f.save
+f.status = :successful
 f.save
