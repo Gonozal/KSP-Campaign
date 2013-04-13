@@ -7,4 +7,11 @@ module ContractsHelper
     when 2 then "error"
     end
   end
+
+  def contract_tooltip(contract)
+    html = ""
+    contract.transactions.each do |t|
+      html += "#{t.amount} | "
+    end
+  end
 end

@@ -1,0 +1,43 @@
+.accordion-group
+  // Bootstrap container for always visible part
+  .accordion-heading
+    .row
+      // Makeshift table, there really needs to be a better way
+      .span2
+        a data-toggle="collapse" href="#c#{contract.id}"
+          i.icon-chevron-down
+        = contract.mission.name
+      .span1
+        = contract.time_limit
+      .span2
+        = contract.institution.present?? contract.institution.name : "Independant"
+      .span3
+        // I dont even.. no.. there HAS to be a better way.. right?
+        span.text-info == "#{kerbs contract.payout}"
+        span  | 
+        span.text-success == "#{kerbs contract.advance}"
+        span  | 
+        span.text-error == "#{kerbs contract.penalty}"
+      .span2.tooltip-container
+        a href="#" data-toggle="tooltip" title="some sample text"
+          == kerbs(contract.balance, emphasis: true)
+      .span1
+        = status_s(contract)
+  // Bootstrap container for hidden accordion content
+  .accordion-body.collapse id="c#{contract.id}"
+    .accordion-inner
+      // Table for flights belonging to contract
+      table.table.table-condensed.table-hover
+        thead
+          tr
+            th Flight name
+            th Depature Time
+            th Ship Cost
+            th Status
+        tbody
+          - contract.flights.each do |f|
+            tr class="#{flight_row_class(f)}"
+              td = f.name
+              td Uh..?
+              td == kerbs f.ship_cost
+              td = status_s(f)

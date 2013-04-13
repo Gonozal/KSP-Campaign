@@ -1,0 +1,18 @@
+.accordion#accordion
+  // makeshift table headings. Sadly accordion tables are quite hard to do
+  - if @campaign.contracts.any?
+    .row
+      .span2
+        strong Contract Mission
+      .span1
+        strong Time Left
+      .span2
+        strong Contractor
+      .span3
+        strong Reward / Advance / Penalty
+      .span2
+        strong Mission Balance
+      .span1
+        strong Status
+  // create accordeon for every contract
+  = render @campaign.contracts.all
