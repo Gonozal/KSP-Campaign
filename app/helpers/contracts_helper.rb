@@ -1,7 +1,7 @@
 module ContractsHelper 
   def contract_row_class(contract)
     case contract.status.to_sym
-    when :open then "label-info"
+    when :open then "label-success"
     when :accepted then "label-warning"
     when :successful then "label-success"
     when :failed then "label-important"
@@ -21,9 +21,9 @@ module ContractsHelper
   def transaction_emphasis(transaction)
     case transaction.reference.to_sym
     when :ship then "text-warning"
-    when :reward then "text-info"
+    when :reward then "text-success"
     when :advance then "text-success"
-    when :reimbursement then "text-info"
+    when :reimbursement then "text-success"
     when :penalty then "text-error"
     else "text-info"
     end

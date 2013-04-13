@@ -26,10 +26,10 @@ module ApplicationHelper
   # Returns a hash {value: abbreviated number, suffix: Currency-Suffix}
   def abbr_number_hash(number)
     n = case
-      when number >= 100000 then {value: number.to_f / 1000, suffix: "K"}
-      when number >= 100000000 then {value: number.to_f / 1000000, suffix: "M"} 
-      when number >= 100000000000 then {value: number.to_f / 1000000000, suffix: "B"}
-      when number >= 100000000000000 then {value: number.to_f / 1000000000000, suffix: "T"}
+      when number.abs >= 100000 then {value: number.to_f / 1000, suffix: "K"}
+      when number.abs >= 100000000 then {value: number.to_f / 1000000, suffix: "M"} 
+      when number.abs >= 100000000000 then {value: number.to_f / 1000000000, suffix: "B"}
+      when number.abs >= 100000000000000 then {value: number.to_f / 1000000000000, suffix: "T"}
       else {value: number.to_f, suffix: ""}
     end
     n[:value] = n[:value].round(2)
