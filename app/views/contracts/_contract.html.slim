@@ -19,7 +19,7 @@
         span  | 
         span.text-error == "#{kerbs contract.penalty}"
       .span2.tooltip-container
-        a href="#" data-toggle="tooltip" title="Some example text"
+        a href="#" data-toggle="tooltip" title="#{tooltip(contract)}" data-html="true"
           == kerbs(contract.balance, emphasis: true)
       .span1
         span.label class="#{contract_row_class(contract)}"

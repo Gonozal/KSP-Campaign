@@ -8,10 +8,22 @@ module ContractsHelper
     end
   end
 
-  def contract_tooltip(contract)
+  def tooltip(contract)
     html = ""
     contract.transactions.each do |t|
-      html += "#{t.amount} | "
+      html += "<p class='#{transaction_emphasis(t)}'>#{kerbs t.amount}</p>"
+    end
+    html
+  end
+
+  def transaction_emphasis(transaction)
+    case transaction.reference.to_sym
+    when :ship then "text-warning"
+    when :reward then "text-success"
+    when :advance then "text-success"
+    when :reimburesement then "text-success"
+    when :penalty then "text-error"
+    else "text-info"
     end
   end
 end
