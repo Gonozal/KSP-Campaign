@@ -3,6 +3,6 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 # Tooltips for Contract Balance
-$('.tooltip-container').tooltip({
-  selector: "a[data-toggle=tooltip]"
-})
+$ ->
+  $('.tooltip-container').tooltip
+    selector: "a[data-toggle=tooltip]"
