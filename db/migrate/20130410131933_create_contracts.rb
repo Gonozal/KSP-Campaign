@@ -7,12 +7,11 @@ class CreateContracts < ActiveRecord::Migration
 
       t.integer :reward
       t.integer :advance_percent, default: 0
+      t.integer :cost_plus_limit, default: 0
       t.integer :penalty
 
       t.integer :time_limit
 
-      t.integer :advance_payed_id
-      t.itneger :penalty_taken_id
       t.integer :status # nil: open 0: accepted, 1: successful, 2: failed
 
       # started-at: Ingame time when the contract was created

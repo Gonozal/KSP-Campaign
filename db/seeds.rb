@@ -114,33 +114,33 @@ f = contr.flights.new
 f.campaign_id = c.id
 f.name = "SSV Winterstorm"
 f.status = 0
-f.ship_cost = 80000000
+f.ship_cost = 80000
 f.save
 
 f = contr1.flights.new
 f.campaign_id = c.id
 f.name = "SSV Starbound"
 f.status = 1
-f.ship_cost = 50000000
+f.ship_cost = 50000
 f.save
 
 f = contr2.flights.new
 f.campaign_id = c.id
 f.name = "SSV Munlander"
 f.status = 2
-f.ship_cost = 220000000
+f.ship_cost = 220000
 f.save
 
 f = contr2.flights.new
 f.campaign_id = c.id
 f.name = "SSV Munlander"
 f.status = 2
-f.ship_cost = 142000000
+f.ship_cost = 142000
 f.save
 
 f = contr2.flights.new
 f.campaign_id = c.id
 f.name = "SSV Munlander"
 f.status = 2
-f.ship_cost = 100000000
+f.ship_cost = 10000
 f.save

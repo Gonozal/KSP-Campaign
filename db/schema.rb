@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130410180830) do
+ActiveRecord::Schema.define(version: 20130412194550) do
 
   create_table "campaigns", force: true do |t|
     t.integer  "user_id"
@@ -28,10 +28,10 @@ ActiveRecord::Schema.define(version: 20130410180830) do
     t.integer  "mission_id"
     t.integer  "campaign_id"
     t.integer  "reward"
-    t.integer  "advance_percent",  default: 0
+    t.integer  "advance_percent", default: 0
+    t.integer  "cost_plus_limit", default: 0
     t.integer  "penalty"
     t.integer  "time_limit"
-    t.integer  "advance_payed_id"
     t.integer  "status"
     t.datetime "issued_at"
     t.datetime "completed_at"
@@ -43,11 +43,9 @@ ActiveRecord::Schema.define(version: 20130410180830) do
   create_table "flights", force: true do |t|
     t.integer  "campaign_id"
     t.integer  "contract_id"
+    t.integer  "ship_cost"
     t.string   "name"
     t.integer  "status",      default: 0
-    t.integer  "ship_cost"
-    t.integer  "payout"
-    t.integer  "profit"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -89,6 +87,16 @@ ActiveRecord::Schema.define(version: 20130410180830) do
     t.integer  "campaign_id"
     t.integer  "contract_id"
     t.integer  "change"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "transactions", force: true do |t|
+    t.integer  "campaign_id"
+    t.integer  "flight_id"
+    t.integer  "contract_id"
+    t.integer  "amount"
+    t.string   "reference"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
