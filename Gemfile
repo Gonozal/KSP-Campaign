@@ -9,7 +9,7 @@ gem 'sqlite3'
 # Template engines, making it even easier to write a bunch of html/js at once
 gem 'sass-rails',   '~> 4.0.0.beta1'
 gem 'coffee-rails', '~> 4.0.0.beta1'
-gem 'slim'
+gem 'slim', '~> 1.3.8'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
@@ -22,14 +22,14 @@ gem 'jquery-rails'
 
 # Form helper and bootstrap compatibility
 gem 'formtastic', '~> 2.2'
-gem 'formtastic-plus-bootstrap'
+gem 'formtastic-plus-bootstrap', '~> 1.1.7'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+gem 'turbolinks', '~> 1.1.1'
 
 gem 'devise', github: "plataformatec/devise", branch: "rails4"
-gem 'protected_attributes'
-gem 'cancan'
+gem 'protected_attributes', '~> 1.0.1'
+gem 'cancan', '~> 1.6.9'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.0.1'
