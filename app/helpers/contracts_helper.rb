@@ -1,7 +1,7 @@
 module ContractsHelper 
   def contract_row_class(contract)
     case contract.status.to_sym
-    when :open then "label-success"
+    when :open then "label-info"
     when :accepted then "label-warning"
     when :successful then "label-success"
     when :failed then "label-important"
