@@ -4,6 +4,9 @@ ruby '2.0.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0beta1'
 
+# fully threaded webserver
+gem 'puma', '~> 2.0.0.b7'
+
 gem 'sqlite3'
 
 # Template engines, making it even easier to write a bunch of html/js at once
@@ -36,6 +39,13 @@ gem 'jbuilder', '~> 1.0.1'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
+
+
+# Awesome error handling
+group :development do
+  gem "better_errors", '~> 0.8.0'
+  gem "binding_of_caller", '~> 0.7.1'
+end
 
 # Use unicorn as the app server
 # gem 'unicorn'
