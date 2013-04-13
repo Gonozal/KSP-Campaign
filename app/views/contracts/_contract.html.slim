@@ -5,7 +5,7 @@
         = status_icon( contract )
       .span11
         h4 == contract.mission.name
-        .row.subheading
+        .row
           .span4
             span.text-muted From: 
             = contract.institution.present? ? contract.institution.name : "Independant"
@@ -18,7 +18,7 @@
             = contract.time_limit
           .span4
     .span3.text-right
-      .payout.span8
+      .span8.payout
         .row.text-success
           .span6 Success
           .span6 = kerbs(contract.payout)
