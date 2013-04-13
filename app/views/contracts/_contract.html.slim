@@ -19,10 +19,11 @@
         span  | 
         span.text-error == "#{kerbs contract.penalty}"
       .span2.tooltip-container
-        a href="#" data-toggle="tooltip" title="some sample text"
+        a href="#" data-toggle="tooltip" title="Some example text"
           == kerbs(contract.balance, emphasis: true)
       .span1
-        = status_s(contract)
+        span.label class="#{contract_row_class(contract)}"
+          = status_s(contract)
   // Bootstrap container for hidden accordion content
   .accordion-body.collapse id="c#{contract.id}"
     .accordion-inner
