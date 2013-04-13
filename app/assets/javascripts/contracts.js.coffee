@@ -4,5 +4,7 @@
 
 # Tooltips for Contract Balance
 $ ->
-  $('.tooltip-container').tooltip
-    selector: "a[data-toggle=tooltip]"
+  $('a[data-toggle=tooltip]').popover
+    placement: 'left'
+    trigger: 'hover'
+    html: true

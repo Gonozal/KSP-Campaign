@@ -22,7 +22,7 @@
         span.text-error
           ' #{ kerbs(contract.penalty) }
       .span2.tooltip-container
-        a href="#" data-toggle="tooltip" title="#{tooltip(contract)}" data-html="true"
+        a href="#" data-toggle="tooltip" title="Mission balance" data-content="#{tooltip(contract)}" data-html="true"
           == kerbs(contract.balance, emphasis: true)
       .span1
         span.label class="#{contract_row_class(contract)}"
@@ -50,5 +50,4 @@
                 - if f.status.to_sym == :started
                   a href="#flight_modal#{f.id}" data-toggle="modal" title="edit"
                     i.icon-edit
-                = link_to(f, method: :delete, remote: :true, confirm: "Are you sure you wish to delete this flight? Any transactions triggered by this flight will be reverted") do
-                  i.icon-remove-circle title="delete"
+                = render partial: "flights/edit_flight_modal", locals: { flight: f }
