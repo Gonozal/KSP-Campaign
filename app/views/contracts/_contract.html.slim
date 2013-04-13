@@ -1,54 +1,105 @@
-- contract.flights.each do |f|
-  - if f.status.to_sym == :started
-    = render partial: "flights/edit_flight_modal", locals: {flight: f}
-.accordion-group id="contract#{contract.id}"
-  // Bootstrap container for always visible part
-  .accordion-heading
-    .row
-      // Makeshift table, there really needs to be a better way
-      .span2
-        a data-toggle="collapse" href="#c#{contract.id}"
-          i.icon-chevron-down
-        = contract.mission.name
-      .span1
-        = contract.time_limit
-      .span2
-        = contract.institution.present?? contract.institution.name : "Independant"
-      .span3
-        span.text-success
-          ' #{ kerbs(contract.payout) } |
-        span.text-success
-          ' #{ kerbs(contract.advance) } |
-        span.text-error
-          ' #{ kerbs(contract.penalty) }
-      .span2.tooltip-container
-        a href="#" data-toggle="tooltip" title="Mission balance" data-content="#{tooltip(contract)}" data-html="true"
-          == kerbs(contract.balance, emphasis: true)
-      .span1
-        span.label class="#{contract_row_class(contract)}"
-          = status_s(contract)
-  // Bootstrap container for hidden accordion content
-  .accordion-body.collapse id="c#{contract.id}"
-    .accordion-inner
-      // Table for flights belonging to contract
-      table.table.table-condensed.table-hover
-        thead
-          tr
-            th Flight name
-            th Depature Time
-            th Ship Cost
-            th Status
-            th Actions
-        tbody
-          - contract.flights.each do |f|
-            tr class="#{flight_row_class(f)}"
-              td = f.name
-              td Uh..?
-              td == kerbs f.ship_cost
-              td = status_s(f)
-              td 
-                - if f.status.to_sym == :started
-                  a href="#flight_modal#{f.id}" data-toggle="modal" title="edit"
-                    i.icon-edit
-                = link_to(f, method: :delete, remote: true, confirm: "Are you sure you wish to delete this flight? Any transactions triggered by this flight will be reverted") do
-                  i.icon-remove-circle title="delete"
+.contract
+  .row.contract-header id="contract#{contract.id}"
+    .span9
+      .span1.contract-status
+        = status_icon( contract )
+      .span11
+        h4 == contract.mission.name
+        .row.subheading
+          .span4
+            span.text-muted From: 
+            = contract.institution.present? ? contract.institution.name : "Independant"
+          .span4
+            span.text-muted Balance: 
+            a href="#" data-toggle="tooltip" title="Mission breakdown" data-content="#{tooltip(contract)}" data-html="true"
+              == kerbs(contract.balance, emphasis: true)
+          .span4
+            span.text-muted Time left: 
+            = contract.time_limit
+          .span4
+    .span3.text-right
+      .payout.span8
+        .row.text-success
+          .span6 Success
+          .span6 = kerbs(contract.payout)
+        .row.text-success
+          .span6 Advance
+          .span6 = kerbs(contract.advance)
+        .row.text-warning
+          .span6 Penalty
+          .span6 = kerbs(contract.penalty)
+      span.text-muted.payout-title
+        | Payout
+  .flights
+    table.table.table-condensed.table-hover
+      thead
+        tr
+          th Flight name
+          th Depature Time
+          th Ship Cost
+          th Status
+          th Actions
+      tbody
+        - contract.flights.each do |f|
+          tr class="#{flight_row_class(f)}"
+            td = f.name
+            td Uh..?
+            td == kerbs f.ship_cost
+            td = status_s(f)
+            td
+              - if f.status.to_sym == :started
+                a href="#flight_modal#{f.id}" data-toggle="modal" title="edit"
+                  i.icon-edit
+              = link_to(f, method: :delete, remote: true, confirm: "Are you sure you wish to delete this flight? Any transactions triggered by this flight will be reverted") do
+                i.icon-remove-circle title="delete"
+
+/* .accordion-group id="contract#{contract.id}"*/
+/*   // Bootstrap container for always visible part*/
+/*   .accordion-heading*/
+/*     .row*/
+/*       // Makeshift table, there really needs to be a better way*/
+/*       .span2*/
+/*         a data-toggle="collapse" href="#c#{contract.id}"*/
+/*           i.icon-chevron-down*/
+/*         = contract.mission.name*/
+/*       .span1*/
+/*         = contract.time_limit*/
+/*       .span2*/
+/*         = contract.institution.present?? contract.institution.name : "Independant"*/
+/*       .span3*/
+/*         span.text-success*/
+/*           ' #{ kerbs(contract.payout) } |*/
+/*         span.text-success*/
+/*           ' #{ kerbs(contract.advance) } |*/
+/*         span.text-error*/
+/*           ' #{ kerbs(contract.penalty) }*/
+/*       .span2.tooltip-container*/
+/*         a href="#" data-toggle="tooltip" title="Mission breakdown" data-content="#{tooltip(contract)}" data-html="true"*/
+/*           == kerbs(contract.balance, emphasis: true)*/
+/*       .span1*/
+/*         span.label class="#{contract_row_class(contract)}"*/
+/*           = status_s(contract)*/
+/*   // Bootstrap container for hidden accordion content*/
+/*   .accordion-body.collapse id="c#{contract.id}"*/
+/*     .accordion-inner*/
+/*       // Table for flights belonging to contract*/
+/*       table.table.table-condensed.table-hover*/
+/*         thead*/
+/*           tr*/
+/*             th Flight name*/
+/*             th Depature Time*/
+/*             th Ship Cost*/
+/*             th Status*/
+/*             th Actions*/
+/*         tbody*/
+/*           - contract.flights.each do |f|*/
+/*             tr class="#{flight_row_class(f)}"*/
+/*               td = f.name*/
+/*               td Uh..?*/
+/*               td == kerbs f.ship_cost*/
+/*               td = status_s(f)*/
+/*               td */
+/*                 - if f.status.to_sym == :started*/
+/*                   a href="#flight_modal#{f.id}" data-toggle="modal" title="edit"*/
+/*                     i.icon-edit*/
+/*                 = render partial: "flights/edit_flight_modal", locals: { flight: f }*/

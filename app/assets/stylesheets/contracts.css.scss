@@ -1,0 +1,79 @@
+@import 'bootstrap/_mixins';
+
+$contractHeight: 65px;
+
+.contract-status {
+  i {
+    line-height: $contractHeight;
+  }
+}
+
+.contract {
+  background-color: #f3f5f6;
+  border: 1px solid #ccc;
+  border-top-width: 0;
+  @include transition( margin 0.10s );
+
+  &:hover {
+    background-color: #FAFCFD;
+  }
+
+  &:first-child, &.expanded + .contract {
+    border-top-width: 1px;
+    @include border-top-radius( 0.25em );
+  }
+  &:last-child, &.before-expand {
+    @include border-bottom-radius( 0.25em );
+  }
+
+  &.expanded {
+    border-width: 1px;
+    border-radius: 0.25em;
+    margin: 0.5em 0;
+  }
+
+}
+
+.contract {
+  h4 {
+    margin-top: 0.25em;
+  }
+
+  .flights {
+    display: none;
+    border-top: 1px solid #e0e0e0;
+    background-color: #FFF;
+    table {
+      margin-bottom: 0;
+
+      tr:last-child {
+        @include border-bottom-radius( 0.25em );
+
+        td:first-child {
+          border-bottom-left-radius: 0.25em;
+        }
+        td:last-child {
+          border-bottom-right-radius: 0.25em;
+        }
+      }
+    }
+  }
+}
+
+.contract-header {
+  cursor: pointer;
+  height: $contractHeight;
+}
+
+.payout {
+  float: right;
+}
+
+.payout-title {
+  vertical-align: left;
+  float: right;
+  font-size: 15px;
+  margin-top: 21px;
+  color: #666;
+  @include rotate(-90deg);
+}

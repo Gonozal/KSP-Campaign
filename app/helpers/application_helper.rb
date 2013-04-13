@@ -38,7 +38,7 @@ module ApplicationHelper
 
 
   def status_s(obj)
-    return "" unless obj.kind_of? Flight or obj.kind_of? Contract
+    return "" unless obj.respond_to? :status
     case obj.status.to_sym
     when :open then "Open"
     when :started then "Started"
@@ -47,5 +47,19 @@ module ApplicationHelper
     when :failed then "Failed"
     else "unknown"
     end
+  end
+
+  def status_icon( contract )
+    return "" unless contract.respond_to? :status
+    css = case contract.status.to_sym
+    when :open then "circle-blank"
+    when :started then "plane text-warning"
+    when :accepted then "plane text-warning"
+    when :successful then "ok text-success"
+    when :failed then "ban-circle text-danger"
+    else "question-sign text-muted"
+    end
+
+    return %[<i class="icon-#{css} icon-2x" title="#{contract.status}"></i>].html_safe
   end
 end
