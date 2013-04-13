@@ -10,8 +10,8 @@ class Campaign < ActiveRecord::Base
 
   # Balance of this Campaign. Funds availble to the player
   def balance
-    @balance ||= starting_balance + flights.inject(0) do |result, element|
-      result + element.profit
+    @balance ||= starting_balance + transactions.inject(0) do |result, element|
+      result + element.amount
     end
   end
 
