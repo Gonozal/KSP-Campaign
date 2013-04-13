@@ -4,10 +4,13 @@
 
 # Tooltips for Contract Balance
 $ ->
-  $('a[data-toggle=tooltip]').popover
+  $('a[data-toggle=tooltip]').popover(
     placement: 'left'
     trigger: 'hover'
     html: true
+  ).on 'click', (e) ->
+    e.preventDefault()
+    e.stopPropagation()
 
   $('.contract-header').on 'click', ->
     $(this).closest('.contract').toggleClass('expanded').
