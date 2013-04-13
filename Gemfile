@@ -17,7 +17,8 @@ gem 'slim', '~> 1.3.8'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
-gem 'bootstrap-sass', '~> 2.3.1.0'
+gem 'bootstrap-sass', github: 'thomas-mcdonald/bootstrap-sass', branch: '3'
+gem 'font-awesome-rails', '~> 3.0.2.0'
 
 gem 'uglifier', '>= 1.0.3'
 

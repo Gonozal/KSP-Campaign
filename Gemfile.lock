@@ -9,6 +9,14 @@ GIT
       railties (~> 4.0.0.beta)
       warden (~> 1.2.1)
 
+GIT
+  remote: git://github.com/thomas-mcdonald/bootstrap-sass.git
+  revision: 52b7f4869aadf3426dfaad6018a4aa34bd973a92
+  branch: 3
+  specs:
+    bootstrap-sass (2.3.1.0)
+      sass (~> 3.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -44,8 +52,6 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.1)
       debug_inspector (>= 0.0.1)
-    bootstrap-sass (2.3.1.0)
-      sass (~> 3.2)
     builder (3.1.4)
     cancan (1.6.9)
     coderay (1.0.9)
@@ -60,6 +66,8 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    font-awesome-rails (3.0.2.0)
+      railties (>= 3.1)
     formtastic (2.2.1)
       actionpack (>= 3.0)
     formtastic-plus-bootstrap (1.1.7)
@@ -151,10 +159,11 @@ DEPENDENCIES
   bcrypt-ruby (~> 3.0.0)
   better_errors (~> 0.8.0)
   binding_of_caller (~> 0.7.1)
-  bootstrap-sass (~> 2.3.1.0)
+  bootstrap-sass!
   cancan (~> 1.6.9)
   coffee-rails (~> 4.0.0.beta1)
   devise!
+  font-awesome-rails (~> 3.0.2.0)
   formtastic (~> 2.2)
   formtastic-plus-bootstrap (~> 1.1.7)
   jbuilder (~> 1.0.1)
