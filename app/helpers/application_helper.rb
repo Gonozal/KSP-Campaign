@@ -19,7 +19,7 @@ module ApplicationHelper
         return "<span class='text-error'>#{currency}</span>"
       end
     end
-    currency
+    currency.html_safe
   end
 
   # Abbreviates a number hash by dividing it so it haves a most of 5 leading digits

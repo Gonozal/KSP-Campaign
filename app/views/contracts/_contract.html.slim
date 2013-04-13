@@ -12,12 +12,12 @@
       .span2
         = contract.institution.present?? contract.institution.name : "Independant"
       .span3
-        // I dont even.. no.. there HAS to be a better way.. right?
-        span.text-info == "#{kerbs contract.payout}"
-        span  | 
-        span.text-success == "#{kerbs contract.advance}"
-        span  | 
-        span.text-error == "#{kerbs contract.penalty}"
+        span.text-info
+          ' #{ kerbs(contract.payout) } |
+        span.text-success
+          ' #{ kerbs(contract.advance) } |
+        span.text-error
+          ' #{ kerbs(contract.penalty) }
       .span2.tooltip-container
         a href="#" data-toggle="tooltip" title="#{tooltip(contract)}" data-html="true"
           == kerbs(contract.balance, emphasis: true)
