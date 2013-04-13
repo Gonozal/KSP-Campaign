@@ -2,8 +2,8 @@
   .modal-dialog
     .modal-content
       .modal-header
-        button.close type="button" data-dismiss="modal" = "x"
-        h3 So, how did that flight go?
+        button.close type="button" data-dismiss="modal" == "&times;"
+        h4 So, how did that flight go?
       .modal-body
         = simple_form_for(flight, html: { class: 'form-vertical' }) do |form|
           = form.input :result,
@@ -22,6 +22,6 @@
               wrapper: :input_group do
               <span class="input-group-addon"><i class="icon-gift"></i></span> 
               = form.input_field :extra_credits
-        p wow, it did that well uh?
+          = form.button :submit, class: "btn-primary btn-block"
       .modal-footer
         button.btn data-dismiss="modal" Close
