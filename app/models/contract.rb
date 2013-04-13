@@ -8,6 +8,7 @@ class Contract < ActiveRecord::Base
   scope :independent, -> {where(institution_id: nil)}
   scope :open, -> {where(status: nil)}
   scope :assigned, -> {where("status NOT NULL")}
+  scope :successful, -> {where(status: 1)}
 
   after_save :handle_financials
 
