@@ -1,83 +1,55 @@
 h3 = @campaign.name
 h6 = link_to "Back to Campaign Selection", @campaign.user
 
-h4 Available 3rd party contracts
-- if @campaign.contracts.open.any?
-  table.table.table-condensed.table-hover
-    thead
-      th Mission
-      th Category
-      th Days to complete
-      th Days to accept
-      th Reward
-      th Advance
-      th Penalty on failure
-      th Status
-    tbody
-      - @campaign.contracts.open.all.each do |c|
-        tr class="#{contract_row_class(c)}"
-          td = c.mission.name
-          td = c.mission.mission_category.name
-          td = c.time_limit
-          td = c.accept_limit
-          td = kerbs c.payout
-          td = c.advance_payed_id.present?? "Payed" : kerbs(c.advance)
-          td = kerbs c.penalty
-          td = c.status_s
-- else
-  p.text-warning There are currently no contracts available
+.accordion#accordion
+  // makeshift table headings. Sadly accordion tables are quite hard to do
+  - if @campaign.contracts.any?
+    .row
+      .span2.offset1
+        strong Contract Mission
+      .span1
+        strong Time Left
+      .span2
+        strong Contractor
+      .span3
+        strong Reward / Advance / Penalty
+      .span2
+        strong Mission Balance
+      .span1
+        strong Status
+  // create accordeon for every contract
+  - @campaign.contracts.each do |c|
+    .accordion-group
+      // Bootstrap container for always visible part
+      .accordion-heading
+        .row
+          // Makeshift table, there really needs to be a better way
+          .span1.text-center
+            a data-toggle="collapse" href="#c#{c.id}"
+              i.icon-chevron-down
+          .span2
+            = c.mission.name
+          .span1
+            = c.time_limit
+          .span2
+            = c.institution.present?? c.institution.name : "Independant"
+          .span3
+            // I dont even.. no.. there HAS to be a better way.. right?
+            span.text-info == "#{kerbs c.reward}"
+            span  | 
+            span.text-success == "#{kerbs c.advance}"
+            span  | 
+            span.text-error == "#{kerbs c.penalty}"
+          .span2
+            == kerbs(c.balance, emphasis: true)
+      // Bootstrap container for hidden accordion content
+      .accordion-body.collapse id="c#{c.id}"
+        .accordion-inner
+          // Table for flights belonging to contract
+          .row
+            .span2
+              | There shouldbe some pretty awesome text here
+            .span2
+              | some more text
 
 
-
-h4 Flight log
-- if @campaign.flights.any?
-  table.table.table-condensed.table-hover
-    thead
-      th Mission
-      th Days left
-      th Ship cost
-      th Reward
-      th Advance
-      th Failure Penalty
-      th Profit
-      th State
-    tbody
-      - @campaign.flights.all.each do |f|
-        tr class="#{flight_row_class(f)}"
-          td = f.contract.mission.name
-          td = time_left_s f.contract.time_left
-          td = kerbs f.ship_cost
-          td = kerbs f.payout
-          td = kerbs f.contract.advance
-          td = kerbs f.contract.penalty
-          td = (f.profit.present? and f.profit != 0)? kerbs(f.profit) : "-"
-          td = f.status_s
-- else
-  p.text-warning There are currently no Flights recorded
-
-
-h4 Mission & Contracts Log
-- if @campaign.contracts.not_open.any?
-  table.table.table-condensed.table-hover
-    thead
-      th Mission
-      th Category
-      th Days to complete
-      th Days to accept
-      th Reward
-      th Advance
-      th Penalty on failure
-      th Status
-    tbody
-      - @campaign.contracts.not_open.all.each do |c|
-        tr class="#{contract_row_class(c)}"
-          td = c.mission.name
-          td = c.mission.mission_category.name
-          td = c.time_limit
-          td = c.accept_limit
-          td = kerbs c.payout
-          td = c.advance_payed_id.present?? "Payed" : kerbs(c.advance)
-          td = kerbs c.penalty
-          td = c.status_s
-- else
-  p.text-warning There are currently no contracts available

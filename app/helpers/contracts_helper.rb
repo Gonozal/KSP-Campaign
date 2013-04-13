@@ -1,4 +1,4 @@
-module ContractsHelper
+module ContractsHelper 
   def contract_row_class(contract)
     case contract.status
     when nil then "info"

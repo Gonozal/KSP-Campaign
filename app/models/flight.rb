@@ -2,57 +2,44 @@ class Flight < ActiveRecord::Base
   belongs_to :campaign
   belongs_to :contract
 
-  scope :in_progress, -> {where(status: 0)}
-  scope :successful, -> {where(status: 1)}
-  scope :failed, -> {where(status: 2)}
+  scope :in_progress, -> { where(status: 0) }
+  scope :successful, -> { where(status: 1) }
+  scope :failed, -> { where(status: 2) }
 
-  before_save :calculate_flight_data
   after_save :update_contract
+  after_save :handle_financials
 
-  def status_s
-    case status
-    when 0 then "In Progress"
-    when 1 then "Successful"
-    when 2 then "Failed"
-    else "unknown"
+  # Balance of this flight. Should only really be Rocket lauch costs
+  def balance
+    transactions.all.inject(0) do |sum, transaction|
+      sum + transaction.amount
     end
-  end
-
-  # fraction of ship cost reimbursed on mission success
-  def ship_roi
-    @ship_roi ||= ship_cost / 2
   end
 
   private
-  def set_payout
-    self.payout = contract.reward - contract.advance
-  end
-
-  def set_profit
-    if contract.advance_payed_id == id and contract.advance_payed_id.present?
-      if status == 1
-        self.profit = payout - ship_cost + ship_roi
-      elsif status == 2 or status == 0
-        self.profit = - ship_cost
-      end
-    else
-      if status == 1
-        self.profit = payout - ship_cost + contract.advance + ship_roi
-        contract.advance_payed_id = id
-        contract.save
-      elsif status == 2 or status == 0
-        self.profit = - ship_cost + contract.advance
-        contract.advance_payed_id = true
-        contract.save
-      end
+  # Create transaction entr
+  def handle_financials
+    if status_changed? and status == 0 and transactions.investments.empty?
+      submit_transaction(reference: :ship, amount: ship_cost)
     end
   end
 
-  def calculate_flight_data
-    set_payout
-    set_profit
+  # Creates a new transaction for this contract
+  # Assigns reference-string and amount based on parameters
+  # Copy of same method in contract.rb -> Refactor?
+  def submit_transaction(args = {})
+    t = transactions.new
+    t.reference = args[:reference]
+    t.amount = args[:amount]
+    t.campaign_id = campaign.id
+    t.save
   end
 
+  # If flight status changes, contract this flight was assigned to should be updated
+  # A contract can only have one active flight at a time and is locked by a new flight
+  # TODO: Is this sensible? Should multiple active flights ba allowed?
+  # Once a flight failed, release contract for another try
+  # Once a flight completes succesfully, assume contract was fulfilled
   def update_contract
     if status_changed?
       case status
