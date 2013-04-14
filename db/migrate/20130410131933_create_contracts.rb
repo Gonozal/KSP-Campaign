@@ -12,7 +12,7 @@ class CreateContracts < ActiveRecord::Migration
 
       t.integer :time_limit
 
-      t.string :status, default: :unknown
+      t.string :status, default: :open
 
       # started-at: Ingame time when the contract was created
       t.datetime :issued_at

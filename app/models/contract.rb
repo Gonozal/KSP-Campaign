@@ -12,6 +12,8 @@ class Contract < ActiveRecord::Base
 
   after_save :handle_financials
 
+  attr_accessible :institution_id, :mission_id, :campaign_id
+
   # Timee in days that this contract can exist without being accepted
   def accept_limit
     issued_at + 15.days - campaign.date
@@ -39,6 +41,14 @@ class Contract < ActiveRecord::Base
     transactions.all.inject(0) do |sum, transaction|
       sum + transaction.amount
     end
+  end
+
+  def new_independant
+    self.penalty = 0
+    self.reward = mission.reward
+    self.time_limit = mission.maximal_time
+    self.issued_at = campaign.date
+    self.accepted_at = campaign.date
   end
 
   # A contract can specify a maximum amount of expenses (rocket launches) that are covered

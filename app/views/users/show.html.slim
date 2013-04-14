@@ -14,7 +14,7 @@ h5 Please create a new campaign or continue an existing one
         td = c.updated_at
         td = c.contracts.successful.count
         td == kerbs c.balance, emphasis: true
-        td
+        td data-no-turbolink="true"
           = link_to c do
             i.icon-eye-open
           = link_to(c, method: :delete, 

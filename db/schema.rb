@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20130412194550) do
     t.integer  "contract_id"
     t.integer  "ship_cost"
     t.string   "name"
-    t.string   "status",      default: "unknown"
+    t.string   "status",      default: "started"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

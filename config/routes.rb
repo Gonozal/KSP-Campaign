@@ -1,6 +1,6 @@
 KspCampaign::Application.routes.draw do
   devise_for :users
-  root to: 'users#show'
+  root to: 'users#index'
   resources :campaigns, :contracts, :flights, :reputations, :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

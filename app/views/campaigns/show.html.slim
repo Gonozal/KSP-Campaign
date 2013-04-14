@@ -1,6 +1,19 @@
 h3 = @campaign.name
 h6 = link_to "Back to Campaign Selection", @campaign.user
 
-= render 'contract_accordion'
+a href="#new_mission_modal" data-toggle="modal"
+  button.btn.btn-success 
+    |Start new Mission
 
+.contracts
+  = render @campaign.contracts.all
 
+// create modal for ongoing flights
+- @campaign.contracts.each do |contract|
+  // create modal for open contracts
+  - if contract.status.to_sym == :open or contract.status.to_sym == :accepted
+    = render partial: "flights/new_flight_modal", locals: {contract: contract}
+  - contract.flights.each do |f|
+    - if f.status.to_sym == :started
+      = render partial: "flights/edit_flight_modal", locals: {flight: f}
+= render partial: 'campaigns/new_mission_modal', locals: { campaign: @campaign }

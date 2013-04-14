@@ -7,8 +7,8 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 u = User.create
-u.email = "leradomendar@googlemail.com"
-u.password = "thisisnotapassword"
+u.email = "example@mail.net"
+u.password = "password"
 u.save
 
 c = u.campaigns.new

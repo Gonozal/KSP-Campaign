@@ -1,11 +1,11 @@
 class Flight < ActiveRecord::Base
   belongs_to :campaign
   belongs_to :contract
-  has_many :transactions
+  has_many :transactions, dependent: :destroy
 
-  scope :in_progress, -> { where(status: 0) }
-  scope :successful, -> { where(status: 1) }
-  scope :failed, -> { where(status: 2) }
+  scope :in_progress, -> { where(status: :started) }
+  scope :successful, -> { where(status: :successful) }
+  scope :failed, -> { where(status: :failed) }
 
   default_scope {order("created_at DESC")}
 
@@ -14,7 +14,7 @@ class Flight < ActiveRecord::Base
   after_destroy :revert_contract_changes
 
   attr_accessor :result, :casualties, :debries, :extra_credits
-  attr_accessible :campaign_id, :contract_id, :ship_cost, :name, as: :create
+  attr_accessible :campaign_id, :contract_id, :ship_cost, :name
   attr_accessible :status
 
   # Balance of this flight. Should only really be Rocket lauch costs
@@ -42,6 +42,16 @@ class Flight < ActiveRecord::Base
       reference = (params[:extra_credits].to_i < 0)? :gift : :deduction
       submit_transaction(reference: reference, amount: params[:extra_credits].to_i)
     end
+  end
+
+  # Some checking is needed when creating a new flight
+  def defaults
+    self.ship_cost ||= 0
+    self.ship_cost = ship_cost.abs
+    if name.blank?
+      self.name = "#{contract.mission.name} ##{ contract.flights.all.count + 1 }"
+    end
+    self.campaign_id = contract.campaign_id
   end
 
   private
@@ -75,7 +85,7 @@ class Flight < ActiveRecord::Base
       case status.to_sym
       when :started then lock_contract
       when :successful then complete_contract
-      when :failed then release_contract
+      when :failed then release_contract unless contract.flights.in_progress.any?
       else lock_contract
       end
     end

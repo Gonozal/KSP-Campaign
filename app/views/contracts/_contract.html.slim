@@ -6,16 +6,27 @@
       .span11
         h4 == contract.mission.name
         .row
-          .span4
+          .span3
             span.text-muted From: 
             = contract.institution.present? ? contract.institution.name : "Independant"
           .span4
             span.text-muted Balance: 
             a href="#" data-toggle="tooltip" title="Mission breakdown" data-content="#{tooltip(contract)}"
               == kerbs(contract.balance, emphasis: true)
-          .span4
+          .span3
             span.text-muted Time left: 
             = contract.time_limit
+          .span2
+            span.text-muted Actions: 
+            - if contract.status.to_sym == :open or contract.status.to_sym == :accepted
+              a href="#new_flight_modal#{contract.id}" data-toggle="modal" title="Launch!"
+                i.icon-plane
+              = link_to(contract_path(contract, cancel: true), method: :put, remote: true,
+                confirm: "You are about to cancel this mission and may incur penalty payments. Proceed?") do
+                  i.icon-ban-circle
+            = link_to(contract, method: :delete, remote: true,
+              confirm: "Are you sure you wish to delete this Contract?") do
+                i.icon-remove-circle
           .span4
     .span3.text-right
       .span8.payout

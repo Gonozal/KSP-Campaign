@@ -15,6 +15,25 @@ class Campaign < ActiveRecord::Base
     end
   end
 
+  def new_missions_collection
+    available_missions.map do |m|
+      [m.name, m.id]
+    end
+  end
+
+  # Returns an array of missions that can be attempted by the player
+  # TODO: Update query to exclde one-off missions that are already completed. Scopes?
+  # TODO: Make sure i.available_missions does not use this!
+  def available_missions
+    missions = MissionCategory.where("minimum_balance <= ?", [balance]).all.map do |c|
+      c.missions.all
+    end.flatten
+    completed_missions = contracts.all.map do |c|
+      c.mission.repeatable?? c.mission : nil
+    end.flatten
+    missions
+  end
+
   private
   # TODO: implement
   # Makes a new contract (semi-)ramdomly available to the player
@@ -33,12 +52,4 @@ class Campaign < ActiveRecord::Base
     end.flatten
   end
 
-  # Returns an array of missions that can be attempted by the player
-  # TODO: Update query to exclde one-off missions that are already completed. Scopes?
-  # TODO: Make sure i.available_missions does not use this!
-  def available_missions
-    MissionCategory.where("minimum_balance <= ?", [balance]).all.map do |c|
-      c.missions.all
-    end.flatten
-  end
 end
