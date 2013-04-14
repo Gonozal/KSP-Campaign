@@ -11,8 +11,11 @@ class Flight < ActiveRecord::Base
 
   after_save :handle_financials
   after_save :update_contract
+  after_destroy :revert_contract_changes
 
   attr_accessor :result, :casualties, :debries, :extra_credits
+  attr_accessible :campaign_id, :contract_id, :ship_cost, :name, as: :create
+  attr_accessible :status
 
   # Balance of this flight. Should only really be Rocket lauch costs
   def balance
@@ -21,11 +24,30 @@ class Flight < ActiveRecord::Base
     end
   end
 
+  def complete(params)
+    # update flight status
+    case params[:result]
+    when "success" then self.status = :successful
+    when "failure" then self.status = :failed
+    end
+
+    # calculate penalties
+    if params[:casualties].present?
+      submit_transaction(reference: :penalty, amount: - params[:casualties].to_i * 15000)
+    end
+    if params[:debries].present?
+      submit_transaction(reference: :penalty, amount: - params[:debries].to_i * 10000)
+    end
+    if params[:extra_credits].present?
+      submit_transaction(reference: :reward, amount: params[:extra_credits].to_i)
+    end
+  end
+
   private
   # Create transaction entr
   def handle_financials
     if transactions.investments.empty?
-      submit_transaction(reference: :ship, amount: - ship_cost)
+      submit_transaction(reference: :ship, amount: - ship_cost.to_i)
     end
     true
   end

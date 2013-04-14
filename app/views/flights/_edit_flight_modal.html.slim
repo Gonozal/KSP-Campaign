@@ -5,7 +5,7 @@
         button.close type="button" data-dismiss="modal" &times;
         h4.modal-title So, how did that flight go?
       .modal-body
-        = simple_form_for(flight, html: { class: 'form-vertical' }) do |form|
+        = simple_form_for(flight, remote: true, html: { class: 'form-vertical' }) do |form|
           = form.input :result,
             collection: [["It went better than expected", :success], ["Don't ask..", :failure]],
             as: :radio_buttons,
