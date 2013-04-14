@@ -8,7 +8,10 @@ class FlightsController < ApplicationController
     @flight.complete(params[:flight])
     @flight.save
 
-    render @flight.contract
+    respond_to do |format|
+      format.html { redirect_to root_url }
+      format.js { render :update, locals: { contract: @flight.contract } }
+    end
   end
 
   def destroy

@@ -12,7 +12,7 @@ $ ->
     e.preventDefault()
     e.stopPropagation()
 
-  $('.contract-header').on 'click', ->
+  $('.contracts').on 'click', '.contract .contract-header', (e) ->
     $(this).closest('.contract').toggleClass('expanded').
       prev().toggleClass('before-expand').
       end().find('.flights').slideToggle( 100 )

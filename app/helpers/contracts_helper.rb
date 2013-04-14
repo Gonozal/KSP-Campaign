@@ -12,7 +12,7 @@ module ContractsHelper
     html = ""
     contract.transactions.each do |t|
       html += "<p class='text-right #{transaction_emphasis(t)}'>"
-      html += "#{t.reference.to_s.capitalize} : #{kerbs t.amount}"
+      html += "#{t.reference.to_s.titleize} : #{kerbs t.amount}"
       html += "</p>"
     end
     html
@@ -21,11 +21,15 @@ module ContractsHelper
   def transaction_emphasis(transaction)
     case transaction.reference.to_sym
     when :ship then "text-warning"
+    when :gift then "text-success"
+    when :deduction then "text-error"
+    when :crew_death then "text-error"
+    when :debries then "text-error"
     when :reward then "text-success"
     when :advance then "text-success"
     when :reimbursement then "text-success"
     when :penalty then "text-error"
-    else "text-info"
+    else "text-warning"
     end
   end
 end

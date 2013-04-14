@@ -22,7 +22,7 @@ module ApplicationHelper
     currency.html_safe
   end
 
-  # Abbreviates a number hash by dividing it so it haves a most of 5 leading digits
+  # Abbreviates a number hash by dividing it so it has a most of 5 leading digits
   # Returns a hash {value: abbreviated number, suffix: Currency-Suffix}
   def abbr_number_hash(number)
     n = case
