@@ -134,6 +134,14 @@ f.save
 f.status = :started
 f.save
 
+f = contr.flights.new
+f.campaign_id = c.id
+f.name = "SSV Summerwind"
+f.ship_cost = 40000
+f.save
+f.status = :started
+f.save
+
 f = contr1.flights.new
 f.campaign_id = c.id
 f.name = "SSV Starbound"
