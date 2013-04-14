@@ -11,8 +11,7 @@
             = contract.institution.present? ? contract.institution.name : "Independant"
           .span4
             span.text-muted Balance: 
-            a[href="#" data-toggle="tooltip" data-placement="left" data-trigger="hover"
-              title="Mission breakdown" data-content="#{tooltip(contract)}" data-html="true"]
+            a href="#" data-toggle="tooltip" title="Mission breakdown" data-content="#{tooltip(contract)}"
               == kerbs(contract.balance, emphasis: true)
           .span4
             span.text-muted Time left: 
