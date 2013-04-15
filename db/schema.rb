@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20130412194550) do
     t.integer  "cost_plus_limit", default: -1
     t.integer  "penalty"
     t.integer  "time_limit"
-    t.string   "status",          default: "unknown"
+    t.string   "status",          default: "open"
     t.datetime "issued_at"
     t.datetime "completed_at"
     t.datetime "accepted_at"
