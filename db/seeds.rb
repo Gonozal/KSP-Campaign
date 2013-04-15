@@ -19,7 +19,7 @@ c.date = DateTime.new(0, 1, 20)
 c.save
 
 i = Institution.new
-i.name = "Kerbal Space Administration"
+i.name = "Kerbin Space Administration"
 i.description = "The state operated Space Association of all Kerbalkind"
 i.time_modifier = 0.8
 i.penalty_modifier = 0.35
@@ -28,7 +28,7 @@ i.initial_reputation = 15
 i.save
 
 around_kerbal = MissionCategory.create
-around_kerbal.name = "Kerbal"
+around_kerbal.name = "Kerbil"
 around_kerbal.save
 
 around_mun = MissionCategory.create

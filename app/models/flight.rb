@@ -81,20 +81,18 @@ class Flight < ActiveRecord::Base
   # Once a flight failed, release contract for another try
   # Once a flight completes succesfully, assume contract was fulfilled
   def update_contract
-    if status_changed?
-      case status.to_sym
-      when :started then lock_contract
-      when :successful then complete_contract
-      when :failed then release_contract unless contract.flights.in_progress.any?
-      else lock_contract
-      end
+    case status.to_sym
+    when :started then lock_contract
+    when :successful then complete_contract
+    when :failed then release_contract unless contract.flights.in_progress.any?
+    else lock_contract
     end
     true
   end
 
   def revert_contract_changes
     if status.to_sym == :successful or status.to_sym == :started
-      release_contract
+      release_contract unless contract.flights.in_progress.any?
     end
   end
 

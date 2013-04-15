@@ -10,3 +10,6 @@ $("#contract<%= flight.contract.id %>").
 
 # Destroy old flight modal, it's not used any more and would only clutter the DOM
 $('#flight_modal<%= flight.id %>').remove()
+
+$("#new_mission_modal").
+  replaceWith(''' <%= render(partial:'campaigns/new_mission_modal', locals: { campaign: flight.campaign }) %>''')

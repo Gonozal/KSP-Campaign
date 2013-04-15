@@ -10,6 +10,8 @@ class Contract < ActiveRecord::Base
   scope :assigned, -> {where("status NOT NULL AND status NOT 'open'")}
   scope :successful, -> {where(status: :successful)}
 
+  default_scope {order("created_at DESC")}
+
   after_save :handle_financials
 
   attr_accessible :institution_id, :mission_id, :campaign_id
