@@ -1,12 +1,25 @@
-h3 = @campaign.name
-h6 = link_to "Back to Campaign Selection", @campaign.user
-
-a href="#new_mission_modal" data-toggle="modal"
-  button.btn.btn-success 
-    |Start new Mission
+.row
+  .span5
+    h3 = @campaign.name
+    h6 = link_to "Back to Campaign Selection", @campaign.user
+    .row
+      .span6
+        a href="#new_mission_modal" data-toggle="modal"
+          button.btn.btn-success 
+            |Start new Mission
+      .span6#campaign-balance
+        span.text-muted Balance: 
+        a href="#" data-toggle="tooltip" title="Mission breakdown" data-content="#{tooltip(@campaign)}"
+          == kerbs(@campaign.balance, emphasis: true)
+  .span7
+    - if @campaign.contracts.offered.any?
+      h5 Pending Contracts
+    div
+      - @campaign.contracts.offered.each do |contract|
+        = render partial: 'contracts/third_party_contracts', locals: { contract: contract} 
 
 .contracts
-  = render @campaign.contracts.all
+  = render @campaign.contracts.accepted.all
 
 // create modal for ongoing flights
 - @campaign.contracts.each do |contract|

@@ -29,27 +29,47 @@ class Campaign < ActiveRecord::Base
       c.missions.all
     end.flatten
     completed_missions = contracts.all.map do |c|
-      c.mission.repeatable?? c.mission : nil
+      c.missions.repeatables
     end.flatten
-    missions
+    missions - completed_missions
   end
 
-  private
   # TODO: implement
   # Makes a new contract (semi-)ramdomly available to the player
   # Contract is picket out of all available contract missions
   def create_random_contract
-    available_contract_missions.each do |m|
-    end
+    return nil if contracts.offered.count > 4
+    create_third_party_mission available_contract_missions.sample
   end
 
   # TODO: refine mission selection. Mission close to current budget?
-  # TODO: regine mission selection. Mission already done multiple times?
+  # TODO: refine mission selection. Mission already done multiple times?
   # Returns a list of missions available for assignment from institutions
   def available_contract_missions
     Institution.all.map do |i|
-      i.available_missions
+      i.available_missions(self).map do |m|
+        { institution: i, mission: m }
+      end
     end.flatten
   end
 
+  private
+  def create_third_party_mission(mission_hash)
+    i = mission_hash[:institution]
+    m = mission_hash[:mission]
+    c = m.contracts.new
+    reputation = i.reputation(self)
+    # some defaults, inherited properties
+    c.status = :offered
+    c.campaign_id = id
+    c.institution_id = i.id
+    # Rewards, penalties etc. dependant on reputation to faction
+    c.reward = (m.reward * i.reward_modifier).round(-1)
+    c.advance_percent = (reputation / 2.5).round(2)
+    c.penalty = (0.2 * c.reward * i.penalty_modifier * (reputation + 40) / 100).round(-2)
+    time_span = (m.maximal_time - m.minimal_time)
+    reputation_mod = i.time_modifier * reputation / 100
+    c.time_limit = m.minimal_time + (time_span * reputation_mod).round
+    c.save
+  end
 end

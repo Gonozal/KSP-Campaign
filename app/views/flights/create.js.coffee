@@ -8,3 +8,6 @@ $("#contract<%= flight.contract.id %>").
 
 $(".container").
   append('''<%= render(partial:'flights/edit_flight_modal', locals: {flight: flight}) %>''')
+
+$('#new_flight_modal<%= flight.contract.id %>').modal('hide');
+

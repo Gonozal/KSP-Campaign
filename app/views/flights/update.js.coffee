@@ -8,6 +8,8 @@ $("#contract<%= flight.contract.id %>").
   prev().toggleClass('before-expand').
   end().find('.flights').slideToggle( 0 )
 
+$('#flight_modal<%= flight.id %>').modal('hide');
+
 # Destroy old flight modal, it's not used any more and would only clutter the DOM
 $('#flight_modal<%= flight.id %>').remove()
 

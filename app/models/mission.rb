@@ -3,4 +3,5 @@ class Mission < ActiveRecord::Base
   has_many :contracts
 
   scope :one_offs, -> { where(repeatable: false) }
+  scope :repeatables, -> { where(repeatable: true) }
 end

@@ -26,6 +26,7 @@ class ContractsController < ApplicationController
 
   # destroy contract
   def destroy
+    @flights = @contract.flights.map( &:id )
     @contract.destroy
     respond_to do |format|
       format.html { redirect_to root_url }

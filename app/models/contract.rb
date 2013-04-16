@@ -5,10 +5,11 @@ class Contract < ActiveRecord::Base
   belongs_to :mission
   belongs_to :campaign
 
-  scope :independent, -> {where(institution_id: nil)}
+  scope :offered, -> {where(status: :offered)}
   scope :open, -> {where(status: :open)}
   scope :assigned, -> {where("status NOT NULL AND status NOT 'open'")}
   scope :successful, -> {where(status: :successful)}
+  scope :accepted, -> {where("status IS NOT 'offered'")}
 
   default_scope {order("created_at DESC")}
 
@@ -74,6 +75,9 @@ class Contract < ActiveRecord::Base
       # when contract completed, grant mission reward and cost-plus reimburesement
       submit_transaction(reference: :reward, amount: payout)
       submit_transaction(reference: :reimbursement, amount: reimbursement)
+      if institution.present?
+        
+      end
       # If for some reason contract was created succesufl, also grant advance money
       if transactions.advances.empty?
         submit_transaction(reference: :advance, amount: advance)
@@ -97,5 +101,9 @@ class Contract < ActiveRecord::Base
     t.amount = args[:amount]
     t.campaign_id = campaign.id
     t.save
+  end
+
+  def reputation_gain
+    0.1 * reward.to_f / Mission.order("reward DESC").first
   end
 end

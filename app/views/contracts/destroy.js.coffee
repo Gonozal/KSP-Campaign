@@ -1,4 +1,6 @@
 $("#contract<%= contract.id %>").parent().remove()
 
+$("#new_flight_modal<%= contract.id %>")
+
 $("#new_mission_modal").
-  replaceWith(''' <%= render(partial: 'campaigns/new_mission_modal', locals: { campaign: contract.campaign }) %>''')
+  _eplaceWith(''' <%= render(partial: 'campaigns/new_mission_modal', locals: { campaign: contract.campaign }) %>''')
