@@ -11,3 +11,5 @@ $(".container").
 
 $('#new_flight_modal<%= flight.contract.id %>').modal('hide');
 
+$("#campaign_balance").
+  replace_with('''<%= render(partial: 'campaigns/mission_balance', locals: { campaign: flight.campaign }) %>''')

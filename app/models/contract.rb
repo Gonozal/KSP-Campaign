@@ -12,7 +12,7 @@ class Contract < ActiveRecord::Base
   scope :accepted, -> {where("status IS NOT 'offered'")}
   scope :independent, -> {where(institution_id: nil)}
 
-  default_scope {order("created_at DESC")}
+  default_scope {order("updated_at DESC")}
 
   after_save :handle_financials
 
@@ -89,6 +89,9 @@ class Contract < ActiveRecord::Base
         add_reputation(- 0.8 * reputation_gain)
       end
     elsif s == :open
+      if transactions.advances.empty? 
+        submit_transaction(reference: :advance, amount: advance)
+      end
       # if contract status changed to "open", remove any previous rewards and penalties
       transactions.penalties.destroy_all
       transactions.rewards.destroy_all
@@ -103,6 +106,7 @@ class Contract < ActiveRecord::Base
   # Assigns reference-string and amount based on parameters
   # Copy of same method in flight.rb -> Refactor?
   def submit_transaction(args = {})
+    return false if args[:amount] == 0
     t = transactions.new
     t.reference = args[:reference].to_s
     t.amount = args[:amount]

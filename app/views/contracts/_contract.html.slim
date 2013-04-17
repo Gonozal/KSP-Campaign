@@ -6,14 +6,14 @@
       .span11
         h4 == contract.mission.name
         .row
-          .span3
+          .span5
             span.text-muted From: 
             = contract.institution.present? ? contract.institution.name : "Independant"
-          .span4
+          .span3
             span.text-muted Balance: 
             a href="#" data-toggle="tooltip" title="Mission breakdown" data-content="#{tooltip(contract)}"
               == kerbs(contract.balance, emphasis: true)
-          .span3
+          .span2
             span.text-muted Time left: 
             = contract.time_limit
           .span2

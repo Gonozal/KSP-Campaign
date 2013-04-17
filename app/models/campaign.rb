@@ -67,10 +67,6 @@ class Campaign < ActiveRecord::Base
     # Rewards, penalties etc. dependant on reputation to faction
     c.reward = (m.reward * i.reward_modifier).round(-1)
     c.advance_percent = ((i.advance_modifier).round(2) * 100).to_i
-    logger.warn "####################"
-    logger.warn c.reward
-    logger.warn i.advance_modifier
-    logger.warn "####################"
     c.penalty = (c.reward * i.penalty_modifier).round(-1)
     time_span = (m.maximal_time - m.minimal_time)
     c.time_limit = m.minimal_time + (time_span * i.time_modifier).round

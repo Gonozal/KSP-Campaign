@@ -7,10 +7,7 @@
         a href="#new_mission_modal" data-toggle="modal"
           button.btn.btn-success 
             |Start new Mission
-      .span6#campaign-balance
-        span.text-muted Balance: 
-        a href="#" data-toggle="tooltip" title="Mission breakdown" data-content="#{tooltip(@campaign)}"
-          == kerbs(@campaign.balance, emphasis: true)
+      = render partial: 'mission_balance', locals: { campaign: @campaign }
   .span7
     - if @campaign.contracts.offered.any?
       h5 Pending Contracts

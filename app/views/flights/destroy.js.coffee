@@ -13,9 +13,12 @@ $('#flight_modal<%= flight.id %>').remove()
 
 # If flight status changed to open (due to removed successful flight), add new flight modal
 <% if [:open, :accepted].include? flight.contract.status.to_sym %>
-$(".container").
-  append('''<%= render(partial:'flights/new_flight_modal', locals: {contract: flight.contract}) %>''')
+  $(".container").
+    append('''<%= render(partial:'flights/new_flight_modal', locals: {contract: flight.contract}) %>''')
 <% end %>
+
+$("#campaign_balance").
+  replace_with('''<%= render(partial: 'campaigns/mission_balance', locals: { campaign: flight.campaign }) %>''')
 
 $("#new_mission_modal").
   replaceWith(''' <%= render(partial: 'campaigns/new_mission_modal', locals: { campaign: flight.campaign }) %>''')

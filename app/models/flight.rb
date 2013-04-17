@@ -7,7 +7,7 @@ class Flight < ActiveRecord::Base
   scope :successful, -> { where(status: :successful) }
   scope :failed, -> { where(status: :failed) }
 
-  default_scope {order("created_at DESC")}
+  default_scope {order("updated_at DESC")}
 
   after_save :handle_financials
   after_save :update_contract
@@ -67,6 +67,7 @@ class Flight < ActiveRecord::Base
   # Assigns reference-string and amount based on parameters
   # Copy of same method in contract.rb -> Refactor?
   def submit_transaction(args = {})
+    return false if args[:amount] == 0
     t = transactions.new
     t.reference = args[:reference].to_s
     t.amount = args[:amount]

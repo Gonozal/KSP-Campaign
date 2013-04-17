@@ -15,3 +15,6 @@ $('#flight_modal<%= flight.id %>').remove()
 
 $("#new_mission_modal").
   replaceWith(''' <%= render(partial:'campaigns/new_mission_modal', locals: { campaign: flight.campaign }) %>''')
+
+$("#campaign_balance").
+  replace_with('''<%= render(partial: 'campaigns/mission_balance', locals: { campaign: flight.campaign }) %>''')

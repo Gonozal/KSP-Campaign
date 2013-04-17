@@ -13,10 +13,12 @@ class ContractsController < ApplicationController
 
   # Cancel Mission mostly
   def update
-    if params[:cancel]
+    if params[:cancel].present?
       @contract.status = :failed
-      @contract.save
+    elsif params[:accept].present?
+      @contract.status = :open
     end
+    @contract.save
 
     respond_to do |format|
       format.html { redirect_to root_url }

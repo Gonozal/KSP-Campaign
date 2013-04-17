@@ -12,7 +12,7 @@ module ContractsHelper
     contract.respond_to? :transactions
     html = ""
     if contract.transactions.first.present?
-      contract.transactions.each do |t|
+      contract.transactions.first(5).each do |t|
         html += "<p class='text-right #{transaction_emphasis(t)}'>"
         html += "#{t.reference.to_s.titleize} : #{kerbs t.amount}"
         html += "</p>"
