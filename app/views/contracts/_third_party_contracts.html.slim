@@ -1,9 +1,9 @@
-.contract
+.contract-small
   .row.contract-header-small id="compact-contract#{contract.id}"
     .span7
       .span1.contract-status
       .span11
-        h5 == "#{contract.mission.name} (by #{contract.mission.name})"
+        h6 == "#{contract.mission.name} (by #{contract.institution.name})"
         .row
           .span4
             span.text-muted Time limit: 
@@ -20,7 +20,7 @@
               confirm: "Are you sure you wish to delete this Contract?") do
                 i.icon-remove-circle
     .span5.text-right
-      .span8.payout
+      .span8.payout-small
         .row.text-success
           .span6 Success
           .span6 = kerbs(contract.payout)
@@ -30,5 +30,5 @@
         .row.text-warning
           .span6 Penalty
           .span6 = kerbs(contract.penalty)
-      span.text-muted.payout-title
+      span.text-muted.payout-title-small
         | Payout

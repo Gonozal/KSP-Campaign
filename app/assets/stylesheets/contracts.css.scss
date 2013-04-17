@@ -8,6 +8,55 @@ $contractHeight: 65px;
   }
 }
 
+
+.contract-small {
+  h6 {
+    line-height: 12px;
+    margin-top: 6px;
+    margin-bottom: 8px;
+  }
+
+  font-size: 10px;
+  line-height: 11px;
+  background-color: #f3f5f6;
+  border: 1px solid #ccc;
+  border-top-width: 0;
+  height: 48px;
+
+  @include transition( margin 0.10s );
+
+  &:hover {
+    background-color: #FAFCFD;
+  }
+
+  &:first-child {
+    border-top-width: 1px;
+    @include border-top-radius( 0.25em );
+  }
+  &:last-child {
+    @include border-bottom-radius( 0.25em );
+  }
+
+  &.expanded {
+    border-width: 1px;
+    border-radius: 0.25em;
+    margin: 0.5em 0;
+  }
+}
+
+.payout-title-small {
+  vertical-align: left;
+  float: right;
+  margin-top: 17px;
+  color: #666;
+  @include rotate(-90deg);
+}
+
+.payout-small {
+  float: right;
+  line-height: 14px;
+}
+
 .contract {
   background-color: #f3f5f6;
   border: 1px solid #ccc;
@@ -33,6 +82,7 @@ $contractHeight: 65px;
   }
 
 }
+
 
 .contracts {
   margin-top: 0.55em;

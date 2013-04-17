@@ -10,6 +10,7 @@ class Contract < ActiveRecord::Base
   scope :assigned, -> {where("status NOT NULL AND status NOT 'open'")}
   scope :successful, -> {where(status: :successful)}
   scope :accepted, -> {where("status IS NOT 'offered'")}
+  scope :independent, -> {where(institution_id: nil)}
 
   default_scope {order("created_at DESC")}
 
@@ -76,7 +77,7 @@ class Contract < ActiveRecord::Base
       submit_transaction(reference: :reward, amount: payout)
       submit_transaction(reference: :reimbursement, amount: reimbursement)
       if institution.present?
-        
+        add_reputation(reputation_gain)
       end
       # If for some reason contract was created succesufl, also grant advance money
       if transactions.advances.empty?
@@ -84,11 +85,17 @@ class Contract < ActiveRecord::Base
       end
     elsif s == :failed and transactions.penalties.empty?
       submit_transaction(reference: :penalty, amount: - penalty)
+      if institution.present?
+        add_reputation(- 0.8 * reputation_gain)
+      end
     elsif s == :open
       # if contract status changed to "open", remove any previous rewards and penalties
       transactions.penalties.destroy_all
       transactions.rewards.destroy_all
       transactions.reimbursements.destroy_all
+      if institution.present?
+        Reputation.where(campaign_id: id, institution_id: institution.id).destroy_all
+      end
     end
   end
 
@@ -105,5 +112,13 @@ class Contract < ActiveRecord::Base
 
   def reputation_gain
     0.1 * reward.to_f / Mission.order("reward DESC").first
+  end
+
+  def add_reputation(amount)
+    return false if institution.blank?
+    r = institution.reputations.new
+    r.contract_id = id
+    r.change = amount
+    r.campaign_id = campaign.id
   end
 end

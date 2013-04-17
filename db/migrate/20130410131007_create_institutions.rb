@@ -3,9 +3,10 @@ class CreateInstitutions < ActiveRecord::Migration
     create_table :institutions do |t|
       t.string :name
       t.text :description
-      t.float :time_modifier, default: 0
-      t.float :penalty_modifier, default: 0
-      t.float :reward_modifier, default: 0
+      # modifiers are float-values that get multiplied on penalty. time etc.
+      t.float :time_modifier, default: 1
+      t.float :penalty_modifier, default: 1
+      t.float :reward_modifier, default: 1
       t.integer :initial_reputation
 
       t.timestamps

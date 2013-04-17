@@ -28,8 +28,8 @@ class Campaign < ActiveRecord::Base
     missions = MissionCategory.where("minimum_balance <= ?", [balance]).all.map do |c|
       c.missions.all
     end.flatten
-    completed_missions = contracts.all.map do |c|
-      c.missions.repeatables
+    completed_missions = contracts.independent.reload.all.inject([]) do |m, c|
+      (c.mission.repeatable? or c.status.to_sym == :failed)? m : m.push(c.mission)
     end.flatten
     missions - completed_missions
   end
@@ -38,7 +38,7 @@ class Campaign < ActiveRecord::Base
   # Makes a new contract (semi-)ramdomly available to the player
   # Contract is picket out of all available contract missions
   def create_random_contract
-    return nil if contracts.offered.count > 4
+    return nil if contracts.offered.count > 3
     create_third_party_mission available_contract_missions.sample
   end
 
@@ -47,7 +47,8 @@ class Campaign < ActiveRecord::Base
   # Returns a list of missions available for assignment from institutions
   def available_contract_missions
     Institution.all.map do |i|
-      i.available_missions(self).map do |m|
+      i.campaign = self
+      i.available_missions.map do |m|
         { institution: i, mission: m }
       end
     end.flatten
@@ -56,20 +57,23 @@ class Campaign < ActiveRecord::Base
   private
   def create_third_party_mission(mission_hash)
     i = mission_hash[:institution]
+    i.campaign = self
     m = mission_hash[:mission]
     c = m.contracts.new
-    reputation = i.reputation(self)
     # some defaults, inherited properties
     c.status = :offered
     c.campaign_id = id
     c.institution_id = i.id
     # Rewards, penalties etc. dependant on reputation to faction
     c.reward = (m.reward * i.reward_modifier).round(-1)
-    c.advance_percent = (reputation / 2.5).round(2)
-    c.penalty = (0.2 * c.reward * i.penalty_modifier * (reputation + 40) / 100).round(-2)
+    c.advance_percent = ((i.advance_modifier).round(2) * 100).to_i
+    logger.warn "####################"
+    logger.warn c.reward
+    logger.warn i.advance_modifier
+    logger.warn "####################"
+    c.penalty = (c.reward * i.penalty_modifier).round(-1)
     time_span = (m.maximal_time - m.minimal_time)
-    reputation_mod = i.time_modifier * reputation / 100
-    c.time_limit = m.minimal_time + (time_span * reputation_mod).round
+    c.time_limit = m.minimal_time + (time_span * i.time_modifier).round
     c.save
   end
 end
