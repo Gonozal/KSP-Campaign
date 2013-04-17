@@ -8,4 +8,4 @@ $("#new_flight_modal<%= contract.id %>").remove()
 
 
 $("#new_mission_modal").
-  _eplaceWith(''' <%= render(partial: 'campaigns/new_mission_modal', locals: { campaign: contract.campaign }) %>''')
+  replaceWith(''' <%= render(partial: 'campaigns/new_mission_modal', locals: { campaign: contract.campaign }) %>''')
