@@ -80,9 +80,9 @@ contr.reward = m2.reward
 contr.advance_percent = 20
 contr.penalty = m2.reward / 10
 contr.time_limit = m2.maximal_time
-contr.issued_at = DateTime.new(0, 1, 2)
-contr.accepted_at = DateTime.new(0, 1, 3)
-contr.completed_at = DateTime.new(0, 1, 5)
+contr.issued_at = DateTime.new(2000, 1, 2)
+contr.accepted_at = DateTime.new(2000, 1, 3)
+contr.completed_at = DateTime.new(2000, 1, 5)
 contr.save
 
 contr1 = c.contracts.new
@@ -92,9 +92,9 @@ contr1.reward = m3.reward
 contr1.advance_percent = 20
 contr1.penalty = m3.reward / 10
 contr1.time_limit = m3.maximal_time
-contr1.issued_at = DateTime.new(0, 1, 4)
-contr1.accepted_at = DateTime.new(0, 1, 4)
-contr1.completed_at = DateTime.new(0, 1, 10)
+contr1.issued_at = DateTime.new(2000, 1, 4)
+contr1.accepted_at = DateTime.new(2000, 1, 4)
+contr1.completed_at = DateTime.new(2000, 1, 10)
 contr1.save
 
 contr2 = c.contracts.new
@@ -104,7 +104,7 @@ contr2.reward = m4.reward
 contr2.advance_percent = 20
 contr2.penalty = m4.reward / 10
 contr2.time_limit = m4.maximal_time
-contr2.issued_at = DateTime.new(0, 1, 8)
+contr2.issued_at = DateTime.new(2000, 1, 8)
 contr2.save
 
 contr3 = c.contracts.new
@@ -114,7 +114,7 @@ contr3.reward = m1.reward * 2
 contr3.advance_percent = 40
 contr3.penalty = m1.reward / 2
 contr3.time_limit = m1.maximal_time
-contr3.issued_at = DateTime.new(0, 1, 9)
+contr3.issued_at = DateTime.new(2000, 1, 9)
 contr3.save
 
 f = contr3.flights.new
