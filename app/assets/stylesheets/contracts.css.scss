@@ -48,13 +48,6 @@ $contractHeight: 65px;
 
       tr:last-child {
         @include border-bottom-radius( 0.25em );
-
-        td:first-child {
-          border-bottom-left-radius: 0.25em;
-        }
-        td:last-child {
-          border-bottom-right-radius: 0.25em;
-        }
       }
     }
   }
