@@ -180,4 +180,4 @@ f.name = "SSV Munlander"
 f.ship_cost = 60000
 f.save
 f.status = :successful
-m.save
+f.save

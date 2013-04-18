@@ -16,9 +16,9 @@ ActiveRecord::Schema.define(version: 20130412194550) do
   create_table "campaigns", force: true do |t|
     t.integer  "user_id"
     t.string   "name"
-    t.integer  "starting_balance"
+    t.integer  "starting_balance", default: 0
     t.string   "player_name"
-    t.datetime "date",             default: '0000-01-01 00:00:00'
+    t.datetime "date",             default: '2000-01-01 00:00:00'
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -53,10 +53,10 @@ ActiveRecord::Schema.define(version: 20130412194550) do
   create_table "institutions", force: true do |t|
     t.string   "name"
     t.text     "description"
-    t.float    "time_modifier",      default: 0.0
-    t.float    "penalty_modifier",   default: 0.0
-    t.float    "reward_modifier",    default: 0.0
-    t.integer  "initial_reputation"
+    t.float    "time_modifier",      default: 1.0
+    t.float    "penalty_modifier",   default: 1.0
+    t.float    "reward_modifier",    default: 1.0
+    t.integer  "initial_reputation", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end

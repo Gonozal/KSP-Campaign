@@ -72,11 +72,11 @@ class Campaign < ActiveRecord::Base
     c.campaign_id = id
     c.institution_id = i.id
     # Rewards, penalties etc. dependant on reputation to faction
-    c.reward = (m.reward * i.reward_modifier).round(-1)
-    c.advance_percent = ((i.advance_modifier).round(2) * 100).to_i
-    c.penalty = (c.reward * i.penalty_modifier).round(-1)
+    c.reward = (m.reward * i.reward_mod).round(-1)
+    c.advance_percent = ((i.advance_mod).round(2) * 100).to_i
+    c.penalty = (c.reward * i.penalty_mod).round(-1)
     time_span = (m.maximal_time - m.minimal_time)
-    c.time_limit = m.minimal_time + (time_span * i.time_modifier).round
+    c.time_limit = m.minimal_time + (time_span * i.time_mod).round
     c.save
 
     c

@@ -41,7 +41,7 @@ class Flight < ActiveRecord::Base
       submit_transaction(reference: :debries, amount: - params[:debries].to_i * 10000)
     end
     if params[:extra_credits].present? and params[:extra_credits].to_i != 0
-      reference = (params[:extra_credits].to_i > 0)? :gift : :deduction
+      reference = (params[:extra_credits].to_i < 0)? :gift : :deduction
       submit_transaction(reference: reference, amount: params[:extra_credits].to_i)
     end
   end
