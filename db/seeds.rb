@@ -15,7 +15,7 @@ c = u.campaigns.new
 c.name = "KSP Campaign"
 c.starting_balance = 10000
 c.player_name = "Mission Command"
-c.date = DateTime.new(0, 1, 20)
+c.date = DateTime.new(2000, 1, 20)
 c.save
 
 i = Institution.new
