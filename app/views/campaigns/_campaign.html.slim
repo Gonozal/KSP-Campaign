@@ -1,0 +1,11 @@
+tr
+  td = campaign.name
+  td = campaign.updated_at
+  td = campaign.contracts.successful.count
+  td == kerbs campaign.balance, emphasis: true
+  td data-no-turbolink="true"
+    = link_to campaign do
+      i.icon-eye-open
+    = link_to(campaign, method: :delete,
+      confirm: "Are you sure you wish to delete this campaign?") do
+      i.icon-remove-circle

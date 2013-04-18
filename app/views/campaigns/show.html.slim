@@ -1,6 +1,33 @@
-h3 = @campaign.name
-h6 = link_to "Back to Campaign Selection", @campaign.user
+.row
+  .span5
+    h3 = @campaign.name
+    h6 = link_to "Back to Campaign Selection", @campaign.user
+    .row
+      .span8
+        a href="#new_mission_modal" data-toggle="modal"
+          button.btn.btn-primary.btn-small.pull-left
+            | Start new Mission
+        = link_to(campaign_path(@campaign, request: :contract),
+          method: :put, remote: true) do
+          button.btn.btn-info.btn-small.pull-right
+            | Request contract
+      = render partial: 'mission_balance', locals: { campaign: @campaign }
+  .span7
+    - if @campaign.contracts.offered.any?
+      h5 Pending Contracts
+    div#pending_contracts
+      - @campaign.contracts.offered.each do |contract|
+        = render partial: 'contracts/third_party_contracts', locals: { contract: contract} 
 
-= render 'contract_accordion'
+.contracts
+  = render @campaign.contracts.accepted.all
 
-
+// create modal for ongoing flights
+- @campaign.contracts.each do |contract|
+  // create modal for open contracts
+  - if contract.status.to_sym == :open or contract.status.to_sym == :accepted
+    = render partial: "flights/new_flight_modal", locals: {contract: contract}
+  - contract.flights.each do |f|
+    - if f.status.to_sym == :started
+      = render partial: "flights/edit_flight_modal", locals: {flight: f}
+= render partial: 'campaigns/new_mission_modal', locals: { campaign: @campaign }

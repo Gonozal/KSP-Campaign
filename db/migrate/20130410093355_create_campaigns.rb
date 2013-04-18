@@ -3,10 +3,10 @@ class CreateCampaigns < ActiveRecord::Migration
     create_table :campaigns do |t|
       t.integer :user_id
       t.string :name
-      t.integer :starting_balance
+      t.integer :starting_balance, default: 0
       t.string :player_name
 
-      t.datetime :date, default: DateTime.new(0, 1, 1)
+      t.datetime :date, default: DateTime.new(2000, 1, 1)
 
       t.timestamps
     end

@@ -1,5 +1,10 @@
 h3 Welcome
-h5 Please create a new campaign or continue an existing one
+h5
+  | Please 
+  a href="#new_campaign_modal" data-toggle="modal" title="New Campaign"
+    | create a new campaign 
+  | or continue an existing one
+= render partial: 'new_campaign_modal'
 - if @user.campaigns.any?
   table.table.table-condensed.table-hover
     thead
@@ -7,18 +12,8 @@ h5 Please create a new campaign or continue an existing one
       th Last played
       th Completed Missions
       th Balance
-      th Action
-    - @user.campaigns.each do |c|
-      tr
-        td = c.name
-        td = c.updated_at
-        td = c.contracts.successful.count
-        td == kerbs c.balance, emphasis: true
-        td
-          = link_to c do
-            i.icon-eye-open
-          = link_to(c, method: :delete, 
-            confirm: "Are you sure you wish to delete this campaign?") do
-            i.icon-remove-circle
-
-
+    tbody
+      = render @user.campaigns
+- else
+  a href="#new_campaign_modal" data-toggle="modal" title="New Campaign"
+    i.icon-edit

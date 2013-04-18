@@ -16,9 +16,9 @@ ActiveRecord::Schema.define(version: 20130412194550) do
   create_table "campaigns", force: true do |t|
     t.integer  "user_id"
     t.string   "name"
-    t.integer  "starting_balance"
+    t.integer  "starting_balance", default: 0
     t.string   "player_name"
-    t.datetime "date",             default: '0000-01-01 00:00:00'
+    t.datetime "date",             default: '2000-01-01 00:00:00'
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20130412194550) do
     t.integer  "cost_plus_limit", default: -1
     t.integer  "penalty"
     t.integer  "time_limit"
-    t.string   "status",          default: "unknown"
+    t.string   "status",          default: "open"
     t.datetime "issued_at"
     t.datetime "completed_at"
     t.datetime "accepted_at"
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20130412194550) do
     t.integer  "contract_id"
     t.integer  "ship_cost"
     t.string   "name"
-    t.string   "status",      default: "unknown"
+    t.string   "status",      default: "started"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -53,10 +53,10 @@ ActiveRecord::Schema.define(version: 20130412194550) do
   create_table "institutions", force: true do |t|
     t.string   "name"
     t.text     "description"
-    t.float    "time_modifier",      default: 0.0
-    t.float    "penalty_modifier",   default: 0.0
-    t.float    "reward_modifier",    default: 0.0
-    t.integer  "initial_reputation"
+    t.float    "time_modifier",      default: 1.0
+    t.float    "penalty_modifier",   default: 1.0
+    t.float    "reward_modifier",    default: 1.0
+    t.integer  "initial_reputation", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end

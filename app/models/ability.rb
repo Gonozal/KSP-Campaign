@@ -28,20 +28,35 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
-    can :manage, Campaign do |c|
-      c.user == user
-    end
 
-    can :manage, Flight do |f|
-      f.campaign.user == user
-    end
+    # not registered users should only be able to register users...
+    can :create, User
+    can :index, User
+    if user.present?
+      can :manage, User do |u|
+        u == user
+      end
+      # Every user should be able to create a campaign
+      can :create, Campaign
 
-    can :manage, Contract do |c|
-      c.campaign.user == user
-    end
+      # But only if a campaign exists should an user be able to create content
+      if user.campaigns.any?
+        can :manage, Campaign do |c|
+          c.user == user
+        end
 
-    can :manage, Reputation do |r|
-      r.campaign.user == user
+        can :manage, Flight do |f|
+          f.contract.campaign.user == user
+        end
+
+        can :manage, Contract do |c|
+          c.campaign.user == user
+        end
+
+        can :manage, Reputation do |r|
+          r.campaign.user == user
+        end
+      end
     end
   end
 end

@@ -9,10 +9,17 @@ module ContractsHelper
   end
 
   def tooltip(contract)
+    contract.respond_to? :transactions
     html = ""
-    contract.transactions.each do |t|
-      html += "<p class='text-right #{transaction_emphasis(t)}'>"
-      html += "#{t.reference.to_s.titleize} : #{kerbs t.amount}"
+    if contract.transactions.first.present?
+      contract.transactions.first(5).each do |t|
+        html += "<p class='text-right #{transaction_emphasis(t)}'>"
+        html += "#{t.reference.to_s.titleize} : #{kerbs t.amount}"
+        html += "</p>"
+      end
+    else
+      html += "<p class='text-right text-warning'>"
+      html += "You do not have any transactions"
       html += "</p>"
     end
     html

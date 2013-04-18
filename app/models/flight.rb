@@ -1,21 +1,23 @@
 class Flight < ActiveRecord::Base
   belongs_to :campaign
   belongs_to :contract
-  has_many :transactions
+  has_many :transactions, dependent: :destroy
 
-  scope :in_progress, -> { where(status: 0) }
-  scope :successful, -> { where(status: 1) }
-  scope :failed, -> { where(status: 2) }
+  scope :in_progress, -> { where(status: :started) }
+  scope :successful, -> { where(status: :successful) }
+  scope :failed, -> { where(status: :failed) }
 
-  default_scope {order("created_at DESC")}
+  default_scope {order("updated_at DESC")}
 
   after_save :handle_financials
   after_save :update_contract
   after_destroy :revert_contract_changes
 
   attr_accessor :result, :casualties, :debries, :extra_credits
-  attr_accessible :campaign_id, :contract_id, :ship_cost, :name, as: :create
+  attr_accessible :campaign_id, :contract_id, :ship_cost, :name
   attr_accessible :status
+
+  validate :ship_cost, presence: true
 
   # Balance of this flight. Should only really be Rocket lauch costs
   def balance
@@ -44,6 +46,16 @@ class Flight < ActiveRecord::Base
     end
   end
 
+  # Some checking is needed when creating a new flight
+  def defaults
+    self.ship_cost ||= 0
+    self.ship_cost = ship_cost.abs
+    if name.blank?
+      self.name = "#{contract.mission.name} ##{ contract.flights.all.count + 1 }"
+    end
+    self.campaign_id = contract.campaign_id
+  end
+
   private
   # Create transaction entr
   def handle_financials
@@ -57,6 +69,7 @@ class Flight < ActiveRecord::Base
   # Assigns reference-string and amount based on parameters
   # Copy of same method in contract.rb -> Refactor?
   def submit_transaction(args = {})
+    return false if args[:amount] == 0
     t = transactions.new
     t.reference = args[:reference].to_s
     t.amount = args[:amount]
@@ -71,20 +84,18 @@ class Flight < ActiveRecord::Base
   # Once a flight failed, release contract for another try
   # Once a flight completes succesfully, assume contract was fulfilled
   def update_contract
-    if status_changed?
-      case status.to_sym
-      when :started then lock_contract
-      when :successful then complete_contract
-      when :failed then release_contract
-      else lock_contract
-      end
+    case status.to_sym
+    when :started then lock_contract
+    when :successful then complete_contract
+    when :failed then release_contract unless contract.flights.in_progress.any?
+    else lock_contract
     end
     true
   end
 
   def revert_contract_changes
     if status.to_sym == :successful or status.to_sym == :started
-      release_contract
+      release_contract unless contract.flights.in_progress.any?
     end
   end
 

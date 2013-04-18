@@ -4,10 +4,11 @@
 
 # Tooltips for Contract Balance
 $ ->
-  $('.contracts').on('mouseenter', 'a[data-toggle=tooltip]', ->
+  $('.container').on('mouseenter', 'a[data-toggle=tooltip]', ->
     $(this).popover(
+      selector: ''
       placement: 'left'
-      trigger: 'manual'
+      trigger: 'hover'
       html: true
     ).popover('show')
     # container: 'testcontainer'

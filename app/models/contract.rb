@@ -5,12 +5,20 @@ class Contract < ActiveRecord::Base
   belongs_to :mission
   belongs_to :campaign
 
-  scope :independent, -> {where(institution_id: nil)}
+  scope :offered, -> {where(status: :offered)}
   scope :open, -> {where(status: :open)}
-  scope :assigned, -> {where("status NOT NULL AND status NOT 'open'")}
+  scope :assigned, -> {where("status NOT NULL AND status <> 'open'")}
   scope :successful, -> {where(status: :successful)}
+  scope :accepted, -> {where("status <> 'offered'")}
+  scope :independent, -> {where(institution_id: nil)}
+
+  default_scope {order("updated_at DESC")}
 
   after_save :handle_financials
+
+  attr_accessible :institution_id, :mission_id, :campaign_id
+
+  validate :mission_id, presence: true
 
   # Timee in days that this contract can exist without being accepted
   def accept_limit
@@ -41,6 +49,14 @@ class Contract < ActiveRecord::Base
     end
   end
 
+  def new_independant
+    self.penalty = 0
+    self.reward = mission.reward
+    self.time_limit = mission.maximal_time
+    self.issued_at = campaign.date
+    self.accepted_at = campaign.date
+  end
+
   # A contract can specify a maximum amount of expenses (rocket launches) that are covered
   # 75% percent of all expenses up to the limit specified by the contract are reimburesed
   # This includes multiple failed launch attemps
@@ -62,17 +78,29 @@ class Contract < ActiveRecord::Base
       # when contract completed, grant mission reward and cost-plus reimburesement
       submit_transaction(reference: :reward, amount: payout)
       submit_transaction(reference: :reimbursement, amount: reimbursement)
+      if institution.present?
+        add_reputation(reputation_gain)
+      end
       # If for some reason contract was created succesufl, also grant advance money
       if transactions.advances.empty?
         submit_transaction(reference: :advance, amount: advance)
       end
     elsif s == :failed and transactions.penalties.empty?
       submit_transaction(reference: :penalty, amount: - penalty)
+      if institution.present?
+        add_reputation(- 0.8 * reputation_gain)
+      end
     elsif s == :open
+      if transactions.advances.empty? 
+        submit_transaction(reference: :advance, amount: advance)
+      end
       # if contract status changed to "open", remove any previous rewards and penalties
       transactions.penalties.destroy_all
       transactions.rewards.destroy_all
       transactions.reimbursements.destroy_all
+      if institution.present?
+        Reputation.where(campaign_id: id, institution_id: institution.id).destroy_all
+      end
     end
   end
 
@@ -80,10 +108,23 @@ class Contract < ActiveRecord::Base
   # Assigns reference-string and amount based on parameters
   # Copy of same method in flight.rb -> Refactor?
   def submit_transaction(args = {})
+    return false if args[:amount] == 0
     t = transactions.new
     t.reference = args[:reference].to_s
     t.amount = args[:amount]
     t.campaign_id = campaign.id
     t.save
+  end
+
+  def reputation_gain
+    0.1 * reward.to_f / Mission.order("reward DESC").first.reward
+  end
+
+  def add_reputation(amount)
+    return false if institution.blank?
+    r = institution.reputations.new
+    r.contract_id = id
+    r.change = amount
+    r.campaign_id = campaign.id
   end
 end
