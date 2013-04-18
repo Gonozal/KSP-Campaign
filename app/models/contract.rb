@@ -7,9 +7,9 @@ class Contract < ActiveRecord::Base
 
   scope :offered, -> {where(status: :offered)}
   scope :open, -> {where(status: :open)}
-  scope :assigned, -> {where("status NOT NULL AND status NOT 'open'")}
+  scope :assigned, -> {where("status NOT NULL AND status <> 'open'")}
   scope :successful, -> {where(status: :successful)}
-  scope :accepted, -> {where("status IS NOT 'offered'")}
+  scope :accepted, -> {where("status <> 'offered'")}
   scope :independent, -> {where(institution_id: nil)}
 
   default_scope {order("updated_at DESC")}
