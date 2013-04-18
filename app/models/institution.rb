@@ -5,14 +5,14 @@ class Institution < ActiveRecord::Base
   attr_accessor :campaign, :advance, :time, :penalty, :reward
 
   def reputation
-    raise Exceptions::CampaignNotSetError unless campaign.present?
+    return false unless campaign.present?
     @reputation ||= initial_reputation + 
       campaign.reputations.where("institution_id = ?", [campaign.id]).inject(0, :+)
     [@reputation, 100, 0].sort[1]
   end
 
   def available_missions
-    raise Exceptions::CampaignNotSetError unless campaign.present?
+    return false unless campaign.present?
     where_string = "minimum_reputation <= ? AND minimum_balance <= ?"
     MissionCategory.where(where_string, reputation, campaign.balance).map do |c|
       c.missions.to_a
