@@ -17,6 +17,8 @@ class Flight < ActiveRecord::Base
   attr_accessible :campaign_id, :contract_id, :ship_cost, :name
   attr_accessible :status
 
+  validate :ship_cost, presence: true
+
   # Balance of this flight. Should only really be Rocket lauch costs
   def balance
     transactions.inject(0) do |sum, transaction|
@@ -39,7 +41,7 @@ class Flight < ActiveRecord::Base
       submit_transaction(reference: :debries, amount: - params[:debries].to_i * 10000)
     end
     if params[:extra_credits].present? and params[:extra_credits].to_i != 0
-      reference = (params[:extra_credits].to_i < 0)? :gift : :deduction
+      reference = (params[:extra_credits].to_i > 0)? :gift : :deduction
       submit_transaction(reference: reference, amount: params[:extra_credits].to_i)
     end
   end

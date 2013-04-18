@@ -6,7 +6,14 @@ class Campaign < ActiveRecord::Base
   has_many :contracts, dependent: :destroy
   has_many :transactions, through: :contracts
   has_many :reputations, dependent: :destroy
-  default_scope {includes(contracts: [:flights, :transactions]).includes(:reputations).includes(:flights)}
+  default_scope {includes(contracts: [:flights, :transactions]).
+                 includes(:reputations).includes(:flights).
+                 order("updated_at DESC")}
+
+  validate :name, presence: true
+  validate :starting_balance, presence: true
+
+  attr_accessible :starting_balance, :name
 
   # Balance of this Campaign. Funds availble to the player
   def balance
@@ -71,5 +78,7 @@ class Campaign < ActiveRecord::Base
     time_span = (m.maximal_time - m.minimal_time)
     c.time_limit = m.minimal_time + (time_span * i.time_modifier).round
     c.save
+
+    c
   end
 end

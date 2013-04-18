@@ -18,6 +18,8 @@ class Contract < ActiveRecord::Base
 
   attr_accessible :institution_id, :mission_id, :campaign_id
 
+  validate :mission_id, presence: true
+
   # Timee in days that this contract can exist without being accepted
   def accept_limit
     issued_at + 15.days - campaign.date
@@ -115,7 +117,7 @@ class Contract < ActiveRecord::Base
   end
 
   def reputation_gain
-    0.1 * reward.to_f / Mission.order("reward DESC").first
+    0.1 * reward.to_f / Mission.order("reward DESC").first.reward
   end
 
   def add_reputation(amount)

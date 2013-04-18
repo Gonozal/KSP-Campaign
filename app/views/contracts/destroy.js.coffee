@@ -1,5 +1,5 @@
 $("#campaign_balance").
-  replace_with('''<%= render(partial: 'campaigns/mission_balance', locals: { campaign: contract.campaign }) %>''')
+  replaceWith('''<%= render(partial: 'campaigns/mission_balance', locals: { campaign: contract.campaign }) %>''')
 
 $("#contract<%= contract.id %>").parent().remove()
 $("#compact-contract<%= contract.id %>").parent().remove()

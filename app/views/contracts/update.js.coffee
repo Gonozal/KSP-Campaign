@@ -1,4 +1,10 @@
-<% if contract.institution.present? %>
+$("#campaign_balance").
+  replaceWith('''<%= render(partial: 'campaigns/mission_balance', locals: { campaign: contract.campaign }) %>''')
+
+$("#new_mission_modal").
+  replaceWith(''' <%= render(partial: 'campaigns/new_mission_modal', locals: { campaign: contract.campaign }) %>''')
+
+<% if contract.institution.present? and @accept %>
   $("#compact-contract<%= contract.id %>").parent().remove()
   # add new contract container as first child of contracts div
   $(".contracts").prepend('''<%= render contract %>''')
@@ -12,9 +18,3 @@
     prev().toggleClass('before-expand').
     end().find('.flights').slideToggle( 0 )
 <% end %>
-
-$("#campaign_balance").
-  replace_with('''<%= render(partial: 'campaigns/mission_balance', locals: { campaign: contract.campaign }) %>''')
-
-$("#new_mission_modal").
-  replaceWith(''' <%= render(partial: 'campaigns/new_mission_modal', locals: { campaign: contract.campaign }) %>''')

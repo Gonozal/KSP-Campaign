@@ -15,7 +15,7 @@
             as: :hidden
           = form.input :ship_cost, label: "Wait a minute, HOW much did you spend on this thing?",
             required: true, wrapper: :input_group do
-            <span class="input-group-addon"><i class="icon-globe"></i></span> 
+            = %[<span class="input-group-addon">&xi;</span>].html_safe
             = form.input_field :ship_cost
           = form.button :submit, class: "btn-primary btn-block"
       .modal-footer

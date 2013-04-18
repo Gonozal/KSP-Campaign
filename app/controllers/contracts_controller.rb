@@ -16,6 +16,7 @@ class ContractsController < ApplicationController
     if params[:cancel].present?
       @contract.status = :failed
     elsif params[:accept].present?
+      @accept = true
       @contract.status = :open
     end
     @contract.save

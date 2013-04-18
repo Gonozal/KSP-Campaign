@@ -3,15 +3,19 @@
     h3 = @campaign.name
     h6 = link_to "Back to Campaign Selection", @campaign.user
     .row
-      .span6
+      .span8
         a href="#new_mission_modal" data-toggle="modal"
-          button.btn.btn-success 
-            |Start new Mission
+          button.btn.btn-primary.btn-small.pull-left
+            | Start new Mission
+        = link_to(campaign_path(@campaign, request: :contract),
+          method: :put, remote: true) do
+          button.btn.btn-info.btn-small.pull-right
+            | Request contract
       = render partial: 'mission_balance', locals: { campaign: @campaign }
   .span7
     - if @campaign.contracts.offered.any?
       h5 Pending Contracts
-    div
+    div#pending_contracts
       - @campaign.contracts.offered.each do |contract|
         = render partial: 'contracts/third_party_contracts', locals: { contract: contract} 
 
