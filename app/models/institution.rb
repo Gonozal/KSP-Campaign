@@ -14,7 +14,8 @@ class Institution < ActiveRecord::Base
   def available_missions
     raise Exceptions::CampaignNotSetError unless campaign.present?
     where_string = "minimum_reputation <= ? AND minimum_balance <= ?"
-    MissionCategory.where(where_string, reputation, campaign.balance).map do |c|
+    balance = [campaign.balance, 0].sort[1]
+    MissionCategory.where(where_string, reputation, balance).map do |c|
       c.missions.to_a
     end.flatten!
   end
@@ -28,7 +29,7 @@ class Institution < ActiveRecord::Base
 
   def penalty_mod
     self.penalty ||= (read_attribute(:penalty_modifier) * (rand + 2) *
-      (100 + rand(20) - reputation) / 1000).round(2) + advance_modifier
+      (100 + rand(20) - reputation) / 1000).round(2) + advance_mod
   end
 
   def time_mod

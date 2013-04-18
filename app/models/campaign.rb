@@ -32,7 +32,8 @@ class Campaign < ActiveRecord::Base
   # TODO: Update query to exclde one-off missions that are already completed. Scopes?
   # TODO: Make sure i.available_missions does not use this!
   def available_missions
-    missions = MissionCategory.where("minimum_balance <= ?", [balance]).all.map do |c|
+    missions = MissionCategory.where("minimum_balance <= ?", [balance, 1].sort[1]).
+      all.map do |c|
       c.missions.all
     end.flatten
     completed_missions = contracts.independent.reload.all.inject([]) do |m, c|
