@@ -7,7 +7,6 @@ gem 'rails', '4.0.0beta1'
 # fully threaded webserver
 gem 'puma', '~> 2.0.0.b7'
 
-gem 'sqlite3'
 
 # Template engines, making it even easier to write a bunch of html/js at once
 gem 'sass-rails',   '~> 4.0.0.beta1'
@@ -43,8 +42,13 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 
 # Awesome error handling
 group :development do
+  gem 'sqlite3'
   gem "better_errors", '~> 0.8.0'
   gem "binding_of_caller", '~> 0.7.1'
+end
+
+group :production do
+  gem 'pg'
 end
 
 # Use unicorn as the app server
