@@ -17,7 +17,7 @@
             = link_to(contract_path(contract, accept: true), method: :put, remote: true) do
               i.icon-ok
             = link_to(contract, method: :delete, remote: true,
-              confirm: "Are you sure you wish to delete this Contract?") do
+              data: { confirm: "Are you sure you wish to delete this Contract?" })  do
                 i.icon-remove-circle
     .span5.text-right
       .span8.payout-small

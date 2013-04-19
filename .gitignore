@@ -41,3 +41,5 @@ pickle-email-*.html
 # MAC and windows specific files
 .DS_Store
 thumbs.db
+
+config/initializers/secret_token.rb

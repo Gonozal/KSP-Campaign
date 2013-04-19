@@ -16,14 +16,14 @@
     - if @campaign.contracts.offered.any?
       h5 Pending Contracts
     div#pending_contracts
-      - @campaign.contracts.offered.each do |contract|
+      - @campaign.contracts.offered.includes(:institution, :mission).each do |contract|
         = render partial: 'contracts/third_party_contracts', locals: { contract: contract} 
 
 .contracts
-  = render @campaign.contracts.accepted.all
+  = render @campaign.contracts.accepted.includes(:mission, :institution, :transactions, flights: [:transactions]).load
 
 // create modal for ongoing flights
-- @campaign.contracts.each do |contract|
+- @campaign.contracts.includes(:flights).each do |contract|
   // create modal for open contracts
   - if contract.status.to_sym == :open or contract.status.to_sym == :accepted
     = render partial: "flights/new_flight_modal", locals: {contract: contract}

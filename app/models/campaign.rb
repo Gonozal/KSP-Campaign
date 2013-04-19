@@ -33,10 +33,11 @@ class Campaign < ActiveRecord::Base
   # TODO: Make sure i.available_missions does not use this!
   def available_missions
     missions = MissionCategory.where("minimum_balance <= ?", [balance, 1].sort[1]).
-      all.map do |c|
-      c.missions.all
+      includes(:missions).load.map do |c|
+      c.missions.load
     end.flatten
-    completed_missions = contracts.independent.reload.all.inject([]) do |m, c|
+    completed_missions = contracts.independent.includes(:mission).
+      reload.load.inject([]) do |m, c|
       (c.mission.repeatable? or c.status.to_sym == :failed)? m : m.push(c.mission)
     end.flatten
     missions - completed_missions

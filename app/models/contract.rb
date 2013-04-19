@@ -44,7 +44,7 @@ class Contract < ActiveRecord::Base
 
   # Balance of this contract. Also includes transactions created by owned flights
   def balance
-    transactions.all.inject(0) do |sum, transaction|
+    transactions.load.inject(0) do |sum, transaction|
       sum + transaction.amount
     end
   end
@@ -61,7 +61,7 @@ class Contract < ActiveRecord::Base
   # 75% percent of all expenses up to the limit specified by the contract are reimburesed
   # This includes multiple failed launch attemps
   def reimbursement
-    expenses = transactions.investments.all.inject(0) do |sum, transaction|
+    expenses = transactions.investments.load.inject(0) do |sum, transaction|
       sum + transaction.amount * - 0.75
     end
     return expenses if cost_plus_limit == - 1

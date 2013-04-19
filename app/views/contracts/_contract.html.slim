@@ -22,10 +22,10 @@
               a href="#new_flight_modal#{contract.id}" data-toggle="modal" title="Launch!"
                 i.icon-plane
               = link_to(contract_path(contract, cancel: true), method: :put, remote: true,
-                confirm: "You are about to cancel this mission and may incur penalty payments. Proceed?") do
+                data: { confirm: "You are about to cancel this mission and may incur penalty payments. Proceed?" }) do
                   i.icon-ban-circle
             = link_to(contract, method: :delete, remote: true,
-              confirm: "Are you sure you wish to delete this Contract?") do
+              data: { confirm: "Are you sure you wish to delete this Contract?" }) do
                 i.icon-remove-circle
           .span4
     .span3.text-right
@@ -61,5 +61,5 @@
               - if f.status.to_sym == :started
                 a href="#flight_modal#{f.id}" data-toggle="modal" title="edit"
                   i.icon-edit
-              = link_to(f, method: :delete, remote: true, confirm: "Are you sure you wish to delete this flight? Any transactions triggered by this flight will be reverted") do
+              = link_to(f, method: :delete, remote: true, data: { confirm: "Are you sure you wish to delete this flight? Any transactions triggered by this flight will be reverted" }) do
                 i.icon-remove-circle title="delete"

@@ -1,8 +1,8 @@
 .contracts
-  = render @campaign.contracts.all
+  = render @campaign.contracts.includes(:institution, :transactions, :mission, flights: [:transactions])
 
 // create accordeon for every contract
-- @campaign.contracts.each do |contract|
+- @campaign.contracts.includes(:flights).each do |contract|
   - contract.flights.each do |f|
     - if f.status.to_sym == :started
       = render partial: "flights/edit_flight_modal", locals: {flight: f}
