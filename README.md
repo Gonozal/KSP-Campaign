@@ -48,11 +48,14 @@ Any planned features?
 
 Give me technical details
 -------------------------------
-The web app is written in Ruby on Rails 4.0.0beta1, uses devise for user authentication and cancan for user authorisation. The design is powered by Twitters Bootstrap.
+The web app is written in Ruby on Rails 4.0.0beta1, uses devise for user authentication and cancan for user authorisation. The design is powered by Twitter Bootstrap.
 Most links and forms on the page use ajax to update the site, so disabling JS will most likely break it.
-
 
 If you want you can visit the project over on [**Github**]("https://github.com/Gonozal/KSP-Campaign"). It's licensed under the MIT License, so feel free to do with it whatever you want. I'm not going into how to host your own rails app here, there are plenty of guides on the internet as to how to do it.
 
-
 Last but not least, I'd like to thank my brother for helping me out with the design, JS, any tougher programming/rails questions I had and for pushing me to write cleaner code (for what it's worth. At some point I kinda threw that over board I'm afraid)
+
+
+License
+-------------------------------
+Kerbal Campaign Manager is released under the MIT License.
