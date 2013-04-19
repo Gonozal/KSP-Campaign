@@ -32,7 +32,7 @@ Eventually, yes. There will be the option to create your own set of missions. I 
 Further down the road I could also add the possibility to share missions or sets of missions with others, but that would require some serious work.
 
 
-What use is this if practically no mod I use has balanced prices for its parts?
+Of what use is this if no mod I use has balanced prices for its parts?
 -------------------------------
 Well, you're right. I've written something myself that balances prices based on engine/fuel capacity and efficiency, but it's a rather nasty piece of ruby code (needs ruby 1.9.1+) that also relies on the part.cfg being converted to json before. That can be done by a programm my brother wrote in c# using Manticor's kerbaldata. But that either requires windows or mono on linux/mac. So you'd need to have ruby 1.9.1+ (usually found on Macs) and be able to run an .exe (usually on windows, needs mono for mac). Also, booth tools don't have a gui but rely on relative path and/or command line input. Long story short: There is a way to balance the prices, but it's messy right now and I'd like to streamline it before releasing it.
 
