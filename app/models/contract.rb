@@ -75,32 +75,40 @@ class Contract < ActiveRecord::Base
     if s == :accepted and transactions.advances.empty? 
       submit_transaction(reference: :advance, amount: advance)
     elsif s == :successful and transactions.rewards.empty?
-      # when contract completed, grant mission reward and cost-plus reimburesement
-      submit_transaction(reference: :reward, amount: payout)
-      submit_transaction(reference: :reimbursement, amount: reimbursement)
-      if institution.present?
-        add_reputation(reputation_gain)
-      end
-      # If for some reason contract was created succesufl, also grant advance money
-      if transactions.advances.empty?
-        submit_transaction(reference: :advance, amount: advance)
-      end
+      handle_success
     elsif s == :failed and transactions.penalties.empty?
-      submit_transaction(reference: :penalty, amount: - penalty)
-      if institution.present?
-        add_reputation(- 0.8 * reputation_gain)
-      end
+      handle_failed
     elsif s == :open
-      if transactions.advances.empty? 
-        submit_transaction(reference: :advance, amount: advance)
-      end
-      # if contract status changed to "open", remove any previous rewards and penalties
-      transactions.penalties.destroy_all
-      transactions.rewards.destroy_all
-      transactions.reimbursements.destroy_all
-      if institution.present?
-        Reputation.where(campaign_id: id, institution_id: institution.id).destroy_all
-      end
+      handle_opened
+    end
+  end
+
+  def handle_success
+    # when contract completed, grant mission reward and cost-plus reimburesement
+    submit_transaction(reference: :reward, amount: payout)
+    submit_transaction(reference: :reimbursement, amount: reimbursement)
+    add_reputation(reputation_gain)
+    # If for some reason contract was created succesufl, also grant advance money
+    if transactions.advances.empty?
+      submit_transaction(reference: :advance, amount: advance)
+    end
+  end
+
+  def handle_failed
+    submit_transaction(reference: :penalty, amount: - penalty)
+    add_reputation(- 0.8 * reputation_gain)
+  end
+
+  def handle_opened
+    if transactions.advances.empty? 
+      submit_transaction(reference: :advance, amount: advance)
+    end
+    # if contract status changed to "open", remove any previous rewards and penalties
+    transactions.penalties.destroy_all
+    transactions.rewards.destroy_all
+    transactions.reimbursements.destroy_all
+    if institution.present?
+      Reputation.where(campaign_id: id, institution_id: institution.id).destroy_all
     end
   end
 
@@ -126,5 +134,6 @@ class Contract < ActiveRecord::Base
     r.contract_id = id
     r.change = amount
     r.campaign_id = campaign.id
+    r.save
   end
 end

@@ -6,12 +6,12 @@ class Campaign < ActiveRecord::Base
   has_many :contracts, dependent: :destroy
   has_many :transactions, through: :contracts
   has_many :reputations, dependent: :destroy
-  default_scope {includes(contracts: [:flights, :transactions]).
-                 includes(:reputations).includes(:flights).
-                 order("updated_at DESC")}
+  default_scope { order("updated_at DESC") }
 
   validate :name, presence: true
   validate :starting_balance, presence: true
+
+  has_and_belongs_to_many :mission_packs
 
   attr_accessible :starting_balance, :name
 
@@ -32,15 +32,7 @@ class Campaign < ActiveRecord::Base
   # TODO: Update query to exclde one-off missions that are already completed. Scopes?
   # TODO: Make sure i.available_missions does not use this!
   def available_missions
-    missions = MissionCategory.where("minimum_balance <= ?", [balance, 1].sort[1]).
-      includes(:missions).load.map do |c|
-      c.missions.load
-    end.flatten
-    completed_missions = contracts.independent.includes(:mission).
-      reload.load.inject([]) do |m, c|
-      (c.mission.repeatable? or c.status.to_sym == :failed)? m : m.push(c.mission)
-    end.flatten
-    missions - completed_missions
+    Mission.in_budget(balance) - Mission.completed_one_offs(self)
   end
 
   # TODO: implement
@@ -64,6 +56,7 @@ class Campaign < ActiveRecord::Base
   end
 
   private
+  # TODO: refactor into smaller methdo
   def create_third_party_mission(mission_hash)
     i = mission_hash[:institution]
     i.campaign = self

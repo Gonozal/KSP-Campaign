@@ -2,6 +2,7 @@ class CreateMissions < ActiveRecord::Migration
   def change
     create_table :missions do |t|
       t.integer :mission_category_id
+      t.integer :mission_pack_id
 
       t.string :name
       t.text :description

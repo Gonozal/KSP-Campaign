@@ -17,7 +17,7 @@ class Flight < ActiveRecord::Base
   attr_accessible :campaign_id, :contract_id, :ship_cost, :name
   attr_accessible :status
 
-  validate :ship_cost, presence: true
+  validates_presence_of :ship_cost
 
   # Balance of this flight. Should only really be Rocket lauch costs
   def balance
@@ -27,12 +27,7 @@ class Flight < ActiveRecord::Base
   end
 
   def complete(params)
-    # update flight status
-    case params[:result]
-    when "success" then self.status = :successful
-    when "failure" then self.status = :failed
-    end
-
+    set_result params[:result]
     # calculate penalties
     if params[:casualties].present? and params[:debries] != 0
       submit_transaction(reference: :crew_death, amount: - params[:casualties].to_i * 15000)
@@ -43,6 +38,13 @@ class Flight < ActiveRecord::Base
     if params[:extra_credits].present? and params[:extra_credits].to_i != 0
       reference = (params[:extra_credits].to_i < 0)? :gift : :deduction
       submit_transaction(reference: reference, amount: params[:extra_credits].to_i)
+    end
+  end
+
+  def set_result(result)
+    case result
+    when "success" then self.status = :successful
+    when "failure" then self.status = :failed
     end
   end
 
