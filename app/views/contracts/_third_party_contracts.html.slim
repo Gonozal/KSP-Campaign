@@ -3,7 +3,10 @@
     .span7
       .span1.contract-status
       .span11
-        h6 == "#{contract.mission.name} (by #{contract.institution.name})"
+        h6
+          a data-toggle="tooltip" data-content="#{contract.mission.description.html_safe}"
+            = "#{contract.mission.name} "
+          = "(by #{contract.institution.name})"
         .row
           .span4
             span.text-muted Time limit: 

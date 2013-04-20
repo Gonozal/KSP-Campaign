@@ -7,8 +7,10 @@ class Institution < ActiveRecord::Base
   def reputation
     raise Exceptions::CampaignNotSetError unless campaign.present?
     @reputation ||= initial_reputation + 
-      campaign.reputations.where("institution_id = ?", [campaign.id]).inject(0, :+)
-    [@reputation, 100, 0].sort[1]
+    accumulated = reputations.where("campaign_id = ?", [campaign.id]).inject(0) do |s, r|
+      s + r.change
+    end
+    [@reputation + accumulated.to_i, 100, 0].sort[1]
   end
 
   def available_missions

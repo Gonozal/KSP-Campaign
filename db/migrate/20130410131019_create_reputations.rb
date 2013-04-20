@@ -4,7 +4,7 @@ class CreateReputations < ActiveRecord::Migration
       t.integer :institution_id
       t.integer :campaign_id
       t.integer :contract_id
-      t.integer :change
+      t.integer :change, default: 0
 
       t.timestamps
     end
