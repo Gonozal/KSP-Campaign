@@ -1,0 +1,51 @@
+.mission-pack
+  .row.mission-pack-header id="mission-pack#{mission_pack.id}"
+    .span1.mission-pack-visibility.text-center class="#{pack_emphasis(mission_pack)}"
+      = visibility_icon( mission_pack )
+    .span11
+      h4 = "#{mission_pack.name} (by #{mission_pack.user.name})"
+      .row
+        .span3
+          span.text-muted Required mods: 
+          = mission_pack.mods.empty?? "None" : mission_pack.mods
+        .span2
+          span.text-muted Missions: 
+          = mission_pack.missions.count
+        .span3
+          span.text-muted Last Update: 
+          = mission_pack.updated_at.to_date.to_formatted_s(:long)
+        .span3
+          span.text-muted Actions: 
+          a[data-target="#edit_mission_pack_modal" data-toggle="modal"
+          title="Edit Mission Pack" data-load-remote="#{url_for([:edit, mission_pack])}"]
+            i.icon-edit
+          = link_to(mission_pack, method: :delete, remote: true,
+            data: { confirm: "Are you sure you wish to delete this Mission Pack?" }) do
+              i.icon-remove-circle
+  .missions
+    .well.well-small
+      = mission_pack.description
+    table.table.table-condensed.table-hover
+      thead
+        tr
+          th Mission Name
+          th Category
+          th Description
+          th Reward
+          th Time Limit
+          th Actions
+      tbody
+        - mission_pack.missions.each do |m|
+          tr
+            td = m.name
+            td = m.mission_category.name
+            td = simple_format word_wrap(m.description, line_width: 100)
+            td = kerbs m.reward
+            td.text-center = "#{m.minimal_time} Days"
+            td
+              a[data-target="#edit_mission_modal" data-toggle="modal" 
+              title="Edit Mission" data-load-remote="#{url_for([:edit, m])}"]
+                i.icon-edit
+              = link_to(m, method: :delete, remote: true,
+                data: { confirm: "Are you sure you wish to delete this Mission?" }) do
+                  i.icon-remove-circle

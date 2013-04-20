@@ -1,0 +1,61 @@
+@import 'bootstrap/_mixins';
+
+$mission-pack-height: 65px;
+
+.mission-pack-visibility {
+  i {
+    line-height: $mission-pack-height;
+  }
+}
+
+.mission-pack {
+  background-color: #f3f5f6;
+  border: 1px solid #ccc;
+  border-top-width: 0;
+
+  @include transition( margin 0.10s );
+
+  &:hover {
+    background-color: #FAFCFD;
+  }
+
+  &:first-child, &.expanded + .mission-pack {
+    border-top-width: 1px;
+    @include border-top-radius( 0.25em );
+  }
+  &:last-child, &.before-expand {
+    @include border-bottom-radius( 0.25em );
+  }
+
+  &.expanded {
+    border-width: 1px;
+    border-radius: 0.25em;
+    margin: 0.5em 0;
+  }
+
+}
+
+
+.mission-pack {
+  h4 {
+    margin-top: 0.25em;
+  }
+
+  .missions {
+    display: none;
+    border-top: 1px solid #e0e0e0;
+    background-color: #FFF;
+    table {
+      margin-bottom: 0;
+
+      tr:last-child {
+        @include border-bottom-radius( 0.25em );
+      }
+    }
+  }
+}
+
+.mission-pack-header {
+  cursor: pointer;
+  height: $mission-pack-height;
+}

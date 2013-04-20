@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :name
 
   has_many :campaigns, dependent: :destroy
+  has_many :mission_packs
 
   default_scope {includes(campaigns: [:flights, :contracts, :reputations])}
 

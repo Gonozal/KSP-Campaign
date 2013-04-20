@@ -6,7 +6,8 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-u = User.create
+u = User.new
+u.name = "Admin"
 u.email = "example@mail.net"
 u.password = "password"
 u.save
@@ -36,9 +37,11 @@ i.reward_modifier = 1.5
 i.initial_reputation = 0
 i.save
 
-default_pack = MissionPack.new
+default_pack = u.mission_packs.new
+default_pack.name = "Default Pack"
 default_pack.description = "A few default missions."
 default_pack.official = true
+default_pack.public = true
 default_pack.save
 
 around_kerbal = MissionCategory.new

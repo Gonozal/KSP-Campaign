@@ -71,9 +71,11 @@ ActiveRecord::Schema.define(version: 20130420113639) do
 
   create_table "mission_packs", force: true do |t|
     t.integer  "user_id"
+    t.string   "name"
     t.string   "mods",        default: ""
     t.text     "description", default: ""
     t.boolean  "official",    default: false
+    t.boolean  "public",      default: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -101,7 +103,7 @@ ActiveRecord::Schema.define(version: 20130420113639) do
     t.integer  "institution_id"
     t.integer  "campaign_id"
     t.integer  "contract_id"
-    t.integer  "change"
+    t.integer  "change",         default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end

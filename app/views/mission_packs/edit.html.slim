@@ -1,0 +1,11 @@
+= simple_form_for(@mission_pack, remote: true,
+  html: { class: 'form-vertical' }) do |form|
+  = form.input :name,
+    label: "How would you like to name your mission pack?"
+  = form.input :description,
+    label: "Care to add a little description?"
+  = form.input :public,
+    label: "Do you want to make this mission pack public?"
+  = form.input :mods,
+    label: "Mind telling us what mods are needed for this pack?"
+  = form.button :submit, class: "btn-primary btn-block"

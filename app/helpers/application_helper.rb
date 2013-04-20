@@ -62,4 +62,16 @@ module ApplicationHelper
 
     return %[<i class="icon-#{css} icon-2x" title="#{contract.status}"></i>].html_safe
   end
+
+  def visibility_icon( mission_pack )
+    return "" unless mission_pack.respond_to? :public
+    if mission_pack.public?
+      css = "eye-open"
+      title = "visible"
+    else
+      css = "eye-close"
+      title = "hidden"
+    end
+    return %[<i class="icon-#{css} icon-2x" title="#{title}"></i>].html_safe
+  end
 end

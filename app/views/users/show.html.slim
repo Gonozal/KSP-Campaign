@@ -4,16 +4,22 @@ h5
   a href="#new_campaign_modal" data-toggle="modal" title="New Campaign"
     | create a new campaign 
   | or continue an existing one
-= render partial: 'new_campaign_modal'
 - if @user.campaigns.any?
   table.table.table-condensed.table-hover
     thead
-      th Campaign Name
-      th Last played
-      th Completed Missions
-      th Balance
+      tr
+        th Campaign Name
+        th Last played
+        th Completed Missions
+        th Balance
     tbody
-      = render @user.campaigns
-- else
-  a href="#new_campaign_modal" data-toggle="modal" title="New Campaign"
-    i.icon-edit
+      = render @user.campaigns.includes(:transactions)
+
+h5 Mission Packs
+.mission_packs
+  // Render modals for various edit/new actions
+  = render @user.mission_packs.includes(missions: [:mission_category])
+
+= render partial: 'mission_packs/edit_mission_pack_modal'
+= render partial: 'missions/edit_mission_modal'
+= render partial: 'new_campaign_modal'
