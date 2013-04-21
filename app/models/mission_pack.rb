@@ -6,5 +6,11 @@ class MissionPack < ActiveRecord::Base
   validate :description, presence: true
   validate :name, presence: true
 
+  scope :with_deleted, -> { unscoped.order("updated_at DESC") }
+  default_scope { where(deleted: false).order("updated_at DESC") }
+
   attr_accessible :name, :description, :mods, :public
+
+  validates_presence_of :name, :description
+
 end

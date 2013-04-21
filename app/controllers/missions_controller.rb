@@ -1,8 +1,18 @@
 class MissionsController < ApplicationController
   def new
+    @mission.mission_pack_id = params[:mission_pack_id]
+    respond_to do |format|
+      format.html { render :new, layout: false }
+      format.js { render :new, layout: false }
+    end
   end
 
   def create
+    @mission.save
+    respond_to do |format|
+      format.html { render :create }
+      format.js { render :create, layout: false }
+    end
   end
 
   def show

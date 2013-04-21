@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 20130420113639) do
     t.text     "description", default: ""
     t.boolean  "official",    default: false
     t.boolean  "public",      default: true
+    t.boolean  "deleted",     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

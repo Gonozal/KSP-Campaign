@@ -1,5 +1,18 @@
 class MissionPacksController < ApplicationController
-  def show
+  def new
+    respond_to do |format|
+      format.html { render :new, layout: false }
+      format.js { render :new, layout: false }
+    end
+  end
+
+  def create
+    @mission_pack.user_id = current_user.id
+    @mission_pack.save
+    respond_to do |format|
+      format.html { render :create }
+      format.js { render :create, layout: false }
+    end
   end
 
   def edit
@@ -19,5 +32,11 @@ class MissionPacksController < ApplicationController
   end
 
   def destroy
+    @mission_pack.deleted = 1
+    @mission_pack.save
+    respond_to do |format|
+      format.html { render :destroy }
+      format.js { render :destroy, layout: false }
+    end
   end
 end

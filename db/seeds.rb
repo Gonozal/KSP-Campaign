@@ -45,7 +45,7 @@ default_pack.public = true
 default_pack.save
 
 around_kerbal = MissionCategory.new
-around_kerbal.name = "Kerbil"
+around_kerbal.name = "Kerbin"
 around_kerbal.save
 
 around_mun = MissionCategory.new

@@ -11,7 +11,5 @@ class User < ActiveRecord::Base
   has_many :campaigns, dependent: :destroy
   has_many :mission_packs
 
-  default_scope {includes(campaigns: [:flights, :contracts, :reputations])}
-
   validates_presence_of :name
 end

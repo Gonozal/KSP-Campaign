@@ -1,0 +1,21 @@
+= simple_form_for(@mission, remote: true,
+  html: { class: 'form-vertical' }) do |form|
+  = form.input :name,
+    label: "How would you like to name your mission?"
+  = form.input :description,
+    label: "Care to add a little description?"
+  = form.input :mission_category_id,
+    as: :select,
+    collection: Mission.category_selection,
+    label: "What category or celestial body best fits your mission?"
+  = form.input_field :mission_pack_id, value: @mission.mission_pack_id,
+    as: :hidden
+  = form.input :repeatable,
+    label: "Should this mission be repeatable outside of contracts?"
+  = form.input :reward,
+    label: "How much should this mission pay?"
+  = form.input :minimal_time,
+    label: "What is the absolute minimal time for this mission (in days)?"
+  = form.input :maximal_time,
+    label: "What is a reasonable time for this mission (in days)?"
+  = form.button :submit, class: "btn-primary btn-block"

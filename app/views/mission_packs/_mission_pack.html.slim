@@ -16,7 +16,11 @@
           = mission_pack.updated_at.to_date.to_formatted_s(:long)
         .span3
           span.text-muted Actions: 
-          a[data-target="#edit_mission_pack_modal" data-toggle="modal"
+          a[data-target="#ajax_modal" data-toggle="modal"
+          title="Add New Mission"
+          data-load-remote="#{new_mission_path(mission_pack_id: mission_pack.id)}"]
+            i.icon-file
+          a[data-target="#ajax_modal" data-toggle="modal"
           title="Edit Mission Pack" data-load-remote="#{url_for([:edit, mission_pack])}"]
             i.icon-edit
           = link_to(mission_pack, method: :delete, remote: true,
@@ -25,7 +29,7 @@
   .missions
     .well.well-small
       = mission_pack.description
-    table.table.table-condensed.table-hover
+    table.table.table-condensed.table-hover id="misson-table-#{mission_pack.id}"
       thead
         tr
           th Mission Name
@@ -36,16 +40,4 @@
           th Actions
       tbody
         - mission_pack.missions.each do |m|
-          tr
-            td = m.name
-            td = m.mission_category.name
-            td = simple_format word_wrap(m.description, line_width: 100)
-            td = kerbs m.reward
-            td.text-center = "#{m.minimal_time} Days"
-            td
-              a[data-target="#edit_mission_modal" data-toggle="modal" 
-              title="Edit Mission" data-load-remote="#{url_for([:edit, m])}"]
-                i.icon-edit
-              = link_to(m, method: :delete, remote: true,
-                data: { confirm: "Are you sure you wish to delete this Mission?" }) do
-                  i.icon-remove-circle
+          = render partial: 'missions/mission', locals: {mission: m}

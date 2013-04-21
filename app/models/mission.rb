@@ -6,8 +6,10 @@ class Mission < ActiveRecord::Base
   scope :one_offs, -> { where(repeatable: false) }
   scope :repeatables, -> { where(repeatable: true) }
 
-  attr_accessible :name, :description, :mission_category, :repeatable, :reward
-  attr_accessible :minimal_time, :maximal_time
+  default_scope { order("updated_at DESC") }
+
+  attr_accessible :name, :description, :mission_category_id, :repeatable, :reward
+  attr_accessible :minimal_time, :maximal_time, :mission_pack_id
 
   validates_presence_of :name, :description, :mission_category_id, :reward
   validates_presence_of :minimal_time, :maximal_time

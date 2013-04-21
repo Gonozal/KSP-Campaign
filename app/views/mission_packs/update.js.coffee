@@ -5,4 +5,4 @@ $("#mission-pack<%= @mission_pack.id %>").
   prev().toggleClass('before-expand').
   end().find('.missions').slideToggle( 0 )
 
-$('#edit_mission_pack_modal').modal('hide')
+$('#ajax_modal').modal('hide')

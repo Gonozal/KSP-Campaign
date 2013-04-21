@@ -6,4 +6,3 @@ $("#mission-pack<%= @mission.mission_pack.id %>").
   end().find('.missions').slideToggle( 0 )
 
 $('#ajax_modal').modal('hide')
-

@@ -16,10 +16,16 @@ h5
       = render @user.campaigns.includes(:transactions)
 
 h5 Mission Packs
+.row
+  .span12
+    a[data-target="#ajax_modal" data-toggle="modal"
+    title="Create new Mission Pack" data-load-remote="#{url_for([:new, :mission_pack])}"]
+      button.btn.btn-primary.btn-small.pull-left
+        | Create new Mission Pack
+
 .mission_packs
   // Render modals for various edit/new actions
   = render @user.mission_packs.includes(missions: [:mission_category])
 
-= render partial: 'mission_packs/edit_mission_pack_modal'
-= render partial: 'missions/edit_mission_modal'
+= render partial: 'ajax_modal'
 = render partial: 'new_campaign_modal'

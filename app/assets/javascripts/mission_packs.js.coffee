@@ -7,7 +7,7 @@ $ ->
       prev().toggleClass('before-expand').
       end().find('.missions').slideToggle( 100 )
 
-  $('a[data-load-remote]').click (e) ->
+  $('.container').on 'click', 'a[data-load-remote]', (e) ->
     target = $(this).data('target') + " .modal-body"
     url = $(this).data('load-remote')
     $(target).load(url)

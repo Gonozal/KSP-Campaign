@@ -37,9 +37,9 @@ class Ability
         u == user
       end
       # Every user should be able to create a campaign, mission packs and missions
+      can :new, Mission
       can :create, Campaign
       can :create, MissionPack
-      can :create, Mission
 
       # Viewing and Editing missions and mission packs is more restricted
       can :read, MissionPack do |m|
@@ -49,10 +49,10 @@ class Ability
         m.user == user
       end
       can :read, Mission do |m|
-        m.mission_pack.user == user or m.mission_pack.public?
+        m.mission_pack.blank? or m.mission_pack.user == user or m.mission_pack.public?
       end
       can :manage, Mission do |m|
-        m.mission_pack.user == user
+        m.mission_pack.present? and m.mission_pack.user == user
       end
 
       # But only if a campaign exists should an user be able to create content
