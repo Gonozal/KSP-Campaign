@@ -11,6 +11,7 @@ set :user, "gonozal"
 set :use_sudo, false
 set :runner, "deploy"
 set :deploy_to, "/home/#{user}/apps/#{application}"
+set :deploy_via, :remote_cache
 set :app_server, :puma
 set :domain, "ksp-campaign.arnelink.eu"
 set :normalize_asset_timestamps, false
