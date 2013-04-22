@@ -7,7 +7,7 @@ class Mission < ActiveRecord::Base
   scope :repeatables, -> { where(repeatable: true) }
   scope :active, -> { where(deleted: false) }
 
-  default_scope { order("updated_at DESC") }
+  default_scope { order("reward ASC") }
 
   attr_accessible :name, :description, :mission_category_id, :repeatable, :reward
   attr_accessible :minimal_time, :maximal_time, :mission_pack_id, :minimum_balance

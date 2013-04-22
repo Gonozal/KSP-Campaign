@@ -1,5 +1,7 @@
 = simple_form_for(@mission_pack, remote: true,
   html: { class: 'form-vertical' }) do |form|
+  = form.input_field :user_id, value: @mission_pack.user_id,
+    as: :hidden
   = form.input :name,
     label: "How would you like to name your mission pack?"
   = form.input :description,

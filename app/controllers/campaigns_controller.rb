@@ -3,10 +3,17 @@ class CampaignsController < ApplicationController
     @campaign
   end
 
+  def new
+    @campaign.user_id = params[:campaign][:user_id]
+    respond_to do |format|
+      format.html { render :new, layout: false }
+      format.js { render :new, layout: false }
+    end
+  end
+
   def create
     @campaign.user_id = current_user.id
     @campaign.save
-    @campaign.reload
     respond_to do |format|
       format.html { redirect_to root_url }
       format.js { render :create, locals: { campaign: @campaign } }

@@ -3,7 +3,7 @@ tr id="campaign-#{campaign.id}"
   td = campaign.updated_at
   td = campaign.contracts.successful.count
   td == kerbs campaign.balance, emphasis: true
-  td data-no-turbolink="true"
+  td
     = link_to campaign do
       i.icon-eye-open
     a[data-target="#ajax_campaign_modules_modal" data-toggle="modal"

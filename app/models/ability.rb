@@ -38,8 +38,8 @@ class Ability
       end
       # Every user should be able to create a campaign, mission packs and missions
       can :new, Mission
-      can :create, Campaign
-      can :create, MissionPack
+      can :new, Campaign
+      can :new, MissionPack
 
       # Viewing and Editing missions and mission packs is more restricted
       can :manage, MissionPack, ["user_id = ?", user.id] do |m|
@@ -54,13 +54,13 @@ class Ability
       can :manage, Mission do |m|
         m.mission_pack.present? and m.mission_pack.user == user
       end
+      can :manage, Campaign do |c|
+        c.user == user
+      end
 
       # But only if a campaign exists should an user be able to create content
       if user.campaigns.any?
-        can :manage, Campaign do |c|
-          c.user == user
-        end
-
+        can :new, Flight
         can :manage, Flight do |f|
           f.contract.campaign.user == user
         end
@@ -68,6 +68,7 @@ class Ability
         can :manage, Contract do |c|
           c.campaign.user == user
         end
+        can :new, Contract
 
         can :manage, Reputation do |r|
           r.campaign.user == user

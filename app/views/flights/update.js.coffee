@@ -8,13 +8,7 @@ $("#contract<%= flight.contract.id %>").
   prev().toggleClass('before-expand').
   end().find('.flights').slideToggle( 0 )
 
-$('#flight_modal<%= flight.id %>').modal('hide');
-
-# Destroy old flight modal, it's not used any more and would only clutter the DOM
-$('#flight_modal<%= flight.id %>').remove()
-
-$("#new_mission_modal").
-  replaceWith(''' <%= render(partial:'campaigns/new_mission_modal', locals: { campaign: flight.campaign }) %>''')
+$('#flight_modal').modal('hide');
 
 $("#campaign_balance").
   replaceWith('''<%= render(partial: 'campaigns/mission_balance', locals: { campaign: flight.campaign }) %>''')

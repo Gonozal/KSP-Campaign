@@ -1,0 +1,13 @@
+= simple_form_for(@campaign, remote: true,
+  html: { class: 'form-vertical' }) do |form|
+  = form.input_field :user_id, value: @campaign.user_id,
+    as: :hidden
+  = form.input :name, label: "Campaign Name",
+    wrapper: :input_group do
+    <span class="input-group-addon"><i class="icon-font"></i></span> 
+    = form.input_field :name
+  = form.input :starting_balance, label: "How much money would you like to start with?",
+    wrapper: :input_group do
+    = %[<span class="input-group-addon">&xi;</span>].html_safe
+    = form.input_field :starting_balance
+  = form.button :submit, class: "btn-primary btn-block"

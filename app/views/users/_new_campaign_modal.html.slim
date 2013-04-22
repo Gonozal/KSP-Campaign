@@ -5,16 +5,5 @@
         button.close type="button" data-dismiss="modal" &times;
         h4.modal-title Create new campaign
       .modal-body
-        = simple_form_for(Campaign.new, remote: true,
-          html: { class: 'form-vertical' }) do |form|
-          = form.input :name, label: "Campaign Name",
-            wrapper: :input_group do
-            <span class="input-group-addon"><i class="icon-font"></i></span> 
-            = form.input_field :name
-          = form.input :starting_balance, label: "How much money would you like to start with?",
-            wrapper: :input_group do
-            = %[<span class="input-group-addon">&xi;</span>].html_safe
-            = form.input_field :starting_balance
-          = form.button :submit, class: "btn-primary btn-block"
       .modal-footer
         button.btn data-dismiss="modal" Close

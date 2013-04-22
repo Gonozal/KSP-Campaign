@@ -30,10 +30,10 @@ class Flight < ActiveRecord::Base
     set_result params[:result]
     # calculate penalties
     if params[:casualties].present? and params[:debries] != 0
-      submit_transaction(reference: :crew_death, amount: - params[:casualties].to_i * 15000)
+      submit_transaction(reference: :crew_death, amount: - params[:casualties].to_i * 7500)
     end
     if params[:debries].present? and params[:debries].to_i != 0
-      submit_transaction(reference: :debries, amount: - params[:debries].to_i * 10000)
+      submit_transaction(reference: :debries, amount: - params[:debries].to_i * 2000)
     end
     if params[:extra_credits].present? and params[:extra_credits].to_i != 0
       reference = (params[:extra_credits].to_i < 0)? :gift : :deduction

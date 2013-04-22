@@ -13,7 +13,7 @@ class Campaign < ActiveRecord::Base
 
   has_and_belongs_to_many :mission_packs, -> { where deleted: false }
 
-  attr_accessible :starting_balance, :name, :mission_pack_ids
+  attr_accessible :starting_balance, :name, :mission_pack_ids, :user_id
 
   # Balance of this Campaign. Funds availble to the player
   def balance
@@ -24,7 +24,7 @@ class Campaign < ActiveRecord::Base
 
   def new_missions_collection
     available_missions.map do |m|
-      [m.name, m.id]
+      ["#{m.mission_category.name}: #{m.name} (#{ApplicationController.helpers.kerbs m.reward})".html_safe, m.id]
     end
   end
 
@@ -32,13 +32,15 @@ class Campaign < ActiveRecord::Base
   # TODO: Update query to exclde one-off missions that are already completed. Scopes?
   # TODO: Make sure i.available_missions does not use this!
   def available_missions
-    in_budget = mission_packs.includes(:missions).inject([]) do |m, p|
-      m.push p.missions.where("minimum_balance <= ?", balance)
-    end.flatten
-    completed = contracts.independent.includes(:mission).inject([]) do |m, c|
+    budget_missions -  contracts.independent.includes(:mission).inject([]) do |m, c|
       (c.mission.repeatable? or c.status.to_sym == :failed)? m : m.push(c.mission)
     end.flatten
-    in_budget - completed
+  end
+
+  def budget_missions
+    mission_packs.includes(:missions).inject([]) do |m, p|
+      m.push p.missions.where("minimum_balance <= ?", [0, balance].sort[1])
+    end.flatten
   end
 
   # TODO: implement

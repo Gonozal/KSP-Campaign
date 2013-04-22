@@ -8,7 +8,7 @@ class CreateMissionPacks < ActiveRecord::Migration
       t.text :description, default: ""
 
       t.boolean :official, default: false
-      t.boolean :public, default: true
+      t.boolean :public, default: false
       t.boolean :deleted, default: false
 
       t.timestamps

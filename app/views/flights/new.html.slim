@@ -1,0 +1,13 @@
+= simple_form_for(@flight, remote: true,
+  html: { class: 'form-vertical' }) do |form|
+  = form.input :name, label: "Do you want to give your rocket a name?",
+    wrapper: :input_group do
+    <span class="input-group-addon"><i class="icon-user"></i></span> 
+    = form.input_field :name
+  = form.input_field :contract_id, value: @flight.contract.id,
+    as: :hidden
+  = form.input :ship_cost, label: "Wait a minute, HOW much did you spend on this thing?",
+    required: true, wrapper: :input_group do
+    = %[<span class="input-group-addon">&xi;</span>].html_safe
+    = form.input_field :ship_cost
+  = form.button :submit, class: "btn-primary btn-block"

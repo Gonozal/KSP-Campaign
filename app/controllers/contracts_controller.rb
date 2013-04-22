@@ -1,4 +1,12 @@
 class ContractsController < ApplicationController
+  def new
+    @contract.campaign_id = params[:contract][:campaign_id]
+
+    respond_to do |format|
+      format.html { render :new, layout: false }
+      format.js { render :new, layout: false }
+    end
+  end
   # create new independant contract from mission blueprint
   def create
     @contract.new_independant

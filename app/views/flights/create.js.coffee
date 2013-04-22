@@ -9,7 +9,7 @@ $("#contract<%= flight.contract.id %>").
 $(".container").
   append('''<%= render(partial:'flights/edit_flight_modal', locals: {flight: flight}) %>''')
 
-$('#new_flight_modal<%= flight.contract.id %>').modal('hide');
+$('#new_flight_modal').modal('hide');
 
 $("#campaign_balance").
   replaceWith('''<%= render(partial: 'campaigns/mission_balance', locals: { campaign: flight.campaign }) %>''')

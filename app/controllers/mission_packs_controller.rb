@@ -1,5 +1,6 @@
 class MissionPacksController < ApplicationController
   def new
+    @mission_pack.user_id = params[:mission_pack][:user_id]
     respond_to do |format|
       format.html { render :new, layout: false }
       format.js { render :new, layout: false }

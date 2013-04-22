@@ -15,9 +15,7 @@ class Institution < ActiveRecord::Base
 
   def available_missions
     raise Exceptions::CampaignNotSetError unless campaign.present?
-    campaign.mission_packs.includes(:missions).inject([]) do |m, p|
-      m.push p.missions.where("minimum_balance < ?", campaign.balance)
-    end.flatten
+    campaign.budget_missions
   end
 
   # returns a value between 0 and 0.55. Ranges between 30 and 55 for 100 reputation

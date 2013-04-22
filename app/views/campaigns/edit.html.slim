@@ -1,10 +1,10 @@
 = simple_form_for(@campaign, remote: true,
   html: { class: 'form-vertical' }) do |form|
   = form.input :name,
-    label: "How would you like to name your campaign"
+    label: "What would you like to name your campaign"
   = form.input :starting_balance,
     label: "Do you want to change your starting balance?"
   = form.association :mission_packs, collection: @mission_packs,
     label: "Please choose which mission packs you want to use",
-    as: :check_boxes, label_method: :label, value_method: :id
+    as: :check_boxes, label_method: lambda { |m| m.label(@campaign) }, value_method: :id
   = form.button :submit, class: "btn-primary btn-block"

@@ -5,13 +5,5 @@
         button.close type="button" data-dismiss="modal" &times;
         h4.modal-title Launch a new independant mission
       .modal-body
-        = simple_form_for(Contract.new, remote: true,
-          html: { class: 'form-vertical' }) do |form|
-          = form.input :mission_id,
-            collection: campaign.new_missions_collection,
-            as: :select,
-            label: "What are your next plans?"
-          = form.input_field :campaign_id, as: :hidden, value: campaign.id
-          = form.button :submit, class: "btn-primary btn-block"
       .modal-footer
         button.btn data-dismiss="modal" Close
