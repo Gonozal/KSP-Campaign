@@ -1,18 +1,22 @@
 #========================
 #CONFIG
 #========================
+set :domain, "ksp-campaign.arnelink.eu"
 set :application, "ksp_campaign"
+set :use_sudo, false
+
+set :stage, :production
+set :deploy_to, "/home/#{user}/apps/#{application}"
+
 set :scm, :git
 set :repository, "git@github.com:Gonozal/KSP-Campaign.git"
 set :branch, "master"
+
 set :ssh_options, { :forward_agent => true }
-set :stage, :production
 set :user, "gonozal"
-set :use_sudo, false
+
 set :runner, "deploy"
-set :deploy_to, "/home/#{user}/apps/#{application}"
 set :app_server, :puma
-set :domain, "ksp-campaign.arnelink.eu"
 #========================
 #ROLES
 #========================
