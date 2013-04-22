@@ -27,19 +27,19 @@ role :db, domain, :primary => true
 namespace :puma do
   desc "Start Puma"
   task :start, :except => { :no_release => true } do
-    run "/etc/init.d/puma start #{application}"
+    run "/etc/init.d/ksp-campaign.puma start #{application}"
   end
   after "deploy:start", "puma:start"
 
   desc "Stop Puma"
   task :stop, :except => { :no_release => true } do
-    run "/etc/init.d/puma stop #{application}"
+    run "/etc/init.d/ksp-campaign.puma stop #{application}"
   end
   after "deploy:stop", "puma:stop"
 
   desc "Restart Puma"
   task :restart, roles: :app do
-    run "/etc/init.d/puma restart #{application}"
+    run "/etc/init.d/ksp-campaign.puma restart #{application}"
   end
   after "deploy:restart", "puma:restart"
 
