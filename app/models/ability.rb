@@ -42,11 +42,11 @@ class Ability
       can :create, MissionPack
 
       # Viewing and Editing missions and mission packs is more restricted
-      can :read, MissionPack do |m|
-        m.user == user or m.public
-      end
-      can :manage, MissionPack do |m|
+      can :manage, MissionPack, ["user_id = ?", user.id] do |m|
         m.user == user
+      end
+      can :read, MissionPack, ["user_id = ? or public = ?", user.id, true] do |m|
+        m.user == user or m.public?
       end
       can :read, Mission do |m|
         m.mission_pack.blank? or m.mission_pack.user == user or m.mission_pack.public?

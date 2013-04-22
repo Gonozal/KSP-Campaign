@@ -33,4 +33,14 @@ class MissionsController < ApplicationController
       format.js { render :update, layout: false }
     end
   end
+
+  def destroy
+    @mission.deleted = true
+    @mission.save
+
+    respond_to do |format|
+      format.html { render :destroy }
+      format.js { render :destroy, layout: false }
+    end
+  end
 end

@@ -12,7 +12,7 @@
             <span class="input-group-addon"><i class="icon-font"></i></span> 
             = form.input_field :name
           = form.input :starting_balance, label: "How much money would you like to start with?",
-            required: true, wrapper: :input_group do
+            wrapper: :input_group do
             = %[<span class="input-group-addon">&xi;</span>].html_safe
             = form.input_field :starting_balance
           = form.button :submit, class: "btn-primary btn-block"

@@ -32,7 +32,7 @@ class MissionPacksController < ApplicationController
   end
 
   def destroy
-    @mission_pack.deleted = 1
+    @mission_pack.deleted = true
     @mission_pack.save
     respond_to do |format|
       format.html { render :destroy }

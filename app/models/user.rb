@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
 
   has_many :campaigns, dependent: :destroy
   has_many :mission_packs
+  has_many :active_mission_packs, class_name: "MissionPack", conditions: "deleted = 'f'"
 
   validates_presence_of :name
 end

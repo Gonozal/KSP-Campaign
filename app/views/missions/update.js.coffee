@@ -5,5 +5,5 @@ $("#mission-pack<%= @mission.mission_pack.id %>").
   prev().toggleClass('before-expand').
   end().find('.missions').slideToggle( 0 )
 
-$('#ajax_modal').modal('hide')
+$('#ajax_edit_mission_modal').modal('hide')
 

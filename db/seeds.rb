@@ -50,8 +50,6 @@ around_kerbal.save
 
 around_mun = MissionCategory.new
 around_mun.name = "Mun"
-around_mun.minimum_balance = 50000
-around_mun.minimum_reputation = 0
 around_mun.save
 
 m1 = default_pack.missions.new

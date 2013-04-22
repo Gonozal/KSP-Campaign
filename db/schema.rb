@@ -23,6 +23,11 @@ ActiveRecord::Schema.define(version: 20130420113639) do
     t.datetime "updated_at"
   end
 
+  create_table "campaigns_mission_packs", id: false, force: true do |t|
+    t.integer "campaign_id"
+    t.integer "mission_pack_id"
+  end
+
   create_table "contracts", force: true do |t|
     t.integer  "institution_id"
     t.integer  "mission_id"
@@ -63,8 +68,6 @@ ActiveRecord::Schema.define(version: 20130420113639) do
 
   create_table "mission_categories", force: true do |t|
     t.string   "name"
-    t.integer  "minimum_balance",    default: 0
-    t.integer  "minimum_reputation", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -81,18 +84,15 @@ ActiveRecord::Schema.define(version: 20130420113639) do
     t.datetime "updated_at"
   end
 
-  create_table "mission_packs_missions", id: false, force: true do |t|
-    t.integer "mission_id"
-    t.integer "mission_pack_id"
-  end
-
   create_table "missions", force: true do |t|
     t.integer  "mission_category_id"
     t.integer  "mission_pack_id"
     t.string   "name"
     t.text     "description"
+    t.integer  "minimum_balance",     default: 0
     t.boolean  "repeatable",          default: false
     t.boolean  "institution_only",    default: false
+    t.boolean  "deleted",             default: false
     t.integer  "reward"
     t.integer  "minimal_time"
     t.integer  "maximal_time"

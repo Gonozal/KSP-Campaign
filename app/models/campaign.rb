@@ -11,9 +11,9 @@ class Campaign < ActiveRecord::Base
   validate :name, presence: true
   validate :starting_balance, presence: true
 
-  has_and_belongs_to_many :mission_packs
+  has_and_belongs_to_many :mission_packs, -> { where deleted: false }
 
-  attr_accessible :starting_balance, :name
+  attr_accessible :starting_balance, :name, :mission_pack_ids
 
   # Balance of this Campaign. Funds availble to the player
   def balance
@@ -32,7 +32,13 @@ class Campaign < ActiveRecord::Base
   # TODO: Update query to exclde one-off missions that are already completed. Scopes?
   # TODO: Make sure i.available_missions does not use this!
   def available_missions
-    Mission.in_budget(balance) - Mission.completed_one_offs(self)
+    in_budget = mission_packs.includes(:missions).inject([]) do |m, p|
+      m.push p.missions.where("minimum_balance <= ?", balance)
+    end.flatten
+    completed = contracts.independent.includes(:mission).inject([]) do |m, c|
+      (c.mission.repeatable? or c.status.to_sym == :failed)? m : m.push(c.mission)
+    end.flatten
+    in_budget - completed
   end
 
   # TODO: implement

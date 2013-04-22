@@ -1,11 +1,11 @@
-tr
+tr id="mission-#{mission.id}"
   td = mission.name
   td = mission.mission_category.name
   td = simple_format word_wrap(mission.description, line_width: 100)
   td = kerbs mission.reward
   td.text-center = "#{mission.minimal_time} Days"
   td
-    a[data-target="#ajax_modal" data-toggle="modal" 
+    a[data-target="#ajax_edit_mission_modal" data-toggle="modal" 
     title="Edit Mission" data-load-remote="#{url_for([:edit, mission])}"]
       i.icon-edit
     = link_to(mission, method: :delete, remote: true,

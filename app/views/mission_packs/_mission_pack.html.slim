@@ -10,17 +10,17 @@
           = mission_pack.mods.empty?? "None" : mission_pack.mods
         .span2
           span.text-muted Missions: 
-          = mission_pack.missions.count
+          = mission_pack.active_missions.count
         .span3
           span.text-muted Last Update: 
           = mission_pack.updated_at.to_date.to_formatted_s(:long)
         .span3
           span.text-muted Actions: 
-          a[data-target="#ajax_modal" data-toggle="modal"
+          a[data-target="#ajax_new_mission_modal" data-toggle="modal"
           title="Add New Mission"
           data-load-remote="#{new_mission_path(mission_pack_id: mission_pack.id)}"]
             i.icon-file
-          a[data-target="#ajax_modal" data-toggle="modal"
+          a[data-target="#ajax_edit_pack_modal" data-toggle="modal"
           title="Edit Mission Pack" data-load-remote="#{url_for([:edit, mission_pack])}"]
             i.icon-edit
           = link_to(mission_pack, method: :delete, remote: true,
@@ -39,5 +39,5 @@
           th Time Limit
           th Actions
       tbody
-        - mission_pack.missions.each do |m|
+        - mission_pack.active_missions.each do |m|
           = render partial: 'missions/mission', locals: {mission: m}
