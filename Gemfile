@@ -18,7 +18,6 @@ gem 'slim', '~> 1.3.8'
 # gem 'therubyracer', platforms: :ruby
 
 gem 'bootstrap-sass', github: 'thomas-mcdonald/bootstrap-sass', branch: '3'
-gem 'font-awesome-rails', '~> 3.0.2.0'
 
 gem 'uglifier', '>= 1.0.3'
 
