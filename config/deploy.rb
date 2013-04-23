@@ -65,8 +65,8 @@ namespace :puma do
 
   desc "create needed shared folders"
   task :setup_puma_folder, roles: :app do
-    run "mkdir #{shared_path}/tmp"
-    run "mkdir #{shared_path}/tmp/puma"
+    run "mkdir -p #{shared_path}/tmp"
+    run "mkdir -p #{shared_path}/tmp/puma"
   end
   after "deploy:setup", "puma:setup_puma_folder"
 end
