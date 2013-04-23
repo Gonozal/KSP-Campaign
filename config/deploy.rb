@@ -79,7 +79,7 @@ namespace :deploy do
   task :setup_config, roles: :app do
     run "mkdir -p #{shared_path}/config"
     put File.read("config/database.example.yml"), "#{shared_path}/config/database.yml"
-    put File.read("config/database.example.yml"), "#{shared_path}/config/secret_token.rb"
+    put File.read("config/secret_token.example.rb"), "#{shared_path}/config/secret_token.rb"
     puts "Now edit the config files in #{shared_path}/config."
   end
   after "deploy:setup", "deploy:setup_config"
