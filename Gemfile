@@ -7,6 +7,7 @@ gem 'rails', '4.0.0beta1'
 # fully threaded webserver
 gem 'puma', '~> 2.0.0.b7'
 
+gem 'letter_opener'
 
 # Template engines, making it even easier to write a bunch of html/js at once
 gem 'sass-rails',   '~> 4.0.0.beta1'
