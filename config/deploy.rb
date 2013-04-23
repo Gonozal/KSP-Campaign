@@ -87,7 +87,7 @@ namespace :deploy do
   desc "Symlink database.yml config file to a shared path"
   task :symlink_config, roles: :app do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-    run "ln -nfs #{shared_path}/config/secret_token.rb #{release_path}/config/initlaizers/secret_token.rb"
+    run "ln -nfs #{shared_path}/config/secret_token.rb #{release_path}/config/initializers/secret_token.rb"
   end
   after "deploy:finalize_update", "deploy:symlink_config"
 end
