@@ -52,6 +52,7 @@ namespace :puma do
 
   desc "Restart Puma"
   task :restart, roles: :app do
+    run "#{sudo} stop puma app=#{deploy_to}/current"
     run "#{sudo} start puma app=#{deploy_to}/current"
   end
   after "deploy:restart", "puma:restart"
@@ -79,13 +80,15 @@ namespace :deploy do
   task :setup_config, roles: :app do
     run "mkdir -p #{shared_path}/config"
     put File.read("config/database.example.yml"), "#{shared_path}/config/database.yml"
-    puts "Now edit the config files in #{shared_path}."
+    put File.read("config/secret_token.example.rb"), "#{shared_path}/config/secret_token.rb"
+    puts "Now edit the config files in #{shared_path}/config."
   end
   after "deploy:setup", "deploy:setup_config"
 
   desc "Symlink database.yml config file to a shared path"
   task :symlink_config, roles: :app do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    run "ln -nfs #{shared_path}/config/secret_token.rb #{release_path}/config/initializers/secret_token.rb"
   end
   after "deploy:finalize_update", "deploy:symlink_config"
 end
