@@ -30,6 +30,7 @@ gem 'simple_form', '~> 3.0.0.beta1'
 gem 'turbolinks', '~> 1.1.1'
 
 gem 'devise', github: "plataformatec/devise", branch: "rails4"
+
 gem 'protected_attributes', '~> 1.0.1'
 gem 'cancan', '~> 1.6.9'
 
