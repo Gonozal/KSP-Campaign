@@ -1,2 +1,2 @@
-KspCampaign::Application.config.secret_token = raise 'change secret token'
+KspCampaign::Application.config.secret_key_base = raise 'change secret token'
 
