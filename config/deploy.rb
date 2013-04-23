@@ -40,19 +40,19 @@ role :db, domain, :primary => true
 namespace :puma do
   desc "Start Puma"
   task :start, :except => { :no_release => true } do
-    run "#{sudo} start puma app=#{release_path}"
+    run "#{sudo} start puma app=#{deploy_to}/current"
   end
   after "deploy:start", "puma:start"
 
   desc "Stop Puma"
   task :stop, :except => { :no_release => true } do
-    run "#{sudo} start puma app=#{release_path}"
+    run "#{sudo} start puma app=#{deploy_to}/current"
   end
   after "deploy:stop", "puma:stop"
 
   desc "Restart Puma"
   task :restart, roles: :app do
-    run "#{sudo} start puma app=#{release_path}"
+    run "#{sudo} start puma app=#{deploy_to}/current"
   end
   after "deploy:restart", "puma:restart"
 
@@ -69,5 +69,25 @@ namespace :puma do
     run "mkdir -p #{shared_path}/tmp/puma"
   end
   after "deploy:setup", "puma:setup_puma_folder"
+
+
+  ############################
+  # Databse yml file linking #
+  desc "Symlink config files to their destination"
+  task :setup_config, roles: :app do
+    run "mkdir -p #{shared_path}/config"
+    put File.read("config/database.example.yml"), "#{shared_path}/config/database.yml"
+    puts "Now edit the config files in #{shared_path}."
+  end
+  after "deploy:setup", "deploy:setup_config"
+
+  desc "Symlink database.yml config file to a shared path"
+  task :symlink_config, roles: :app do
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  end
+  after "deploy:finalize_update", "deploy:symlink_config"
+  # / Databse yml file linking #
+  ##############################
+
 end
 
