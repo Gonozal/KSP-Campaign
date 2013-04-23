@@ -16,6 +16,6 @@ class ApplicationController < ActionController::Base
 
   # Strong params helper method for devise
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:name, :email) }
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:password, :password_confirmation, :name, :email) }
   end
 end
