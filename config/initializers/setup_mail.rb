@@ -7,5 +7,5 @@
 #   ActionMailer::Base.delivery_method = :letter_opener
 # end
 # 
-# MAIL_FROM           = "KSP Campaign Manager <leradomendar+ksp-campaign@googlemail.com>"
+# MAIL_FROM          = "KSP Campaign Manager <leradomendar+ksp-campaign@googlemail.com>"
 # ADMIN_EMAIL         = [ "leradomendar@googlemail.com" ]

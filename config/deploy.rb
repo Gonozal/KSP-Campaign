@@ -85,6 +85,11 @@ namespace :deploy do
   end
   after "deploy:setup", "deploy:setup_config"
 
+  desc "Seed the database"
+  task :seed do
+    run "cd #{current_path}; bundle exec rake db:seed RAILS_ENV=#{rails_env}"
+  end
+
   desc "Symlink database.yml config file to a shared path"
   task :symlink_config, roles: :app do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
