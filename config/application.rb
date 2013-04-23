@@ -8,6 +8,7 @@ Bundler.require(*Rails.groups(assets: %w(development test)))
 module KspCampaign
   class Application < Rails::Application
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+    config.assets.precompile += %w(.svg .eot .woff .ttf)
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
