@@ -1,0 +1,19 @@
+h2
+  | Edit profile
+
+= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), \
+                  html: { class: "form-signup form-horizontal" method: :put } ) do |f|
+
+  = devise_error_messages!
+  = f.input :name, class:"input-block-level", placeholder: "Username"
+  = f.input :email, autofocus: true, class:"input-block-level", placeholder: "Email address"
+  = f.input :password, class: "input-block-level", placeholder: "Password", 
+    label: "leave plank if you don't want to change it"
+  = f.input :password_confirmation, class: "input-block-level", placeholder: "Password confirmation"
+  = f.input :current_password, class: "input-block-level", placeholder: "Current Password",
+    label: "we need your current password to confirm your changes"
+
+  .form-actions
+    = f.submit "Sign up", class: "btn btn-large btn-primary"
+
+= render "devise/shared/links"
