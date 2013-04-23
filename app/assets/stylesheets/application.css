@@ -11,7 +11,6 @@
  *= require_self
  *= require bootstrap
  *= require font-awesome
- *= require _font-awesome
  *= require_tree .
  */
 
