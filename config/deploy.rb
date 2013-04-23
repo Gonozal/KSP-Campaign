@@ -52,6 +52,7 @@ namespace :puma do
 
   desc "Restart Puma"
   task :restart, roles: :app do
+    run "#{sudo} stop puma app=#{deploy_to}/current"
     run "#{sudo} start puma app=#{deploy_to}/current"
   end
   after "deploy:restart", "puma:restart"
