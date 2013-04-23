@@ -70,9 +70,11 @@ namespace :puma do
   end
   after "deploy:setup", "puma:setup_puma_folder"
 
+end
 
-  ############################
-  # Databse yml file linking #
+############################
+# Databse yml file linking #
+namespace :deploy do
   desc "Symlink config files to their destination"
   task :setup_config, roles: :app do
     run "mkdir -p #{shared_path}/config"
@@ -86,8 +88,7 @@ namespace :puma do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
   end
   after "deploy:finalize_update", "deploy:symlink_config"
-  # / Databse yml file linking #
-  ##############################
-
 end
+# / Databse yml file linking #
+##############################
 
