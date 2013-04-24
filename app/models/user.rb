@@ -16,4 +16,8 @@ class User < ActiveRecord::Base
   validates_presence_of :name
 
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
+
+  def importable_packs
+    MissionPack.where(deleted: false, public: true).to_a - mission_packs.to_a
+  end
 end

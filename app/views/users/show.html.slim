@@ -29,6 +29,10 @@ h5 Mission Packs
 .mission_packs
   = render @user.active_mission_packs.includes(active_missions: [:mission_category])
 
+h5 Mission packs from other users
+.importable_packs
+  - @importable_packs.each do |pack|
+    = render partial: 'mission_packs/importable', locals: { mission_pack: pack }
 
 // Various modal skeletons for new/edit actions on missions, mission packs, campaigns etc.
 = render partial: 'ajax_new_mission_modal'

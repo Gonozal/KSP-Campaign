@@ -1,4 +1,4 @@
 class MissionCategory < ActiveRecord::Base
   has_many :missions
-  has_many :active_missions, class_name: "Mission", conditions: "deleted = 'f'"
+  has_many :active_missions, -> { where deleted: false }, class_name: "Mission"
 end

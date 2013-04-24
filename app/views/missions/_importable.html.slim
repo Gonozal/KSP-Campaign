@@ -1,0 +1,6 @@
+tr id="mission-#{mission.id}"
+  td = mission.name
+  td = mission.mission_category.name
+  td = simple_format word_wrap(mission.description, line_width: 100)
+  td = kerbs mission.reward
+  td.text-center = "#{mission.minimal_time} Days"

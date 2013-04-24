@@ -3,7 +3,7 @@
     .span1.mission-pack-visibility.text-center class="#{pack_emphasis(mission_pack)}"
       = visibility_icon( mission_pack )
     .span11
-      h4 = mission_pack.name
+      h4 = "#{mission_pack.name} (by #{mission_pack.user.name})"
       .row
         .span3
           span.text-muted Required mods: 
@@ -17,15 +17,9 @@
         .span3
           span.text-muted Actions: 
           a[data-target="#ajax_new_mission_modal" data-toggle="modal"
-          title="Add New Mission"
+          title="Add to packs"
           data-load-remote="#{new_mission_path(mission_pack_id: mission_pack.id)}"]
-            i.icon-file
-          a[data-target="#ajax_edit_pack_modal" data-toggle="modal"
-          title="Edit Mission Pack" data-load-remote="#{url_for([:edit, mission_pack])}"]
-            i.icon-edit
-          = link_to(mission_pack, method: :delete, remote: true,
-            data: { confirm: "Are you sure you wish to delete this Mission Pack?" }) do
-              i.icon-remove-circle
+            i.icon-ok
   .missions
     .well.well-small
       = simple_format mission_pack.description
@@ -37,7 +31,6 @@
           th Description
           th Reward
           th Time Limit
-          th Actions
       tbody
         - mission_pack.active_missions.each do |m|
-          = render partial: 'missions/mission', locals: {mission: m}
+          = render partial: 'missions/importable', locals: {mission: m}

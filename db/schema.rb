@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130420113639) do
+ActiveRecord::Schema.define(version: 20130424082018) do
 
   create_table "campaigns", force: true do |t|
     t.integer  "user_id"
@@ -82,6 +82,11 @@ ActiveRecord::Schema.define(version: 20130420113639) do
     t.boolean  "deleted",     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "mission_packs_users", id: false, force: true do |t|
+    t.integer "user_id"
+    t.integer "mission_pack_id"
   end
 
   create_table "missions", force: true do |t|
