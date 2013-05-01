@@ -7,6 +7,11 @@ $ ->
       prev().toggleClass('before-expand').
       end().find('.missions').slideToggle( 100 )
 
+  $('.importable_packs').on 'click', '.mission-pack .mission-pack-header', (e) ->
+    $(this).closest('.mission-pack').toggleClass('expanded').
+      prev().toggleClass('before-expand').
+      end().find('.missions').slideToggle( 100 )
+
   $('.container').on 'click', 'a[data-load-remote]', (e) ->
     target = $(this).data('target') + " .modal-body"
     url = $(this).data('load-remote')

@@ -1,7 +1,7 @@
 .mission-pack
   .row.mission-pack-header id="mission-pack#{mission_pack.id}"
-    .span1.mission-pack-visibility.text-center class="#{pack_emphasis(mission_pack)}"
-      = visibility_icon( mission_pack )
+    .span1.mission-pack-visibility.text-center class="#{imported_emphasis(mission_pack)}"
+      = imported_pack_icon( mission_pack )
     .span11
       h4 = "#{mission_pack.name} (by #{mission_pack.user.name})"
       .row
@@ -16,10 +16,14 @@
           = mission_pack.updated_at.to_date.to_formatted_s(:long)
         .span3
           span.text-muted Actions: 
-          a[data-target="#ajax_new_mission_modal" data-toggle="modal"
-          title="Add to packs"
-          data-load-remote="#{new_mission_path(mission_pack_id: mission_pack.id)}"]
-            i.icon-ok
+          - if mission_pack.imported
+            = link_to(user_path(@user, pack_id: mission_pack.id, change: :remove),
+              remote: true, method: :put) do
+              i.icon-remove
+          - else
+            = link_to(user_path(@user, pack_id: mission_pack.id, change: :add),
+              remote: true, method: :put) do
+              i.icon-ok
   .missions
     .well.well-small
       = simple_format mission_pack.description

@@ -18,6 +18,9 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
 
   def importable_packs
-    MissionPack.where(deleted: false, public: true).to_a - mission_packs.to_a
+    packs = MissionPack.where(deleted: false, public: true).uniq.populated.to_a -
+      mission_packs.to_a - imported_packs.to_a
+    packs.each { |p| p.imported = false }
+    packs.present?? packs : []
   end
 end

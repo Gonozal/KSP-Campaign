@@ -21,7 +21,9 @@ class CampaignsController < ApplicationController
   end
 
   def edit
-    @mission_packs = MissionPack.accessible_by(current_ability, :read).active.all
+    @user = current_user
+    @mission_packs = @user.imported_packs.populated.uniq.to_a
+    @mission_packs += @user.active_mission_packs.to_a
     respond_to do |format|
       format.html { render :edit, layout: false }
       format.js { render :edit, layout: false }

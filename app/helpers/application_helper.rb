@@ -74,4 +74,21 @@ module ApplicationHelper
     end
     return %[<i class="icon-#{css} icon-2x" title="#{title}"></i>].html_safe
   end
+
+  def imported_pack_icon( mission_pack )
+    return "" unless mission_pack.respond_to? :imported
+    if !!mission_pack.imported
+      css = "ok-circle"
+      title = "Added"
+    else
+      css = "circle-blank"
+      title = "Not Added"
+    end
+    return %[<i class="icon-#{css} icon-2x" title="#{title}"></i>].html_safe
+  end
+
+  def imported_emphasis( pack )
+    return "" unless pack.respond_to? :imported
+    (!!pack.imported)? "text-success" : "text-muted"
+  end
 end
