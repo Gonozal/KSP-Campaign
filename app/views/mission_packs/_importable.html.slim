@@ -7,7 +7,7 @@
       .row
         .span5
           span.text-muted Required mods: 
-          = mission_pack.mods.empty?? "None" : truncate( mission_pack.mods, lengtn: 90 )
+          = mission_pack.mods.empty?? "None" : truncate( mission_pack.mods, length: 90 )
         .span2
           span.text-muted Missions: 
           = mission_pack.active_missions.count
