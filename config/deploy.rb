@@ -96,6 +96,7 @@ namespace :deploy do
     run "ln -nfs #{shared_path}/config/secret_token.rb #{release_path}/config/initializers/secret_token.rb"
   end
   after "deploy:finalize_update", "deploy:symlink_config"
+  after "deploy:update_code", "deploy:migrate"
 end
 # / Databse yml file linking #
 ##############################
