@@ -5,16 +5,16 @@
     .span11
       h4 = "#{mission_pack.name} (by #{mission_pack.user.name})"
       .row
-        .span3
+        .span5
           span.text-muted Required mods: 
-          = mission_pack.mods.empty?? "None" : mission_pack.mods
+          = mission_pack.mods.empty?? "None" : truncate( mission_pack.mods, lengtn: 90 )
         .span2
           span.text-muted Missions: 
           = mission_pack.active_missions.count
         .span3
           span.text-muted Last Update: 
           = mission_pack.updated_at.to_date.to_formatted_s(:long)
-        .span3
+        .span2
           span.text-muted Actions: 
           - if mission_pack.imported
             = link_to(user_path(@user, pack_id: mission_pack.id, change: :remove),
@@ -26,6 +26,10 @@
               i.icon-ok
   .missions
     .well.well-small
+      - if mission_pack.mods.present? and mission_pack.mods.size > 90
+        p.muted Required Mods:
+        = simple_format mission_pack.mods
+      p.muted Description:
       = simple_format mission_pack.description
     table.table.table-condensed.table-hover id="misson-table-#{mission_pack.id}"
       thead
