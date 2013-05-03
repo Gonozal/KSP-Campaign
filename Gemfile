@@ -9,6 +9,8 @@ gem 'puma', '~> 2.0.0.b7'
 
 gem 'letter_opener'
 
+gem 'newrelic_rpm'
+
 # Template engines, making it even easier to write a bunch of html/js at once
 gem 'sass-rails',   '~> 4.0.0.beta1'
 gem 'coffee-rails', '~> 4.0.0.beta1'
