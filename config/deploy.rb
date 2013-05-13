@@ -25,7 +25,7 @@ set :runner, "rails"
 set :deploy_to, "/home/#{user}/apps/#{application}"
 set :deploy_via, :remote_cache
 set :app_server, :puma
-set :domain, "ksp-campaign.arnelink.eu"
+set :domain, "ksp-campaign.com"
 set :normalize_asset_timestamps, false
 default_run_options[:pty]   = true
 #========================
