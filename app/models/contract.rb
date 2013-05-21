@@ -5,6 +5,7 @@ class Contract < ActiveRecord::Base
   belongs_to :mission
   belongs_to :campaign
 
+
   scope :offered, -> {where(status: :offered)}
   scope :open, -> {where(status: :open)}
   scope :assigned, -> {where("status NOT NULL AND status <> 'open'")}
@@ -23,6 +24,21 @@ class Contract < ActiveRecord::Base
   # Timee in days that this contract can exist without being accepted
   def accept_limit
     issued_at + 15.days - campaign.date
+  end
+
+  def requirements_met?
+    return true unless mission.requirements.any?
+    all_met = true
+    mission.requirements.each do |req|
+      this_met = false
+      campaign.contracts.successful.each do |completed|
+        if completed.id == req.id
+          this_met = true
+        end
+      end
+      all_met = (this_met)? all_met : false
+    end
+    all_met
   end
 
   # Part of the reward that is awarded on successful completion of contract

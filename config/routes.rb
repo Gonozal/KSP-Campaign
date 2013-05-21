@@ -1,4 +1,6 @@
 KspCampaign::Application.routes.draw do
+  get "requirements/create"
+  get "requirements/destroy"
   devise_for :users
   root to: 'users#index'
   resources :campaigns, :contracts, :flights, :reputations, :users

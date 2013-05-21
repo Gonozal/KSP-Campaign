@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130424082018) do
+ActiveRecord::Schema.define(version: 20130513134524) do
 
   create_table "campaigns", force: true do |t|
     t.integer  "user_id"
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 20130424082018) do
   end
 
   create_table "missions", force: true do |t|
-    t.integer  "mission_category_id"
+    t.integer  "mission_category_id", default: 1
     t.integer  "mission_pack_id"
     t.string   "name"
     t.text     "description"
@@ -98,9 +98,9 @@ ActiveRecord::Schema.define(version: 20130424082018) do
     t.boolean  "repeatable",          default: false
     t.boolean  "institution_only",    default: false
     t.boolean  "deleted",             default: false
-    t.integer  "reward"
-    t.integer  "minimal_time"
-    t.integer  "maximal_time"
+    t.integer  "reward",              default: 10000
+    t.integer  "minimal_time",        default: 2
+    t.integer  "maximal_time",        default: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -110,6 +110,13 @@ ActiveRecord::Schema.define(version: 20130424082018) do
     t.integer  "campaign_id"
     t.integer  "contract_id"
     t.integer  "change",         default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "requirements", force: true do |t|
+    t.integer  "mission_id"
+    t.integer  "requirement_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -3,6 +3,9 @@ class Mission < ActiveRecord::Base
   belongs_to :mission_category
   has_many :contracts
 
+  has_many :requirements
+  has_many :required_missions, through: :requirements
+
   scope :one_offs, -> { where(repeatable: false) }
   scope :repeatables, -> { where(repeatable: true) }
   scope :active, -> { where(deleted: false) }

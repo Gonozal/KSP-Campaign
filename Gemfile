@@ -20,6 +20,7 @@ gem 'slim', '~> 1.3.8'
 # gem 'therubyracer', platforms: :ruby
 
 gem 'bootstrap-sass', github: 'thomas-mcdonald/bootstrap-sass', branch: '3'
+gem 'select2-rails', github: 'argerim/select2-rails'
 
 gem 'uglifier', '>= 1.0.3'
 
