@@ -5,7 +5,7 @@ class CreateContracts < ActiveRecord::Migration
       t.integer :mission_id
       t.integer :campaign_id
 
-      t.integer :reward
+      t.integer :reward, default: 10000
       t.integer :advance_percent, default: 0
       t.integer :cost_plus_limit, default: -1
       t.integer :penalty
